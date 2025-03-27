@@ -3,15 +3,15 @@ using lib_repositorios.Implementaciones;
 using lib_repositorios.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ut_presentacion.Nucleo;
-namespace ut_presentacion.Repositorios;
-    
+namespace ut_presentacion.Repositorios
+{
     [TestClass]
-    public class NotasPrueba
+    public class MiembrosPrueba
     {
         private readonly IConexion? iConexion;
-        private List<Almacenes>? lista;
-        private Almacenes? entidad;
-        public NotasPrueba()
+        private List<Miembros>? lista;
+        private Miembros? entidad;
+        public MiembrosPrueba()
         {
             iConexion = new ConexionEF3.Conexion();
             iConexion.StringConexion = Configuracion.ObtenerValor("StringConexion");
@@ -26,28 +26,29 @@ namespace ut_presentacion.Repositorios;
         }
         public bool Listar()
         {
-            this.lista = this.iConexion!.Almacenes!.ToList();
+            this.lista = this.iConexion!.Miembros!.ToList();
             return lista.Count > 0;
         }
         public bool Guardar()
         {
-            this.entidad = EntidadesNucleo.Almacenes()!;
-            this.iConexion!.Almacenes!.Add(this.entidad);
+            this.entidad = EntidadesNucleo.Miembros()!;
+            this.iConexion!.Miembros!.Add(this.entidad);
             this.iConexion!.SaveChanges();
             return true;
         }
         public bool Modificar()
         {
-            this.entidad!.Capacidad_bodega = 777.00m; 
-            var entry = this.iConexion!.Entry<Almacenes>(this.entidad);
+            this.entidad!.Nivel = "Diamante";
+            var entry = this.iConexion!.Entry<Miembros>(this.entidad);
             entry.State = EntityState.Modified;
             this.iConexion!.SaveChanges();
             return true;
         }
         public bool Borrar()
         {
-            this.iConexion!.Almacenes!.Remove(this.entidad!);
+            this.iConexion!.Miembros!.Remove(this.entidad!);
             this.iConexion!.SaveChanges();
             return true;
         }
     }
+}

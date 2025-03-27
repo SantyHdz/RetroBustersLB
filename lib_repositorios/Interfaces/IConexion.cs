@@ -8,6 +8,7 @@ public interface IConexion
     string? StringConexion { get; set; }
 
     DbSet<Almacenes>? Almacenes { get; set; }
+    DbSet<Miembros>? Miembros { get; set; }
     DbSet<Empleados>? Empleados { get; set; }
     DbSet<Envios>? Envios { get; set; }
     DbSet<Reservas>? Reservas { get; set; }
