@@ -11,7 +11,7 @@ public class ConexionEF3
 
         public void ConexionBasica()
         {
-            var conexion = new Conexion3();
+            var conexion = new Conexion();
             conexion.StringConexion = this.string_conexion;
             
 // Obtener y mostrar Almacenes
@@ -131,7 +131,7 @@ foreach (var elementoReservaSnack in listaReservasSnacks)
         }
     }*/
 
-    public partial class Conexion3 : DbContext, IConexion
+    public partial class Conexion : DbContext, IConexion
     {
         public string? StringConexion { get; set; }
 
