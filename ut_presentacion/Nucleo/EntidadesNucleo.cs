@@ -69,7 +69,7 @@ public class EntidadesNucleo
         var entidad = new Consolas();
         entidad.Tipo_consola = "Videojuegos";
         entidad.Marca_consola = "Sony";
-        entidad.Estado_consola = 1;
+        entidad.Estado_consola = 4;
         entidad.almacen = 7;
         return entidad;
     }

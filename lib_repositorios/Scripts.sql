@@ -46,6 +46,7 @@ CREATE TABLE Consolas (
                           Tipo_consola NVARCHAR(100),
                           Marca_consola NVARCHAR(50),
                           Estado_consola INT NOT NULL,
+                          Estado_string NVARCHAR(50),
                           almacen INT,
                           FOREIGN KEY (almacen) REFERENCES Almacenes(Id_bodega)
 );

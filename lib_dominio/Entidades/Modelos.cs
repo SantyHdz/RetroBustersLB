@@ -84,6 +84,7 @@ public class Consolas
     public string? Tipo_consola { get; set; }
     public string? Marca_consola { get; set; }
     public int Estado_consola { get; set; }
+    public string? Estado_string { get; set; } 
     
     [ForeignKey("_almacen")]
     public int almacen { get; set; }
