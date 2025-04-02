@@ -32,25 +32,25 @@ public class EntidadesNucleo
         return entidad;
     }
 
-    public static Envios? Envios()
+    public static Envios? Envios(Empleados empleados)
     {
         var entidad = new Envios();
         entidad.Estado = "En tránsito";
         entidad.Direccion = "Calle Falsa 123";
         entidad.Transportadora = "Transportes XYZ";
-        entidad.empleados = 2;
+        entidad.empleados = empleados.Id_empleados;
         return entidad;
     }
 
-    public static Reservas? Reservas()
+    public static Reservas? Reservas(Miembros miembro, Peliculas? peliculas, Consolas? consolas, Empleados empleados)
     {
         var entidad = new Reservas();
             entidad.Fecha_Reserva = DateTime.Now;
             entidad.Estado = "Confirmada";
-            entidad.MiembroId = 3;
-            entidad.PeliculaId = 2;
-            entidad.ConsolaId = 5;
-            entidad.EmpleadoId = 4;
+            entidad.MiembroId = miembro.Id_miembros;
+            entidad.PeliculaId = peliculas.Id_pelicula;
+            entidad.ConsolaId = consolas.Id_consola;
+            entidad.EmpleadoId = empleados.Id_empleados;
         return entidad;
     }
 
@@ -64,13 +64,13 @@ public class EntidadesNucleo
         return entidad;
     }
 
-    public static Consolas? Consolas()
+    public static Consolas? Consolas(Almacenes almacen)
     {
         var entidad = new Consolas();
         entidad.Tipo_consola = "Videojuegos";
         entidad.Marca_consola = "Sony";
         entidad.Estado_consola = 4;
-        entidad.almacen = 7;
+        entidad.almacen = almacen.Id_bodega;
         return entidad;
     }
 
@@ -83,11 +83,11 @@ public class EntidadesNucleo
         return entidad;
     }
 
-    public static Reservas_Snacks? Reservas_Snacks()
+    public static Reservas_Snacks? Reservas_Snacks(Reservas reservas, Snacks snacks)
     {
         var entidad = new Reservas_Snacks();
-        entidad.SnackId = 4;
-        entidad.Reserva = 3;
+        entidad.SnackId = snacks.Id_Snack;
+        entidad.Reserva = reservas.Id_Reserva;
         return entidad;
     }
 }
