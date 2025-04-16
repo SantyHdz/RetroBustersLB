@@ -35,7 +35,7 @@ namespace ut_presentacion.Repositorios
             var peliculas = iConexion.Peliculas.FirstOrDefault(x => x.Id_pelicula == 1);
             var consolas = iConexion.Consolas.FirstOrDefault(x => x.Id_consola == 5);
             var empleados = iConexion.Empleados.FirstOrDefault(x => x.Id_empleados == 2);
-            this.entidad = EntidadesNucleo.Reservas(miembros, peliculas, consolas, empleados)!;
+            this.entidad = EntidadesNucleo.Reservas(miembros, peliculas, consolas, empleados, iConexion)!;
             this.iConexion!.Reservas!.Add(this.entidad);
             this.iConexion!.SaveChanges();
             return true;

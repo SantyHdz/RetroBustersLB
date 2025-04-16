@@ -221,3 +221,5 @@ C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion\obj\Debug\net9.0\ref
 C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion\obj\Debug\net9.0\ut_presentacion.pdb
 C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion\obj\Debug\net9.0\ut_presentacion.genruntimeconfig.cache
 C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion\obj\Debug\net9.0\ref\ut_presentacion.dll
+C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion\bin\Debug\net9.0\lib_aplicaciones.dll
+C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion\bin\Debug\net9.0\lib_aplicaciones.pdb

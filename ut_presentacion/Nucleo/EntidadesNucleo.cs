@@ -1,4 +1,6 @@
 ﻿using lib_dominio.Entidades;
+using lib_repositorios.Interfaces;
+
 namespace ut_presentacion.Nucleo;
 
 public class EntidadesNucleo
@@ -42,11 +44,13 @@ public class EntidadesNucleo
         return entidad;
     }
 
-    public static Reservas? Reservas(Miembros miembro, Peliculas? peliculas, Consolas? consolas, Empleados empleados)
+    public static Reservas? Reservas(Miembros miembro, Peliculas? peliculas, Consolas? consolas, Empleados empleados, IConexion iConexion)
     {
         var entidad = new Reservas();
             entidad.Fecha_Reserva = DateTime.Now;
             entidad.Estado = "Confirmada";
+            entidad.Duracion_reserva = 3; //Duracion En dias de una reserva
+            entidad.Total_reserva = (peliculas.Total + consolas.Total + ObtenerValorSnacks(iConexion, 4)) * entidad.Duracion_reserva;
             entidad.MiembroId = miembro.Id_miembros;
             entidad.PeliculaId = peliculas.Id_pelicula;
             entidad.ConsolaId = consolas.Id_consola;
@@ -57,10 +61,13 @@ public class EntidadesNucleo
     public static Peliculas? Peliculas()
     {
         var entidad = new Peliculas();
-        entidad.Nombre_pelicula = "La Gran Aventura";
-        entidad.Genero_Pelicula = "Aventura";
+        entidad.Nombre_pelicula = "Toy Story 4";
+        entidad.Genero_Pelicula = "Animacion";
         entidad.Fecha_Estreno = new DateTime(2022, 5, 20);
         entidad.Estado_pelicula = true;
+        entidad.Cantidad_pelis = 3;
+        entidad.Precio_unitario = 17000.00m;
+        entidad.Total = entidad.Cantidad_pelis * entidad.Precio_unitario;
         return entidad;
     }
 
@@ -70,6 +77,9 @@ public class EntidadesNucleo
         entidad.Tipo_consola = "Videojuegos";
         entidad.Marca_consola = "Sony";
         entidad.Estado_consola = 4;
+        entidad.Cantidad_consolas = 2;
+        entidad.Precio_unitario = 35000.00m;
+        entidad.Total = entidad.Cantidad_consolas * entidad.Precio_unitario;
         entidad.almacen = almacen.Id_bodega;
         return entidad;
     }
@@ -86,8 +96,19 @@ public class EntidadesNucleo
     public static Reservas_Snacks? Reservas_Snacks(Reservas reservas, Snacks snacks)
     {
         var entidad = new Reservas_Snacks();
+        entidad.Cantidad = 3;
+        entidad.Total = snacks.Precio * entidad.Cantidad;
         entidad.SnackId = snacks.Id_Snack;
         entidad.Reserva = reservas.Id_Reserva;
         return entidad;
+    }
+
+    public static decimal? ObtenerValorSnacks(IConexion iConexion, int Id_reserva)
+    {
+        var total = iConexion.Reservas_Snacks
+            .Where(x => x.Reserva == Id_reserva)
+            .Sum(x => x.Total);
+
+        return total > 0 ? total : (decimal?)null; // Retornar null si no hay snacks
     }
 }

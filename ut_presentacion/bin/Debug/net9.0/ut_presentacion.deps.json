@@ -10,6 +10,7 @@
         "dependencies": {
           "MSTest": "3.6.4",
           "Microsoft.NET.Test.Sdk": "17.12.0",
+          "lib_aplicaciones": "1.0.0",
           "lib_dominio": "1.0.0",
           "lib_repositorios": "1.0.0",
           "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions": "14.0.0.0"
@@ -1127,6 +1128,18 @@
           }
         }
       },
+      "lib_aplicaciones/1.0.0": {
+        "dependencies": {
+          "lib_dominio": "1.0.0",
+          "lib_repositorios": "1.0.0"
+        },
+        "runtime": {
+          "lib_aplicaciones.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "lib_dominio/1.0.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
@@ -1662,6 +1675,11 @@
       "sha512": "sha512-IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
+    },
+    "lib_aplicaciones/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "lib_dominio/1.0.0": {
       "type": "project",

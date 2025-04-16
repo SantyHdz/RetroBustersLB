@@ -49,6 +49,8 @@ public class Reservas
     public int Id_Reserva { get; set; }
     public DateTime Fecha_Reserva { get; set; }
     public string? Estado { get; set; }
+    public int Duracion_reserva { get; set; }
+    public decimal? Total_reserva { get; set; }
     
     [ForeignKey("Id_miembros")]
     public int MiembroId { get; set; }
@@ -75,6 +77,9 @@ public class Peliculas
     public string? Genero_Pelicula { get; set; }
     public DateTime Fecha_Estreno { get; set; }
     public bool Estado_pelicula { get; set; }
+    public int Cantidad_pelis { get; set; } //Agregado Recientemente
+    public decimal Precio_unitario { get; set; } //Agregado Recientemente
+    public decimal? Total { get; set; } //Agregado Recientemente
 }
 
 public class Consolas
@@ -84,7 +89,10 @@ public class Consolas
     public string? Tipo_consola { get; set; }
     public string? Marca_consola { get; set; }
     public int Estado_consola { get; set; }
-    public string? Estado_string { get; set; } 
+    public string? Estado_string { get; set; }
+    public int Cantidad_consolas { get; set; } //Agregado Recientemente
+    public decimal Precio_unitario { get; set; } //Agregado Recientemente
+    public decimal? Total { get; set; } //Agregado Recientemente
     
     [ForeignKey("_almacen")]
     public int almacen { get; set; }
@@ -104,6 +112,9 @@ public class Reservas_Snacks
 {
     [Key]
     public int Id_Reservas_Snacks { get; set; }
+    
+    public int Cantidad { get; set; }
+    public decimal? Total { get; set; }
     
     [ForeignKey("_Snack")]
     public int SnackId { get; set; }
