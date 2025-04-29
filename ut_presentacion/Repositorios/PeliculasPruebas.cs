@@ -38,7 +38,7 @@ namespace ut_presentacion.Repositorios
         }
         public bool Modificar()
         {
-            this.entidad!.Genero_Pelicula = "Testeando pruebas unitarias";
+            this.entidad!.Genero = "Testeando pruebas unitarias";
             var entry = this.iConexion!.Entry<Peliculas>(this.entidad);
             entry.State = EntityState.Modified;
             this.iConexion!.SaveChanges();

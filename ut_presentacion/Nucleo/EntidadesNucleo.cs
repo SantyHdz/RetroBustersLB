@@ -9,8 +9,8 @@ public class EntidadesNucleo
     public static Almacenes? Almacenes()
     {
         var entidad = new Almacenes();
-        entidad.Ubicacion_bodega = "AVENIDA COLOMBIA #398 MEDELLIN ANT" ;
-        entidad.Capacidad_bodega = 666.00m;
+        entidad.Ubicacion = "AVENIDA COLOMBIA #398 MEDELLIN ANT" ;
+        entidad.Capacidad = 666.00m;
         return entidad;
     }
     
@@ -27,8 +27,8 @@ public class EntidadesNucleo
     public static Empleados? Empleados()
     {
         var entidad = new Empleados();
-        entidad.Nombre_empleado = "Juan Pérez";
-        entidad.Cargo_empleado = "Desarrollador";
+        entidad.Nombre = "Juan Pérez";
+        entidad.Cargo = "Desarrollador";
         entidad.Sueldo = 5000.00m;
         entidad.Fecha_contratacion = new DateTime(2020, 1, 15);
         return entidad;
@@ -49,8 +49,8 @@ public class EntidadesNucleo
         var entidad = new Reservas();
             entidad.Fecha_Reserva = DateTime.Now;
             entidad.Estado = "Confirmada";
-            entidad.Duracion_reserva = 3; //Duracion En dias de una reserva
-            entidad.Total_reserva = (peliculas.Total + consolas.Total + ObtenerValorSnacks(iConexion, 4)) * entidad.Duracion_reserva;
+            entidad.Duracion = 3; //Duracion En dias de una reserva
+            entidad.Total = (peliculas.Total + consolas.Total + ObtenerValorSnacks(iConexion, 4)) * entidad.Duracion;
             entidad.Miembro = miembro.Id;
             entidad.Pelicula = peliculas.Id;
             entidad.Consola = consolas.Id;
@@ -61,25 +61,25 @@ public class EntidadesNucleo
     public static Peliculas? Peliculas()
     {
         var entidad = new Peliculas();
-        entidad.Nombre_pelicula = "Toy Story 4";
-        entidad.Genero_Pelicula = "Animacion";
+        entidad.Nombre = "Toy Story 4";
+        entidad.Genero = "Animacion";
         entidad.Fecha_Estreno = new DateTime(2022, 5, 20);
-        entidad.Estado_pelicula = true;
-        entidad.Cantidad_pelis = 3;
+        entidad.Estado = true;
+        entidad.Cantidad = 3;
         entidad.Precio_unitario = 17000.00m;
-        entidad.Total = entidad.Cantidad_pelis * entidad.Precio_unitario;
+        entidad.Total = entidad.Cantidad * entidad.Precio_unitario;
         return entidad;
     }
 
     public static Consolas? Consolas(Almacenes almacen)
     {
         var entidad = new Consolas();
-        entidad.Tipo_consola = "Videojuegos";
-        entidad.Marca_consola = "Sony";
-        entidad.Estado_consola = 4;
-        entidad.Cantidad_consolas = 2;
+        entidad.Tipo = "Videojuegos";
+        entidad.Marca = "Sony";
+        entidad.Estado = 4;
+        entidad.Cantidad = 2;
         entidad.Precio_unitario = 35000.00m;
-        entidad.Total = entidad.Cantidad_consolas * entidad.Precio_unitario;
+        entidad.Total = entidad.Cantidad * entidad.Precio_unitario;
         entidad.Almacen = almacen.Id;
         return entidad;
     }

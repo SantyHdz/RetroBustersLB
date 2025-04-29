@@ -40,7 +40,7 @@ namespace ut_presentacion.Repositorios
         public bool Modificar()
         {
             
-            switch (this.entidad!.Estado_consola)
+            switch (this.entidad!.Estado)
             {
                 case 1:
                     entidad.Estado_string = "Disponible";

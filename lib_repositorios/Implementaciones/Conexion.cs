@@ -19,8 +19,8 @@ var listaAlmacenes = conexion.Almacenes!.ToList();
 foreach (var elementoAlmacen in listaAlmacenes)
 {
     Console.WriteLine($"Id: {elementoAlmacen.Id}, " +
-                      $"Ubicación: {elementoAlmacen.Ubicacion_bodega}, " +
-                      $"Capacidad: {elementoAlmacen.Capacidad_bodega}");
+                      $"Ubicación: {elementoAlmacen.Ubicacion}, " +
+                      $"Capacidad: {elementoAlmacen.Capacidad}");
 }
 
 // Obtener y mostrar Miembros
@@ -39,8 +39,8 @@ var listaEmpleados = conexion.Empleados!.ToList();
 foreach (var elementoEmpleado in listaEmpleados)
 {
     Console.WriteLine($"Id: {elementoEmpleado.Id}, " +
-                      $"Nombre: {elementoEmpleado.Nombre_empleado}, " +
-                      $"Cargo: {elementoEmpleado.Cargo_empleado}, " +
+                      $"Nombre: {elementoEmpleado.Nombre}, " +
+                      $"Cargo: {elementoEmpleado.Cargo}, " +
                       $"Sueldo: {elementoEmpleado.Sueldo}, " +
                       $"Fecha de Contratación: {elementoEmpleado.Fecha_contratacion}");
 }
@@ -74,10 +74,10 @@ var listaPeliculas = conexion.Peliculas!.ToList();
 foreach (var elementoPelicula in listaPeliculas)
 {
     Console.WriteLine($"Id: {elementoPelicula.Id}, " +
-                      $"Nombre: {elementoPelicula.Nombre_pelicula}, " +
-                      $"Género: {elementoPelicula.Genero_Pelicula}, " +
+                      $"Nombre: {elementoPelicula.Nombre}, " +
+                      $"Género: {elementoPelicula.Genero}, " +
                       $"Fecha de Estreno: {elementoPelicula.Fecha_Estreno}, " +
-                      $"Estado: {elementoPelicula.Estado_pelicula}");
+                      $"Estado: {elementoPelicula.Estado}");
 }
 
 // Obtener y mostrar Consolas
@@ -85,9 +85,9 @@ var ListaConsolas = conexion.Consolas!.ToList();
 foreach (var elementoC in ListaConsolas)
 {
     Console.WriteLine($"Id: {elementoC.Id}, " +
-                      $"Nombre: {elementoC.Tipo_consola}, " +
-                      $"Género: {elementoC.Marca_consola}, " +
-                      $"Fecha de Estreno: {elementoC.Estado_consola}, " +
+                      $"Nombre: {elementoC.Tipo}, " +
+                      $"Género: {elementoC.Marca}, " +
+                      $"Fecha de Estreno: {elementoC.Estado}, " +
                       $"Estado: {elementoC.Almacen}");
 }
 

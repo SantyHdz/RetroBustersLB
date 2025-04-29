@@ -38,7 +38,7 @@ namespace ut_presentacion.Repositorios
         }
         public bool Modificar()
         {
-            this.entidad!.Cargo_empleado = "Es el admin °-°";
+            this.entidad!.Cargo = "Es el admin °-°";
             var entry = this.iConexion!.Entry<Empleados>(this.entidad);
             entry.State = EntityState.Modified;
             this.iConexion!.SaveChanges();

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lib_aplicaciones.Implementaciones;
 
-public class AlmacenesAplicacion : IAlmacenesAplicacion
+public class PeliculasAplicacion : IPeliculasAplicacion
 {
     private IConexion? IConexion = null;
 
-    public AlmacenesAplicacion(IConexion iConexion)
+    public PeliculasAplicacion(IConexion iConexion)
     {
         this.IConexion = iConexion;
     }
@@ -19,41 +19,42 @@ public class AlmacenesAplicacion : IAlmacenesAplicacion
         this.IConexion!.StringConexion = StringConexion;
     }
 
-    public Almacenes? Borrar(Almacenes? entidad)
+    public Peliculas? Borrar(Peliculas? entidad)
     {
         if (entidad == null) throw new Exception("lbFaltaInformacion");
         if (entidad.Id == 0) throw new Exception("lbNoSeGuardo");
-        this.IConexion!.Almacenes!.Remove(entidad);
+        this.IConexion!.Peliculas!.Remove(entidad);
         this.IConexion.SaveChanges();
         return entidad;
     }
 
-    public Almacenes? Guardar(Almacenes? entidad)
+    public Peliculas? Guardar(Peliculas? entidad)
     {
         if (entidad == null) throw new Exception("lbFaltaInformacion");
         if (entidad.Id != 0) throw new Exception("lbYaSeGuardo");
-        this.IConexion!.Almacenes!.Add(entidad);
+        this.IConexion!.Peliculas!.Add(entidad);
         this.IConexion.SaveChanges();
         return entidad;
     }
 
-    public List<Almacenes> Listar()
+    public List<Peliculas> Listar()
     {
-        return this.IConexion!.Almacenes!.Take(20).ToList();
+        return this.IConexion!.Peliculas!.Take(20).ToList();
     }
 
-    public List<Almacenes> PorUbicacion(Almacenes? entidad)
+    public List<Peliculas> Pornombre(Peliculas? entidad)
     {
-        return this.IConexion!.Almacenes!
-            .Where(x => x.Ubicacion!.Contains(entidad!.Ubicacion!))
+        return this.IConexion!.Peliculas!
+            .Where(x => x.Nombre!.Contains(entidad!.Nombre!))
             .ToList();
     }
 
-    public Almacenes? Modificar(Almacenes? entidad)
+    public Peliculas? Modificar(Peliculas? entidad)
     {
         if (entidad == null) throw new Exception("lbFaltaInformacion");
         if (entidad.Id == 0) throw new Exception("lbNoSeGuardo");
-        var entry = this.IConexion!.Entry<Almacenes>(entidad);
+        entidad.Nombre = "Probando nuevo aspecto";
+        var entry = this.IConexion!.Entry<Peliculas>(entidad);
         entry.State = EntityState.Modified;
         this.IConexion.SaveChanges();
         return entidad;

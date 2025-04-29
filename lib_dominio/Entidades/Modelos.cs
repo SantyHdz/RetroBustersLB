@@ -6,8 +6,8 @@ public class Almacenes
 {
     [Key]
     public int Id { get; set; }
-    public string? Ubicacion_bodega { get; set; }
-    public decimal Capacidad_bodega { get; set; }
+    public string? Ubicacion { get; set; }
+    public decimal Capacidad { get; set; }
 }
 
 public class Miembros
@@ -24,8 +24,8 @@ public class Empleados
 {
     [Key]
     public int Id { get; set; }
-    public string? Nombre_empleado { get; set; }
-    public string? Cargo_empleado { get; set; }
+    public string? Nombre { get; set; }
+    public string? Cargo { get; set; }
     public decimal Sueldo { get; set; } // Cambiado a decimal
     public DateTime Fecha_contratacion { get; set; }
 }
@@ -49,8 +49,8 @@ public class Reservas
     public int Id { get; set; }
     public DateTime Fecha_Reserva { get; set; }
     public string? Estado { get; set; }
-    public int Duracion_reserva { get; set; }
-    public decimal? Total_reserva { get; set; }
+    public int Duracion { get; set; }
+    public decimal? Total { get; set; }
     public int Miembro { get; set; }
     public int? Pelicula { get; set; }
     public int? Consola { get; set; }
@@ -68,11 +68,11 @@ public class Peliculas
 {
     [Key]
     public int Id { get; set; }
-    public string? Nombre_pelicula { get; set; }
-    public string? Genero_Pelicula { get; set; }
+    public string? Nombre { get; set; }
+    public string? Genero { get; set; }
     public DateTime Fecha_Estreno { get; set; }
-    public bool Estado_pelicula { get; set; }
-    public int Cantidad_pelis { get; set; } //Agregado Recientemente
+    public bool Estado { get; set; }
+    public int Cantidad { get; set; } //Agregado Recientemente
     public decimal Precio_unitario { get; set; } //Agregado Recientemente
     public decimal? Total { get; set; } //Agregado Recientemente
 }
@@ -81,11 +81,11 @@ public class Consolas
 {
     [Key]
     public int Id { get; set; }
-    public string? Tipo_consola { get; set; }
-    public string? Marca_consola { get; set; }
-    public int Estado_consola { get; set; }
+    public string? Tipo { get; set; }
+    public string? Marca { get; set; }
+    public int Estado { get; set; }
     public string? Estado_string { get; set; }
-    public int Cantidad_consolas { get; set; } //Agregado Recientemente
+    public int Cantidad { get; set; } //Agregado Recientemente
     public decimal Precio_unitario { get; set; } //Agregado Recientemente
     public decimal? Total { get; set; } //Agregado Recientemente
     public int Almacen { get; set; }

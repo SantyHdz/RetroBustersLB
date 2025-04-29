@@ -38,7 +38,7 @@ public class AlmacenesPruebas
     }
     public bool Modificar()
     {
-        this.entidad!.Capacidad_bodega = 777.00m; 
+        this.entidad!.Capacidad = 777.00m; 
         var entry = this.iConexion!.Entry<Almacenes>(this.entidad);
         entry.State = EntityState.Modified;
         this.iConexion!.SaveChanges();

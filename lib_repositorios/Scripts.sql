@@ -8,8 +8,8 @@ GO
 CREATE TABLE Almacenes
 (
     Id               INT PRIMARY KEY IDENTITY(1,1),
-    Ubicacion_bodega NVARCHAR(100),
-    Capacidad_bodega DECIMAL(18, 2)
+    Ubicacion        NVARCHAR(100),
+    Capacidad        DECIMAL(18, 2)
 );
 
 CREATE TABLE Miembros
@@ -24,8 +24,8 @@ CREATE TABLE Miembros
 CREATE TABLE Empleados
 (
     Id                 INT PRIMARY KEY IDENTITY(1,1),
-    Nombre_empleado    NVARCHAR(100),
-    Cargo_empleado     NVARCHAR(50),
+    Nombre             NVARCHAR(100),
+    Cargo              NVARCHAR(50),
     Sueldo             DECIMAL(18, 2),
     Fecha_contratacion SMALLDATETIME
 );
@@ -33,10 +33,10 @@ CREATE TABLE Empleados
 CREATE TABLE Peliculas
 (
     Id              INT PRIMARY KEY IDENTITY(1,1),
-    Nombre_pelicula NVARCHAR(100),
-    Genero_Pelicula NVARCHAR(50),
+    Nombre          NVARCHAR(100),
+    Genero          NVARCHAR(50),
     Fecha_Estreno   SMALLDATETIME,
-    Estado_pelicula BIT NOT NULL
+    Estado BIT NOT NULL
 );
 
 CREATE TABLE Snacks
@@ -50,10 +50,10 @@ CREATE TABLE Snacks
 CREATE TABLE Consolas
 (
     Id             INT PRIMARY KEY IDENTITY(1,1),
-    Tipo_consola   NVARCHAR(100),
-    Marca_consola  NVARCHAR(50),
-    Estado_consola INT NOT NULL,
-    Estado_string  NVARCHAR(50),
+    Tipo           NVARCHAR(100),
+    Marca          NVARCHAR(50),
+    Estado         INT NOT NULL,
+    Estado         NVARCHAR(50),
     almacen        INT,
     FOREIGN KEY (almacen) REFERENCES Almacenes (Id)
 );
@@ -93,7 +93,7 @@ CREATE TABLE Reservas_Snacks
 );
 
 -- Almacenes
-INSERT INTO Almacenes (Ubicacion_bodega, Capacidad_bodega)
+INSERT INTO Almacenes (Ubicacion, Capacidad)
 VALUES ('Bodega Central, Calle Principal 123', 1500.50),
        ('Almacén Norte, Avenida Industrial 45', 2000.00),
        ('Centro Logístico Sur, Carrera 78 #65-21', 3000.75),
@@ -115,7 +115,7 @@ VALUES ('Juan Pérez', '2023-01-15 09:00', 'Oro', 500),
        ('Sofía González', '2023-08-30 17:30', 'Plata', 400);
 
 -- Empleados
-INSERT INTO Empleados (Nombre_empleado, Cargo_empleado, Sueldo, Fecha_contratacion)
+INSERT INTO Empleados (Nombre, Cargo, Sueldo, Fecha_contratacion)
 VALUES ('Roberto Jiménez', 'Gerente', 4500.00, '2020-01-10 08:00'),
        ('Mónica Vega', 'Asistente', 2500.50, '2021-05-15 09:30'),
        ('Fernando Cruz', 'Técnico', 3000.00, '2022-03-20 07:45'),
@@ -126,7 +126,7 @@ VALUES ('Roberto Jiménez', 'Gerente', 4500.00, '2020-01-10 08:00'),
        ('Valeria Ortega', 'Logística', 3200.00, '2022-12-10 08:45');
 
 -- Peliculas
-INSERT INTO Peliculas (Nombre_pelicula, Genero_Pelicula, Fecha_Estreno, Estado_pelicula)
+INSERT INTO Peliculas (Nombre, Genero, Fecha, Estado)
 VALUES ('Viaje al Espacio', 'Ciencia Ficción', '2023-01-01 00:00', 1),
        ('Risas Eternas', 'Comedia', '2023-02-14 00:00', 1),
        ('Misterio en París', 'Suspenso', '2022-12-25 00:00', 0),
@@ -148,7 +148,7 @@ VALUES ('Palomitas Grandes', 5.99, 200),
        ('Mix de Dulces', 7.25, 120);
 
 -- Consolas
-INSERT INTO Consolas (Tipo_consola, Marca_consola, Estado_consola, almacen)
+INSERT INTO Consolas (Tipo, Marca, Estado, almacen)
 VALUES ('PlayStation 5', 'Sony', 1, 1),
        ('Xbox Series X', 'Microsoft', 1, 2),
        ('Nintendo Switch', 'Nintendo', 2, 3),
