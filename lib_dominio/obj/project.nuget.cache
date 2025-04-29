@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "HuA4yzyuzuY=",
+  "dgSpecHash": "MydowELtr88=",
   "success": true,
-  "projectFilePath": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\lib_dominio\\lib_dominio.csproj",
+  "projectFilePath": "C:\\Users\\ASUS\\Source\\Repos\\RetroBustersLB\\lib_dominio\\lib_dominio.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\santi\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\ASUS\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -7,14 +7,14 @@ GO
 
 CREATE TABLE Almacenes
 (
-    Id_bodega        INT PRIMARY KEY IDENTITY(1,1),
+    Id               INT PRIMARY KEY IDENTITY(1,1),
     Ubicacion_bodega NVARCHAR(100),
     Capacidad_bodega DECIMAL(18, 2)
 );
 
 CREATE TABLE Miembros
 (
-    Id_miembros    INT PRIMARY KEY IDENTITY(1,1),
+    Id             INT PRIMARY KEY IDENTITY(1,1),
     Nombre         NVARCHAR(50),
     Fecha_registro SMALLDATETIME,
     Nivel          NVARCHAR(50),
@@ -23,7 +23,7 @@ CREATE TABLE Miembros
 
 CREATE TABLE Empleados
 (
-    Id_empleados       INT PRIMARY KEY IDENTITY(1,1),
+    Id                 INT PRIMARY KEY IDENTITY(1,1),
     Nombre_empleado    NVARCHAR(100),
     Cargo_empleado     NVARCHAR(50),
     Sueldo             DECIMAL(18, 2),
@@ -32,7 +32,7 @@ CREATE TABLE Empleados
 
 CREATE TABLE Peliculas
 (
-    Id_pelicula     INT PRIMARY KEY IDENTITY(1,1),
+    Id              INT PRIMARY KEY IDENTITY(1,1),
     Nombre_pelicula NVARCHAR(100),
     Genero_Pelicula NVARCHAR(50),
     Fecha_Estreno   SMALLDATETIME,
@@ -41,7 +41,7 @@ CREATE TABLE Peliculas
 
 CREATE TABLE Snacks
 (
-    Id_Snack INT PRIMARY KEY IDENTITY(1,1),
+    Id       INT PRIMARY KEY IDENTITY(1,1),
     Nombre   NVARCHAR(100),
     Precio   DECIMAL(10, 2),
     Stock    INT
@@ -49,47 +49,47 @@ CREATE TABLE Snacks
 
 CREATE TABLE Consolas
 (
-    Id_consola     INT PRIMARY KEY IDENTITY(1,1),
+    Id             INT PRIMARY KEY IDENTITY(1,1),
     Tipo_consola   NVARCHAR(100),
     Marca_consola  NVARCHAR(50),
     Estado_consola INT NOT NULL,
     Estado_string  NVARCHAR(50),
     almacen        INT,
-    FOREIGN KEY (almacen) REFERENCES Almacenes (Id_bodega)
+    FOREIGN KEY (almacen) REFERENCES Almacenes (Id)
 );
 
 CREATE TABLE Envios
 (
-    Id_envios      INT PRIMARY KEY IDENTITY(1,1),
+    Id             INT PRIMARY KEY IDENTITY(1,1),
     Estado         NVARCHAR(50),
     Direccion      NVARCHAR(200),
     Transportadora NVARCHAR(50) NULL,
-    empleados      INT NOT NULL,
-    FOREIGN KEY (empleados) REFERENCES Empleados (Id_empleados)
+    empleado       INT NOT NULL,
+    FOREIGN KEY (empleado) REFERENCES Empleados (Id)
 );
 
 CREATE TABLE Reservas
 (
-    Id_Reserva    INT PRIMARY KEY IDENTITY(1,1),
+    Id            INT PRIMARY KEY IDENTITY(1,1),
     Fecha_Reserva SMALLDATETIME,
     Estado        NVARCHAR(100) NULL,
-    MiembroId     INT,
-    PeliculaId    INT,
-    ConsolaId     INT,
-    EmpleadoId    INT,
-    FOREIGN KEY (MiembroId) REFERENCES Miembros (Id_miembros),
-    FOREIGN KEY (PeliculaId) REFERENCES Peliculas (Id_pelicula),
-    FOREIGN KEY (ConsolaId) REFERENCES Consolas (Id_consola),
-    FOREIGN KEY (EmpleadoId) REFERENCES Empleados (Id_empleados)
+    Miembro       INT,
+    Pelicula      INT,
+    Consola       INT,
+    Empleado      INT,
+    FOREIGN KEY (Miembro) REFERENCES Miembros (Id),
+    FOREIGN KEY (Pelicula) REFERENCES Peliculas (Id),
+    FOREIGN KEY (Consola) REFERENCES Consolas (Id),
+    FOREIGN KEY (Empleado) REFERENCES Empleados (Id)
 );
 
 CREATE TABLE Reservas_Snacks
 (
-    Id_Reservas_Snacks INT PRIMARY KEY IDENTITY(1,1),
-    SnackId            INT NOT NULL,
+    Id                 INT PRIMARY KEY IDENTITY(1,1),
+    Snack              INT NOT NULL,
     Reserva            INT NOT NULL,
-    FOREIGN KEY (SnackId) REFERENCES Snacks (Id_Snack),
-    FOREIGN KEY (Reserva) REFERENCES Reservas (Id_Reserva)
+    FOREIGN KEY (Snack) REFERENCES Snacks (Id),
+    FOREIGN KEY (Reserva) REFERENCES Reservas (Id)
 );
 
 -- Almacenes
@@ -159,7 +159,7 @@ VALUES ('PlayStation 5', 'Sony', 1, 1),
        ('Arcade Cabinet', 'Capcom', 4, 8);
 
 -- Envios
-INSERT INTO Envios (Estado, Direccion, Transportadora, empleados)
+INSERT INTO Envios (Estado, Direccion, Transportadora, empleado)
 VALUES ('En tránsito', 'Calle 123 #45-67', 'DHL', 1),
        ('Entregado', 'Avenida Principal 789', 'FedEx', 2),
        ('En preparación', 'Carrera 56 #12-34', NULL, 3),
@@ -170,7 +170,7 @@ VALUES ('En tránsito', 'Calle 123 #45-67', 'DHL', 1),
        ('En tránsito', 'Carrera 11 #22-33', 'FedEx', 8);
 
 -- Reservas
-INSERT INTO Reservas (Fecha_Reserva, Estado, MiembroId, PeliculaId, ConsolaId, EmpleadoId)
+INSERT INTO Reservas (Fecha_Reserva, Estado, Miembro, Pelicula, Consola, Empleado)
 VALUES ('2023-10-01 14:00', 'Activa', 1, 1, NULL, 1),
        ('2023-10-02 16:30', 'Completada', 2, NULL, 2, 2),
        ('2023-10-03 10:15', 'Pendiente', 3, 3, 3, 3),
@@ -181,7 +181,7 @@ VALUES ('2023-10-01 14:00', 'Activa', 1, 1, NULL, 1),
        ('2023-10-08 12:00', 'Activa', 8, NULL, 8, 8);
 
 -- Reservas_Snacks
-INSERT INTO Reservas_Snacks (SnackId, Reserva)
+INSERT INTO Reservas_Snacks (Snack, Reserva)
 VALUES (1, 1),
        (2, 2),
        (3, 3),

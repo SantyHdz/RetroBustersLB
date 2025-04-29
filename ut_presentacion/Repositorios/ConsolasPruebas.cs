@@ -31,7 +31,7 @@ namespace ut_presentacion.Repositorios
         }
         public bool Guardar()
         {
-            var almacenes = this.iConexion!.Almacenes!.FirstOrDefault(x => x.Id_bodega == 5);
+            var almacenes = this.iConexion!.Almacenes!.FirstOrDefault(x => x.Id == 5);
             this.entidad = EntidadesNucleo.Consolas(almacenes)!;
             this.iConexion!.Consolas!.Add(this.entidad);
             this.iConexion!.SaveChanges();

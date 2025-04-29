@@ -40,7 +40,7 @@ public class EntidadesNucleo
         entidad.Estado = "En tránsito";
         entidad.Direccion = "Calle Falsa 123";
         entidad.Transportadora = "Transportes XYZ";
-        entidad.empleados = empleados.Id_empleados;
+        entidad.Empleado = empleados.Id;
         return entidad;
     }
 
@@ -51,10 +51,10 @@ public class EntidadesNucleo
             entidad.Estado = "Confirmada";
             entidad.Duracion_reserva = 3; //Duracion En dias de una reserva
             entidad.Total_reserva = (peliculas.Total + consolas.Total + ObtenerValorSnacks(iConexion, 4)) * entidad.Duracion_reserva;
-            entidad.MiembroId = miembro.Id_miembros;
-            entidad.PeliculaId = peliculas.Id_pelicula;
-            entidad.ConsolaId = consolas.Id_consola;
-            entidad.EmpleadoId = empleados.Id_empleados;
+            entidad.Miembro = miembro.Id;
+            entidad.Pelicula = peliculas.Id;
+            entidad.Consola = consolas.Id;
+            entidad.Empleado = empleados.Id;
         return entidad;
     }
 
@@ -80,7 +80,7 @@ public class EntidadesNucleo
         entidad.Cantidad_consolas = 2;
         entidad.Precio_unitario = 35000.00m;
         entidad.Total = entidad.Cantidad_consolas * entidad.Precio_unitario;
-        entidad.almacen = almacen.Id_bodega;
+        entidad.Almacen = almacen.Id;
         return entidad;
     }
 
@@ -98,8 +98,8 @@ public class EntidadesNucleo
         var entidad = new Reservas_Snacks();
         entidad.Cantidad = 3;
         entidad.Total = snacks.Precio * entidad.Cantidad;
-        entidad.SnackId = snacks.Id_Snack;
-        entidad.Reserva = reservas.Id_Reserva;
+        entidad.Snack = snacks.Id;
+        entidad.Reserva = reservas.Id;
         return entidad;
     }
 

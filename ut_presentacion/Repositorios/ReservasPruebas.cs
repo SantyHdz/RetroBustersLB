@@ -31,10 +31,10 @@ namespace ut_presentacion.Repositorios
         }
         public bool Guardar()
         {
-            var miembros = iConexion.Miembros.FirstOrDefault(x => x.Id_miembros == 3);
-            var peliculas = iConexion.Peliculas.FirstOrDefault(x => x.Id_pelicula == 1);
-            var consolas = iConexion.Consolas.FirstOrDefault(x => x.Id_consola == 5);
-            var empleados = iConexion.Empleados.FirstOrDefault(x => x.Id_empleados == 2);
+            var miembros = iConexion.Miembros.FirstOrDefault(x => x.Id == 3);
+            var peliculas = iConexion.Peliculas.FirstOrDefault(x => x.Id == 1);
+            var consolas = iConexion.Consolas.FirstOrDefault(x => x.Id == 5);
+            var empleados = iConexion.Empleados.FirstOrDefault(x => x.Id == 2);
             this.entidad = EntidadesNucleo.Reservas(miembros, peliculas, consolas, empleados, iConexion)!;
             this.iConexion!.Reservas!.Add(this.entidad);
             this.iConexion!.SaveChanges();

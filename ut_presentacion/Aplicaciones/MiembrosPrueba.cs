@@ -9,7 +9,7 @@ namespace ut_presentacion.Aplicaciones
     [TestClass]
     public class MiembrosPruebas
     {
-        private readonly IMiemmbrosAplicacion? iAplicacion;
+        private readonly IMiembrosAplicacion? iAplicacion;
         private readonly IConexion? iConexion;
         private List<Miembros>? lista;
         private Miembros? entidad;
@@ -17,7 +17,7 @@ namespace ut_presentacion.Aplicaciones
         {
             iConexion = new ConexionEF3.Conexion();
             iConexion.StringConexion = Configuracion.ObtenerValor("StringConexion");
-            iAplicacion = new MiembrosAplicaciones(iConexion);
+            iAplicacion = new MiembrosAplicacion(iConexion);
         }
         [TestMethod]
         public void Ejecutar()

@@ -1,7 +1,7 @@
 ﻿using lib_dominio.Entidades;
 namespace lib_aplicaciones.Interfaces;
 
-public interface IMiemmbrosAplicacion
+public interface IMiembrosAplicacion
 {
     void Configurar(string StringConexion);
     List<Miembros> Pornombre(Miembros? entidad);

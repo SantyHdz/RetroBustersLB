@@ -31,7 +31,7 @@ namespace ut_presentacion.Repositorios
         }
         public bool Guardar()
         {
-            var empleados = this.iConexion!.Empleados!.FirstOrDefault(x => x.Id_empleados == 4);
+            var empleados = this.iConexion!.Empleados!.FirstOrDefault(x => x.Id == 4);
             this.entidad = EntidadesNucleo.Envios(empleados)!;
             this.iConexion!.Envios!.Add(this.entidad);
             this.iConexion!.SaveChanges();

@@ -18,7 +18,7 @@ public class ConexionEF3
 var listaAlmacenes = conexion.Almacenes!.ToList();
 foreach (var elementoAlmacen in listaAlmacenes)
 {
-    Console.WriteLine($"Id: {elementoAlmacen.Id_bodega}, " +
+    Console.WriteLine($"Id: {elementoAlmacen.Id}, " +
                       $"Ubicación: {elementoAlmacen.Ubicacion_bodega}, " +
                       $"Capacidad: {elementoAlmacen.Capacidad_bodega}");
 }
@@ -27,7 +27,7 @@ foreach (var elementoAlmacen in listaAlmacenes)
 var listaMiembros = conexion.Miembros!.ToList();
 foreach (var elementoMiembro in listaMiembros)
 {
-    Console.WriteLine($"Id: {elementoMiembro.Id_miembros}, " +
+    Console.WriteLine($"Id: {elementoMiembro.Id}, " +
                       $"Nombre: {elementoMiembro.Nombre}, " +
                       $"Fecha de Registro: {elementoMiembro.Fecha_registro}, " +
                       $"Nivel: {elementoMiembro.Nivel}, " +
@@ -38,7 +38,7 @@ foreach (var elementoMiembro in listaMiembros)
 var listaEmpleados = conexion.Empleados!.ToList();
 foreach (var elementoEmpleado in listaEmpleados)
 {
-    Console.WriteLine($"Id: {elementoEmpleado.Id_empleados}, " +
+    Console.WriteLine($"Id: {elementoEmpleado.Id}, " +
                       $"Nombre: {elementoEmpleado.Nombre_empleado}, " +
                       $"Cargo: {elementoEmpleado.Cargo_empleado}, " +
                       $"Sueldo: {elementoEmpleado.Sueldo}, " +
@@ -49,31 +49,31 @@ foreach (var elementoEmpleado in listaEmpleados)
 var listaEnvios = conexion.Envios!.ToList();
 foreach (var elementoEnvio in listaEnvios)
 {
-    Console.WriteLine($"Id: {elementoEnvio.Id_envios}, " +
+    Console.WriteLine($"Id: {elementoEnvio.Id}, " +
                       $"Estado: {elementoEnvio.Estado}, " +
                       $"Dirección: {elementoEnvio.Direccion}, " +
                       $"Transportadora: {elementoEnvio.Transportadora}, " +
-                      $"EmpleadoId: {elementoEnvio.empleados}");
+                      $"Empleado: {elementoEnvio.Empleado}");
 }
 
 // Obtener y mostrar Reservas
 var listaReservas = conexion.Reservas!.ToList();
 foreach (var elementoReserva in listaReservas)
 {
-    Console.WriteLine($"Id: {elementoReserva.Id_Reserva}, " +
+    Console.WriteLine($"Id: {elementoReserva.Id}, " +
                       $"Fecha de Reserva: {elementoReserva.Fecha_Reserva}, " +
                       $"Estado: {elementoReserva.Estado}, " +
-                      $"MiembroId: {elementoReserva.MiembroId}, " +
-                      $"PeliculaId: {elementoReserva.PeliculaId}, " +
-                      $"ConsolaId: {elementoReserva.ConsolaId}, " +
-                      $"EmpleadoId: {elementoReserva.EmpleadoId}");
+                      $"Miembro: {elementoReserva.Id}, " +
+                      $"Pelicula: {elementoReserva.Pelicula}, " +
+                      $"Consola: {elementoReserva.Consola}, " +
+                      $"Empleado: {elementoReserva.Empleado}");
 }
 
 // Obtener y mostrar Peliculas
 var listaPeliculas = conexion.Peliculas!.ToList();
 foreach (var elementoPelicula in listaPeliculas)
 {
-    Console.WriteLine($"Id: {elementoPelicula.Id_pelicula}, " +
+    Console.WriteLine($"Id: {elementoPelicula.Id}, " +
                       $"Nombre: {elementoPelicula.Nombre_pelicula}, " +
                       $"Género: {elementoPelicula.Genero_Pelicula}, " +
                       $"Fecha de Estreno: {elementoPelicula.Fecha_Estreno}, " +
@@ -84,18 +84,18 @@ foreach (var elementoPelicula in listaPeliculas)
 var ListaConsolas = conexion.Consolas!.ToList();
 foreach (var elementoC in ListaConsolas)
 {
-    Console.WriteLine($"Id: {elementoC.Id_consola}, " +
+    Console.WriteLine($"Id: {elementoC.Id}, " +
                       $"Nombre: {elementoC.Tipo_consola}, " +
                       $"Género: {elementoC.Marca_consola}, " +
                       $"Fecha de Estreno: {elementoC.Estado_consola}, " +
-                      $"Estado: {elementoC.almacen}");
+                      $"Estado: {elementoC.Almacen}");
 }
 
 // Obtener y mostrar Snacks
 var listaSnacks = conexion.Snacks!.ToList();
 foreach (var elementoSnack in listaSnacks)
 {
-    Console.WriteLine($"Id: {elementoSnack.Id_Snack}, " +
+    Console.WriteLine($"Id: {elementoSnack.Id}, " +
                       $"Nombre: {elementoSnack.Nombre}, " +
                       $"Precio: {elementoSnack.Precio}, " +
                       $"Stock: {elementoSnack.Stock}");
@@ -105,8 +105,8 @@ foreach (var elementoSnack in listaSnacks)
 var listaReservasSnacks = conexion.Reservas_Snacks!.ToList();
 foreach (var elementoReservaSnack in listaReservasSnacks)
 {
-    Console.WriteLine($"Id: {elementoReservaSnack.Id_Reservas_Snacks}, " +
-                      $"SnackId: {elementoReservaSnack.SnackId}, " +
+    Console.WriteLine($"Id: {elementoReservaSnack.Id}, " +
+                      $"SnackId: {elementoReservaSnack.Snack}, " +
                       $"Reserva: {elementoReservaSnack.Reserva}");
 }
         }

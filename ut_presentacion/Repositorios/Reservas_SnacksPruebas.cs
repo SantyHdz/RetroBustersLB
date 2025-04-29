@@ -31,8 +31,8 @@ namespace ut_presentacion.Repositorios
         }
         public bool Guardar()
         {
-            var reservas = this.iConexion!.Reservas!.FirstOrDefault(x => x.Id_Reserva == 2);
-            var snacks = this.iConexion!.Snacks!.FirstOrDefault(x => x.Id_Snack == 3);
+            var reservas = this.iConexion!.Reservas!.FirstOrDefault(x => x.Id == 2);
+            var snacks = this.iConexion!.Snacks!.FirstOrDefault(x => x.Id == 3);
             this.entidad = EntidadesNucleo.Reservas_Snacks(reservas, snacks)!;
             this.iConexion!.Reservas_Snacks!.Add(this.entidad);
             this.iConexion!.SaveChanges();
@@ -40,7 +40,7 @@ namespace ut_presentacion.Repositorios
         }
         public bool Modificar()
         {
-            this.entidad!.Id_Reservas_Snacks = entidad!.Id_Reservas_Snacks;
+            this.entidad!.Id = entidad!.Id;
             var entry = this.iConexion!.Entry<Reservas_Snacks>(this.entidad);
             entry.State = EntityState.Modified;
             this.iConexion!.SaveChanges();
