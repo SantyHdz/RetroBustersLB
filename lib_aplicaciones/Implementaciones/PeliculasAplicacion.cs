@@ -42,7 +42,7 @@ public class PeliculasAplicacion : IPeliculasAplicacion
         return this.IConexion!.Peliculas!.Take(20).ToList();
     }
 
-    public List<Peliculas> Pornombre(Peliculas? entidad)
+    public List<Peliculas> PorNombre(Peliculas? entidad)
     {
         return this.IConexion!.Peliculas!
             .Where(x => x.Nombre!.Contains(entidad!.Nombre!))

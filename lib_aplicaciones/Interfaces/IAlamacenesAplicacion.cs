@@ -1,6 +1,5 @@
 ﻿using lib_dominio.Entidades;
 namespace lib_aplicaciones.Interfaces;
-//hola
 public interface IAlmacenesAplicacion
 {
     void Configurar(string StringConexion);
