@@ -35,7 +35,7 @@ CREATE TABLE Peliculas
     Id              INT PRIMARY KEY IDENTITY(1,1),
     Nombre          NVARCHAR(100),
     Genero          NVARCHAR(50),
-    Fecha_Estreno   SMALLDATETIME,
+    Fecha_estreno   SMALLDATETIME,
     Estado BIT NOT NULL
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE Consolas
     Tipo           NVARCHAR(100),
     Marca          NVARCHAR(50),
     Estado         INT NOT NULL,
-    Estado         NVARCHAR(50),
+    Estado_string  NVARCHAR(50),
     almacen        INT,
     FOREIGN KEY (almacen) REFERENCES Almacenes (Id)
 );
@@ -126,7 +126,7 @@ VALUES ('Roberto Jiménez', 'Gerente', 4500.00, '2020-01-10 08:00'),
        ('Valeria Ortega', 'Logística', 3200.00, '2022-12-10 08:45');
 
 -- Peliculas
-INSERT INTO Peliculas (Nombre, Genero, Fecha, Estado)
+INSERT INTO Peliculas (Nombre, Genero, Fecha_estreno, Estado)
 VALUES ('Viaje al Espacio', 'Ciencia Ficción', '2023-01-01 00:00', 1),
        ('Risas Eternas', 'Comedia', '2023-02-14 00:00', 1),
        ('Misterio en París', 'Suspenso', '2022-12-25 00:00', 0),

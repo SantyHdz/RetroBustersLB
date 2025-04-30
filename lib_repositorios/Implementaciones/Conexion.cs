@@ -76,7 +76,7 @@ foreach (var elementoPelicula in listaPeliculas)
     Console.WriteLine($"Id: {elementoPelicula.Id}, " +
                       $"Nombre: {elementoPelicula.Nombre}, " +
                       $"Género: {elementoPelicula.Genero}, " +
-                      $"Fecha de Estreno: {elementoPelicula.Fecha_Estreno}, " +
+                      $"Fecha de Estreno: {elementoPelicula.Fecha_estreno}, " +
                       $"Estado: {elementoPelicula.Estado}");
 }
 

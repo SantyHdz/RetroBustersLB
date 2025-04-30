@@ -63,7 +63,7 @@ public class EntidadesNucleo
         var entidad = new Peliculas();
         entidad.Nombre = "Toy Story 4";
         entidad.Genero = "Animacion";
-        entidad.Fecha_Estreno = new DateTime(2022, 5, 20);
+        entidad.Fecha_estreno = new DateTime(2022, 5, 20);
         entidad.Estado = true;
         entidad.Cantidad = 3;
         entidad.Precio_unitario = 17000.00m;
