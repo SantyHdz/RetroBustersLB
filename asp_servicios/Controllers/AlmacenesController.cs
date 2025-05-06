@@ -8,12 +8,12 @@ namespace asp_servicios.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class NotasController : ControllerBase
+    public class AlmacenesController : ControllerBase
     {
-        private INotasAplicacion? iAplicacion = null;
+        private IAlmacenesAplicacion? iAplicacion = null;
         private TokenController? tokenController = null;
 
-        public NotasController(INotasAplicacion? iAplicacion,
+        public AlmacenesController(IAlmacenesAplicacion? iAplicacion,
             TokenController tokenController)
         {
             this.iAplicacion = iAplicacion;
@@ -43,8 +43,7 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringCone
-                xion")); 
+                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
                 respuesta["Entidades"] = this.iAplicacion!.Listar();
 
                 respuesta["Respuesta"] = "OK";
@@ -71,12 +70,11 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Notas>(
+                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
-                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringCone
-                xion")); 
-                respuesta["Entidades"] = this.iAplicacion!.PorEstudiante(entidad);
+                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
+                respuesta["Entidades"] = this.iAplicacion!.PorUbicacion(entidad);
 
                 respuesta["Respuesta"] = "OK";
                 respuesta["Fecha"] = DateTime.Now.ToString();
@@ -104,11 +102,10 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Notas>(
+                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
-                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringCone
-                xion")); 
+                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
                 entidad = this.iAplicacion!.Guardar(entidad);
 
                 respuesta["Entidad"] = entidad!;
@@ -136,12 +133,11 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Notas>(
+                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
 
-                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringCone
-                xion")); 
+                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
                 entidad = this.iAplicacion!.Modificar(entidad);
 
                 respuesta["Entidad"] = entidad!;
@@ -169,11 +165,10 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Notas>(
+                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
-                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringCone
-                xion")); 
+                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
                 entidad = this.iAplicacion!.Borrar(entidad);
 
                 respuesta["Entidad"] = entidad!;

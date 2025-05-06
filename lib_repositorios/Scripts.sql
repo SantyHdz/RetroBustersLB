@@ -19,7 +19,7 @@ CREATE TABLE Miembros
     Fecha_registro SMALLDATETIME,
     Nivel          NVARCHAR(50),
     Puntos         INT NOT NULL
-);
+); 
 
 CREATE TABLE Empleados
 (
