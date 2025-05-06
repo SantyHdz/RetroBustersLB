@@ -16,6 +16,7 @@ public interface IConexion
     DbSet<Consolas>? Consolas { get; set; }
     DbSet<Snacks>? Snacks { get; set; }
     DbSet<Reservas_Snacks>? Reservas_Snacks { get; set; }
+    DbSet<Auditoria>? Auditorias { get; set; }
 
     EntityEntry<T> Entry<T>(T entity) where T : class;
     int SaveChanges();

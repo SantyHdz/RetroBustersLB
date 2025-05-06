@@ -13,102 +13,6 @@ public class ConexionEF3
         {
             var conexion = new Conexion();
             conexion.StringConexion = this.string_conexion;
-            
-// Obtener y mostrar Almacenes
-var listaAlmacenes = conexion.Almacenes!.ToList();
-foreach (var elementoAlmacen in listaAlmacenes)
-{
-    Console.WriteLine($"Id: {elementoAlmacen.Id}, " +
-                      $"Ubicación: {elementoAlmacen.Ubicacion}, " +
-                      $"Capacidad: {elementoAlmacen.Capacidad}");
-}
-
-// Obtener y mostrar Miembros
-var listaMiembros = conexion.Miembros!.ToList();
-foreach (var elementoMiembro in listaMiembros)
-{
-    Console.WriteLine($"Id: {elementoMiembro.Id}, " +
-                      $"Nombre: {elementoMiembro.Nombre}, " +
-                      $"Fecha de Registro: {elementoMiembro.Fecha_registro}, " +
-                      $"Nivel: {elementoMiembro.Nivel}, " +
-                      $"Puntos: {elementoMiembro.Puntos}");
-}
-
-// Obtener y mostrar Empleados
-var listaEmpleados = conexion.Empleados!.ToList();
-foreach (var elementoEmpleado in listaEmpleados)
-{
-    Console.WriteLine($"Id: {elementoEmpleado.Id}, " +
-                      $"Nombre: {elementoEmpleado.Nombre}, " +
-                      $"Cargo: {elementoEmpleado.Cargo}, " +
-                      $"Sueldo: {elementoEmpleado.Sueldo}, " +
-                      $"Fecha de Contratación: {elementoEmpleado.Fecha_contratacion}");
-}
-
-// Obtener y mostrar Envios
-var listaEnvios = conexion.Envios!.ToList();
-foreach (var elementoEnvio in listaEnvios)
-{
-    Console.WriteLine($"Id: {elementoEnvio.Id}, " +
-                      $"Estado: {elementoEnvio.Estado}, " +
-                      $"Dirección: {elementoEnvio.Direccion}, " +
-                      $"Transportadora: {elementoEnvio.Transportadora}, " +
-                      $"Empleado: {elementoEnvio.Empleado}");
-}
-
-// Obtener y mostrar Reservas
-var listaReservas = conexion.Reservas!.ToList();
-foreach (var elementoReserva in listaReservas)
-{
-    Console.WriteLine($"Id: {elementoReserva.Id}, " +
-                      $"Fecha de Reserva: {elementoReserva.Fecha_Reserva}, " +
-                      $"Estado: {elementoReserva.Estado}, " +
-                      $"Miembro: {elementoReserva.Id}, " +
-                      $"Pelicula: {elementoReserva.Pelicula}, " +
-                      $"Consola: {elementoReserva.Consola}, " +
-                      $"Empleado: {elementoReserva.Empleado}");
-}
-
-// Obtener y mostrar Peliculas
-var listaPeliculas = conexion.Peliculas!.ToList();
-foreach (var elementoPelicula in listaPeliculas)
-{
-    Console.WriteLine($"Id: {elementoPelicula.Id}, " +
-                      $"Nombre: {elementoPelicula.Nombre}, " +
-                      $"Género: {elementoPelicula.Genero}, " +
-                      $"Fecha de Estreno: {elementoPelicula.Fecha_estreno}, " +
-                      $"Estado: {elementoPelicula.Estado}");
-}
-
-// Obtener y mostrar Consolas
-var ListaConsolas = conexion.Consolas!.ToList();
-foreach (var elementoC in ListaConsolas)
-{
-    Console.WriteLine($"Id: {elementoC.Id}, " +
-                      $"Nombre: {elementoC.Tipo}, " +
-                      $"Género: {elementoC.Marca}, " +
-                      $"Fecha de Estreno: {elementoC.Estado}, " +
-                      $"Estado: {elementoC.Almacen}");
-}
-
-// Obtener y mostrar Snacks
-var listaSnacks = conexion.Snacks!.ToList();
-foreach (var elementoSnack in listaSnacks)
-{
-    Console.WriteLine($"Id: {elementoSnack.Id}, " +
-                      $"Nombre: {elementoSnack.Nombre}, " +
-                      $"Precio: {elementoSnack.Precio}, " +
-                      $"Stock: {elementoSnack.Stock}");
-}
-
-// Obtener y mostrar Reservas_Snacks
-var listaReservasSnacks = conexion.Reservas_Snacks!.ToList();
-foreach (var elementoReservaSnack in listaReservasSnacks)
-{
-    Console.WriteLine($"Id: {elementoReservaSnack.Id}, " +
-                      $"SnackId: {elementoReservaSnack.Snack}, " +
-                      $"Reserva: {elementoReservaSnack.Reserva}");
-}
         }
 
         /*public void ConexionInsert()
@@ -150,5 +54,86 @@ foreach (var elementoReservaSnack in listaReservasSnacks)
         public DbSet<Consolas>? Consolas { get; set; }
         public DbSet<Snacks>? Snacks { get; set; }
         public DbSet<Reservas_Snacks>? Reservas_Snacks { get; set; }
+        public DbSet<Auditoria>? Auditorias { get; set; }
+
+        public override int SaveChanges()
+        {
+            RegistrarCambiosAuditables();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            RegistrarCambiosAuditables();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void RegistrarCambiosAuditables()
+        {
+            var entradas = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added 
+                            || e.State == EntityState.Modified 
+                            || e.State == EntityState.Deleted)
+                .ToList();  // Materializar la lista primero
+
+            foreach (var entry in entradas)
+            {
+                var auditoria = new Auditoria
+                {
+                    Tabla = entry.Metadata.GetTableName() ?? entry.Entity.GetType().Name,
+                    Accion = entry.State.ToString(),
+                    Fecha = DateTime.UtcNow,
+                    Usuario = ObtenerUsuarioActual(),
+                    LlavePrimaria = ObtenerLlavePrimaria(entry),
+                    Cambios = ObtenerCambios(entry)
+                };
+
+                Auditorias.Add(auditoria);
+            }
+        }
+
+        private string ObtenerLlavePrimaria(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)
+        {
+            var llave = entry.Properties.FirstOrDefault(p => p.Metadata.IsPrimaryKey());
+            return llave?.CurrentValue?.ToString() ?? "";
+        }
+
+        private string ObtenerCambios(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)
+        {
+            var cambios = new List<string>();
+
+            if(entry.State == EntityState.Added)
+            {
+                foreach(var prop in entry.Properties)
+                {
+                    cambios.Add($"{prop.Metadata.Name} = {prop.CurrentValue}");
+                }
+            }
+            else if (entry.State == EntityState.Deleted)
+            {
+                foreach(var prop in entry.Properties)
+                {
+                    cambios.Add($"{prop.Metadata.Name} (original) = {prop .OriginalValue}");
+                }
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                foreach (var prop in entry.Properties)
+                {
+                    if (prop.IsModified)
+                    {
+                        cambios.Add($"{prop.Metadata.Name}: {prop.OriginalValue} => {prop.CurrentValue}");
+                    }
+                }
+            }
+
+            return string.Join("; ", cambios);
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            // Implementa la lógica para obtener el usuario actual si es necesario
+            return "usuario-sistema"; // Ejemplo placeholder
+        }
     }
 }

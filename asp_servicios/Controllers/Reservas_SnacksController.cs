@@ -1,4 +1,5 @@
 using asp_servicios.Nucleo;
+using lib_aplicaciones.Implementaciones;
 using lib_aplicaciones.Interfaces;
 using lib_dominio.Entidades;
 using lib_dominio.Nucleo;
@@ -8,12 +9,12 @@ namespace asp_servicios.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class AlmacenesController : ControllerBase
+    public class Reservas_SnacksController : ControllerBase
     {
-        private IAlmacenesAplicacion? iAplicacion = null;
+        private IReservasSnacksAplicacion? iAplicacion = null;
         private TokenController? tokenController = null;
 
-        public AlmacenesController(IAlmacenesAplicacion? iAplicacion,
+        public Reservas_SnacksController(IReservasSnacksAplicacion? iAplicacion,
             TokenController tokenController)
         {
             this.iAplicacion = iAplicacion;
@@ -58,7 +59,7 @@ namespace asp_servicios.Controllers
         }
 
         [HttpPost]
-        public string PorUbicacion()
+        public string PorReserva()
         {
             var respuesta = new Dictionary<string, object>();
             try
@@ -70,12 +71,10 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+                var entidad = JsonConversor.ConvertirAObjeto<Reservas_Snacks>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
-
                 this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
-                respuesta["Entidades"] = this.iAplicacion!.PorUbicacion(entidad);
-
+                respuesta["Entidades"] = this.iAplicacion!.PorReserva(entidad);
                 respuesta["Respuesta"] = "OK";
                 respuesta["Fecha"] = DateTime.Now.ToString();
                 return JsonConversor.ConvertirAString(respuesta);
@@ -102,7 +101,7 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+                var entidad = JsonConversor.ConvertirAObjeto<Reservas_Snacks>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
                 this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
@@ -133,7 +132,7 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+                var entidad = JsonConversor.ConvertirAObjeto<Reservas_Snacks>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
 
@@ -165,7 +164,7 @@ namespace asp_servicios.Controllers
                     return JsonConversor.ConvertirAString(respuesta);
                 }
 
-                var entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+                var entidad = JsonConversor.ConvertirAObjeto<Reservas_Snacks>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
 
                 this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 

@@ -7,9 +7,9 @@ GO
 
 CREATE TABLE Almacenes
 (
-    Id               INT PRIMARY KEY IDENTITY(1,1),
-    Ubicacion        NVARCHAR(100),
-    Capacidad        DECIMAL(18, 2)
+    Id        INT PRIMARY KEY IDENTITY(1,1),
+    Ubicacion NVARCHAR(100),
+    Capacidad DECIMAL(18, 2)
 );
 
 CREATE TABLE Miembros
@@ -19,7 +19,7 @@ CREATE TABLE Miembros
     Fecha_registro SMALLDATETIME,
     Nivel          NVARCHAR(50),
     Puntos         INT NOT NULL
-); 
+);
 
 CREATE TABLE Empleados
 (
@@ -35,26 +35,32 @@ CREATE TABLE Peliculas
     Id              INT PRIMARY KEY IDENTITY(1,1),
     Nombre          NVARCHAR(100),
     Genero          NVARCHAR(50),
-    Fecha_estreno   SMALLDATETIME,
-    Estado BIT NOT NULL
+    Fecha_Estreno   SMALLDATETIME,
+    Estado          BIT            NOT NULL,
+    Cantidad        INT            DEFAULT 0, --Atributo Agregado
+    Precio_unitario DECIMAL(10, 2) NOT NULL,  --Atributo Agregado
+    Total           DECIMAL(10, 2) DEFAULT 0  --Atributo Agregado
 );
 
 CREATE TABLE Snacks
 (
-    Id       INT PRIMARY KEY IDENTITY(1,1),
-    Nombre   NVARCHAR(100),
-    Precio   DECIMAL(10, 2),
-    Stock    INT
+    Id     INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100),
+    Precio DECIMAL(10, 2) NOT NULL,
+    Stock  INT
 );
 
 CREATE TABLE Consolas
 (
-    Id             INT PRIMARY KEY IDENTITY(1,1),
-    Tipo           NVARCHAR(100),
-    Marca          NVARCHAR(50),
-    Estado         INT NOT NULL,
-    Estado_string  NVARCHAR(50),
-    almacen        INT,
+    Id              INT PRIMARY KEY IDENTITY(1,1),
+    Tipo            NVARCHAR(100),
+    Marca           NVARCHAR(50),
+    Estado          INT            NOT NULL,
+    Estado_string   NVARCHAR(50),
+    Cantidad        INT            DEFAULT 0,--Atributo Agregado
+    Precio_unitario DECIMAL(10, 2) NOT NULL, --Atributo Agregado
+    Total           DECIMAL(10, 2) DEFAULT 0, -- Atributo Agregado
+    almacen         INT,
     FOREIGN KEY (almacen) REFERENCES Almacenes (Id)
 );
 
@@ -73,6 +79,8 @@ CREATE TABLE Reservas
     Id            INT PRIMARY KEY IDENTITY(1,1),
     Fecha_Reserva SMALLDATETIME,
     Estado        NVARCHAR(100) NULL,
+    Duracion      INT            DEFAULT 1, --Nuevo Atributo
+    Total         DECIMAL(10, 2) DEFAULT 0, --Nuevo Atributo
     Miembro       INT,
     Pelicula      INT,
     Consola       INT,
@@ -85,108 +93,121 @@ CREATE TABLE Reservas
 
 CREATE TABLE Reservas_Snacks
 (
-    Id                 INT PRIMARY KEY IDENTITY(1,1),
-    Snack              INT NOT NULL,
-    Reserva            INT NOT NULL,
+    Id       INT PRIMARY KEY IDENTITY(1,1),
+    Cantidad INT            DEFAULT 0, --Atributo Agregado
+    Total    DECIMAL(10, 2) DEFAULT 0,--Atributo Agregado
+    Snack    INT NOT NULL,
+    Reserva  INT NOT NULL,
     FOREIGN KEY (Snack) REFERENCES Snacks (Id),
     FOREIGN KEY (Reserva) REFERENCES Reservas (Id)
 );
 
--- Almacenes
+CREATE TABLE Auditorias
+(
+    Id            INT IDENTITY(1,1) PRIMARY KEY,       
+    Tabla         NVARCHAR(255) NOT NULL,
+    Accion        NVARCHAR(50) NOT NULL,        
+    LlavePrimaria NVARCHAR(255) NOT NULL,              
+    Cambios       NVARCHAR(MAX) NOT NULL,              
+    Fecha         DATETIME NOT NULL DEFAULT GETDATE(), 
+    Usuario       NVARCHAR(255) NULL                   
+);
+
+-- Insertar datos en la tabla Almacenes
 INSERT INTO Almacenes (Ubicacion, Capacidad)
-VALUES ('Bodega Central, Calle Principal 123', 1500.50),
-       ('Almacén Norte, Avenida Industrial 45', 2000.00),
-       ('Centro Logístico Sur, Carrera 78 #65-21', 3000.75),
-       ('Depósito Este, Zona Franca 12', 1800.25),
-       ('Bodega Occidental, Polígono Industrial 9', 2500.00),
-       ('Almacén Portuario, Muelle 4', 4000.50),
-       ('Centro Distribución Capital', 3500.00),
-       ('Bodega Tecnológica, Parque de Innovación', 2750.30);
+VALUES ('El Poblado', 5000.00),
+       ('Laureles', 3000.00),
+       ('Envigado', 4000.00),
+       ('Bello', 3500.00),
+       ('Sabaneta', 4500.00),
+       ('Itagüí', 6000.00),
+       ('Robledo', 7000.00),
+       ('Manrique', 2500.00);
 
--- Miembros
+-- Insertar datos en la tabla Miembros
 INSERT INTO Miembros (Nombre, Fecha_registro, Nivel, Puntos)
-VALUES ('Juan Pérez', '2023-01-15 09:00', 'Oro', 500),
-       ('María García', '2023-02-20 14:30', 'Plata', 250),
-       ('Pedro López', '2023-03-10 10:15', 'Bronce', 100),
-       ('Ana Martínez', '2023-04-05 16:45', 'Oro', 750),
-       ('Carlos Rodríguez', '2023-05-12 11:20', 'Plata', 300),
-       ('Laura Sánchez', '2023-06-18 08:00', 'Oro', 600),
-       ('Diego Fernández', '2023-07-22 13:10', 'Bronce', 150),
-       ('Sofía González', '2023-08-30 17:30', 'Plata', 400);
+VALUES ('Juan Pérez', '2023-01-15', 'Gold', 1500),
+       ('María Gómez', '2023-02-20', 'Silver', 800),
+       ('Carlos Rodríguez', '2023-03-10', 'Bronze', 300),
+       ('Ana Torres', '2023-04-05', 'Gold', 1200),
+       ('Luis Martínez', '2023-05-15', 'Silver', 600),
+       ('Sofía López', '2023-06-25', 'Bronze', 200),
+       ('Diego Fernández', '2023-07-30', 'Gold', 1800),
+       ('Valentina Ruiz', '2023-08-10', 'Silver', 900);
 
--- Empleados
+-- Insertar datos en la tabla Empleados
 INSERT INTO Empleados (Nombre, Cargo, Sueldo, Fecha_contratacion)
-VALUES ('Roberto Jiménez', 'Gerente', 4500.00, '2020-01-10 08:00'),
-       ('Mónica Vega', 'Asistente', 2500.50, '2021-05-15 09:30'),
-       ('Fernando Cruz', 'Técnico', 3000.00, '2022-03-20 07:45'),
-       ('Patricia Ruiz', 'Supervisor', 3800.75, '2019-11-05 10:00'),
-       ('Jorge Mendoza', 'Almacenista', 2800.00, '2023-02-28 08:15'),
-       ('Lucía Herrera', 'Atención al cliente', 2700.25, '2020-07-12 09:00'),
-       ('Ricardo Castro', 'Mantenimiento', 2900.50, '2021-09-01 07:30'),
-       ('Valeria Ortega', 'Logística', 3200.00, '2022-12-10 08:45');
+VALUES ('Andrés Martínez', 'Gerente', 3000.00, '2023-01-01'),
+       ('Laura Sánchez', 'Vendedor', 1500.00, '2023-01-10'),
+       ('Javier López', 'Repartidor', 1200.00, '2023-01-15'),
+       ('Claudia Jiménez', 'Asistente', 1000.00, '2023-01-20'),
+       ('Fernando Castro', 'Supervisor', 2500.00, '2023-01-25'),
+       ('Isabel Salazar', 'Cajera', 1100.00, '2023-02-01'),
+       ('Ricardo Gómez', 'Almacenero', 1300.00, '2023-02-05'),
+       ('Patricia Ríos', 'Atención al Cliente', 1400.00, '2023-02-10');
 
--- Peliculas
-INSERT INTO Peliculas (Nombre, Genero, Fecha_estreno, Estado)
-VALUES ('Viaje al Espacio', 'Ciencia Ficción', '2023-01-01 00:00', 1),
-       ('Risas Eternas', 'Comedia', '2023-02-14 00:00', 1),
-       ('Misterio en París', 'Suspenso', '2022-12-25 00:00', 0),
-       ('Aventuras Submarinas', 'Acción', '2023-03-08 00:00', 1),
-       ('Amor en Verona', 'Romance', '2023-04-20 00:00', 1),
-       ('Zombie Apocalypse', 'Terror', '2023-05-30 00:00', 0),
-       ('Héroes Galácticos', 'Animación', '2023-06-15 00:00', 1),
-       ('Drama Familiar', 'Drama', '2023-07-04 00:00', 1);
+-- Insertar datos en la tabla Peliculas
+INSERT INTO Peliculas (Nombre, Genero, Fecha_Estreno, Estado, Cantidad, Precio_unitario)
+VALUES ('La Venganza de los Nerds', 'Comedia', '2023-01-15', 1, 10, 15.00),
+       ('Rápidos y Furiosos 10', 'Acción', '2023-05-20', 1, 5, 20.00),
+       ('El Viaje de Chihiro', 'Animación', '2023-03-10', 1, 8, 10.00),
+       ('Avatar: El Camino del Agua', 'Ciencia Ficción', '2023-12-15', 1, 12, 25.00),
+       ('El Conjuro 4', 'Terror', '2023-07-20', 1, 7, 18.00),
+       ('La La Land', 'Musical', '2023-02-10', 1, 6, 12.00),
+       ('Spider-Man: No Way Home', 'Acción', '2023-04-05', 1, 9, 22.00),
+       ('Coco', 'Animación', '2023-08-30', 1, 11, 14.00);
 
--- Snacks
+-- Insertar datos en la tabla Snacks
 INSERT INTO Snacks (Nombre, Precio, Stock)
-VALUES ('Palomitas Grandes', 5.99, 200),
-       ('Refresco 500ml', 3.50, 300),
-       ('Nachos con Queso', 6.75, 150),
-       ('Chocolatina', 2.25, 500),
-       ('Agua Mineral', 2.00, 400),
-       ('Hot Dog', 4.99, 250),
-       ('Helado', 3.75, 180),
-       ('Mix de Dulces', 7.25, 120);
+VALUES ('Palomitas', 5.00, 100),
+       ('Gaseosa', 3.00, 50),
+       ('Chocoramo', 2.00, 75),
+       ('Nachos', 4.00, 60),
+       ('Perro Caliente', 6.00, 30),
+       ('Papas Fritas', 2.50, 80),
+       ('Agua Mineral', 1.50, 100),
+       ('Galletas', 3.50, 40);
 
--- Consolas
-INSERT INTO Consolas (Tipo, Marca, Estado, almacen)
-VALUES ('PlayStation 5', 'Sony', 1, 1),
-       ('Xbox Series X', 'Microsoft', 1, 2),
-       ('Nintendo Switch', 'Nintendo', 2, 3),
-       ('PC Gaming', 'Alienware', 1, 4),
-       ('PlayStation 4', 'Sony', 3, 5),
-       ('Xbox One', 'Microsoft', 1, 6),
-       ('Steam Deck', 'Valve', 2, 7),
-       ('Arcade Cabinet', 'Capcom', 4, 8);
+-- Insertar datos en la tabla Consolas
+INSERT INTO Consolas (Tipo, Marca, Estado, Estado_string, Cantidad, Precio_unitario, almacen)
+VALUES ('PlayStation 5', 'Sony', 1, 'Disponible ', 10, 2000.00, 1),
+       ('Xbox Series X', 'Microsoft', 1, 'Disponible', 8, 1800.00, 1),
+       ('Nintendo Switch', 'Nintendo', 1, 'Disponible', 15, 300.00, 2),
+       ('PlayStation 4', 'Sony', 1, 'Disponible', 12, 1500.00, 1),
+       ('Xbox One', 'Microsoft', 1, 'Disponible', 10, 1200.00, 1),
+       ('Sega Genesis', 'Sega', 1, 'Disponible', 5, 800.00, 2),
+       ('Atari 2600', 'Atari', 1, 'Disponible', 3, 600.00, 2),
+       ('Nintendo 64', 'Nintendo', 1, 'Disponible', 7, 900.00, 2);
 
--- Envios
+-- Insertar datos en la tabla Envios
 INSERT INTO Envios (Estado, Direccion, Transportadora, empleado)
-VALUES ('En tránsito', 'Calle 123 #45-67', 'DHL', 1),
-       ('Entregado', 'Avenida Principal 789', 'FedEx', 2),
-       ('En preparación', 'Carrera 56 #12-34', NULL, 3),
-       ('En camino', 'Diagonal 78B #9-10', 'Servientrega', 4),
-       ('Recibido en bodega', 'Transversal 23 #45-67', 'Interrapidísimo', 5),
-       ('Retrasado', 'Calle 90 #10-20', 'Coordinadora', 6),
-       ('Entregado', 'Avenida Norte 123-45', 'DHL', 7),
-       ('En tránsito', 'Carrera 11 #22-33', 'FedEx', 8);
+VALUES ('En camino', 'Calle 123 #45-67', 'Servientrega', 1),
+       ('Entregado', 'Carrera 89 #12-34', 'Coordinadora', 2),
+       ('Pendiente', 'Avenida 7 #89-10', NULL, 3),
+       ('En camino', 'Calle 45 #67-89', 'TCC', 4),
+       ('Entregado', 'Carrera 10 #11-12', 'Interrapidísimo', 5),
+       ('Pendiente', 'Avenida 50 #22-33', NULL, 6),
+       ('En camino', 'Calle 30 #44-55', 'Servientrega', 7),
+       ('Entregado', 'Carrera 20 #66-77', 'Coordinadora', 8);
 
--- Reservas
-INSERT INTO Reservas (Fecha_Reserva, Estado, Miembro, Pelicula, Consola, Empleado)
-VALUES ('2023-10-01 14:00', 'Activa', 1, 1, NULL, 1),
-       ('2023-10-02 16:30', 'Completada', 2, NULL, 2, 2),
-       ('2023-10-03 10:15', 'Pendiente', 3, 3, 3, 3),
-       ('2023-10-04 11:00', 'Cancelada', 4, 4, NULL, 4),
-       ('2023-10-05 09:45', 'Activa', 5, NULL, 5, 5),
-       ('2023-10-06 17:20', 'En proceso', 6, 6, 6, 6),
-       ('2023-10-07 15:30', 'Completada', 7, 7, NULL, 7),
-       ('2023-10-08 12:00', 'Activa', 8, NULL, 8, 8);
+-- Insertar datos en la tabla Reservas
+INSERT INTO Reservas (Fecha_Reserva, Estado, Duracion, Total, Miembro, Pelicula, Consola, Empleado)
+VALUES ('2023-09-01', 'Confirmada', 2, 0, 1, 1, 1, 1),
+       ('2023-09-02', 'Pendiente', 1, 0, 2, 2, 2, 2),
+       ('2023-09-03', 'Cancelada', 3, 0, 3, 3, 3, 3),
+       ('2023-09-04', 'Confirmada', 2, 0, 4, 4, 4, 4),
+       ('2023-09-05', 'Pendiente', 1, 0, 5, 5, 5, 5),
+       ('2023-09-06', 'Cancelada', 3, 0, 6, 6, 6, 6),
+       ('2023-09-07', 'Confirmada', 2, 0, 7, 7, 7, 7),
+       ('2023-09-08', 'Pendiente', 1, 0, 8, 8, 8, 8);
 
--- Reservas_Snacks
-INSERT INTO Reservas_Snacks (Snack, Reserva)
-VALUES (1, 1),
-       (2, 2),
-       (3, 3),
-       (4, 4),
-       (5, 5),
-       (6, 6),
-       (7, 7),
-       (8, 8);
+-- Insertar datos en la tabla Reservas_Snacks
+INSERT INTO Reservas_Snacks (Cantidad, Snack, Reserva)
+VALUES (2, 1, 1),
+       (1, 2, 2),
+       (3, 3, 3),
+       (2, 4, 4),
+       (1, 5, 5),
+       (3, 6, 6),
+       (2, 7, 7),
+       (1, 8, 8);

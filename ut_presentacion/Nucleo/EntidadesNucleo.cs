@@ -50,7 +50,6 @@ public class EntidadesNucleo
             entidad.Fecha_Reserva = DateTime.Now;
             entidad.Estado = "Confirmada";
             entidad.Duracion = 3; //Duracion En dias de una reserva
-            entidad.Total = (peliculas.Total + consolas.Total + ObtenerValorSnacks(iConexion, 4)) * entidad.Duracion;
             entidad.Miembro = miembro.Id;
             entidad.Pelicula = peliculas.Id;
             entidad.Consola = consolas.Id;
@@ -67,7 +66,6 @@ public class EntidadesNucleo
         entidad.Estado = true;
         entidad.Cantidad = 3;
         entidad.Precio_unitario = 17000.00m;
-        entidad.Total = entidad.Cantidad * entidad.Precio_unitario;
         return entidad;
     }
 
@@ -79,7 +77,6 @@ public class EntidadesNucleo
         entidad.Estado = 4;
         entidad.Cantidad = 2;
         entidad.Precio_unitario = 35000.00m;
-        entidad.Total = entidad.Cantidad * entidad.Precio_unitario;
         entidad.Almacen = almacen.Id;
         return entidad;
     }
@@ -97,7 +94,6 @@ public class EntidadesNucleo
     {
         var entidad = new Reservas_Snacks();
         entidad.Cantidad = 3;
-        entidad.Total = snacks.Precio * entidad.Cantidad;
         entidad.Snack = snacks.Id;
         entidad.Reserva = reservas.Id;
         return entidad;

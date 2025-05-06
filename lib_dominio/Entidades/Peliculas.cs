@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace lib_dominio.Entidades
 {
@@ -15,8 +11,8 @@ namespace lib_dominio.Entidades
         public string? Genero { get; set; }
         public DateTime Fecha_estreno { get; set; }
         public bool Estado { get; set; }
-        public int Cantidad { get; set; } //Agregado Recientemente
-        public decimal Precio_unitario { get; set; } //Agregado Recientemente
-        public decimal? Total { get; set; } //Agregado Recientemente
+        public int Cantidad { get; set; } // Agregado Recientemente
+        public decimal Precio_unitario { get; set; } // Agregado Recientemente
+        public decimal Total => Cantidad * Precio_unitario;
     }
 }

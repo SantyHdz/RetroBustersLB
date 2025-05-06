@@ -15,7 +15,7 @@ namespace lib_dominio.Entidades
         public DateTime Fecha_Reserva { get; set; }
         public string? Estado { get; set; }
         public int Duracion { get; set; }
-        public decimal? Total { get; set; }
+        public decimal Total => ((_Pelicula?.Precio_unitario?? 0) + (_Consola?.Precio_unitario ?? 0)) * Duracion;
         public int Miembro { get; set; }
         public int? Pelicula { get; set; }
         public int? Consola { get; set; }

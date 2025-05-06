@@ -36,7 +36,6 @@ public class PeliculasAplicacion : IPeliculasAplicacion
         this.IConexion.SaveChanges();
         return entidad;
     }
-
     public List<Peliculas> Listar()
     {
         return this.IConexion!.Peliculas!.Take(20).ToList();

@@ -18,7 +18,7 @@ namespace lib_dominio.Entidades
         public string? Estado_string { get; set; }
         public int Cantidad { get; set; } //Agregado Recientemente
         public decimal Precio_unitario { get; set; } //Agregado Recientemente
-        public decimal? Total { get; set; } //Agregado Recientemente
+        public decimal Total => Cantidad * Precio_unitario;
         public int Almacen { get; set; }
         [ForeignKey("Almacen")] public Almacenes? _Almacen { get; set; }
     }
