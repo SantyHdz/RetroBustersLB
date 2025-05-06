@@ -5,7 +5,7 @@ namespace lib_repositorios.Implementaciones;
 
 public class ConexionEF3
     {
-        private string string_conexion = "server=LAPTOP-R3B9KMB6\\DEV;database=RetroBusters;Integrated Security=True;TrustServerCertificate=true;";
+        private string string_conexion = "server=SANTY\\SQLEXPRESS;database=RetroBusters;Integrated Security=True;TrustServerCertificate=true;";
         // server=localhost;database=db_instrumentos;uid=sa;pwd=Clas3sPrO2024_!;TrustServerCertificate=true;
         // server=localhost;database=db_instrumentos;Integrated Security=True;TrustServerCertificate=true;
 
