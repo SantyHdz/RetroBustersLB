@@ -1,7 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace lib_dominio.Entidades
 {
     public class Auditoria
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Tabla { get; set; } = null!;
         public string Accion { get; set; } = null!; // e.g. Added, Modified, Deleted

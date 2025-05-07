@@ -94,9 +94,14 @@ public class ConexionEF3
 
         private string ObtenerLlavePrimaria(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)
         {
+            if (entry.State == EntityState.Added)
+            {
+                return "N/A";
+            }
             var llave = entry.Properties.FirstOrDefault(p => p.Metadata.IsPrimaryKey());
             return llave?.CurrentValue?.ToString() ?? "";
         }
+
 
         private string ObtenerCambios(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)
         {
