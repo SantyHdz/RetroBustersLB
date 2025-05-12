@@ -1,0 +1,168 @@
+@page
+@model asp_presentacion.Pages.Ventanas.AlmacenesModel
+@{
+    ViewData["Titulo"] = "";
+}
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>Almacenes</h3>
+            </div>
+            <div align="left"
+                 class="bt_panel_buttons">
+                <input type="submit"
+                       value="Refrescar"
+                       asp-page-handler="BtRefrescar"
+                       class="btn btn-secondary"
+                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)"/>
+                <input type="submit"
+                       value="Nuevo"
+                       asp-page-handler="BtNuevo"
+                       class="btn btn-secondary"
+                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)"/>
+                <input type="submit"
+                       value="Guardar"
+                       asp-page-handler="BtGuardar"
+                       class="btn btn-secondary"
+                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)"/>
+                <input type="submit"
+                       value="Cancelar"
+                       asp-page-handler="BtCancelar"
+                       class="btn btn-secondary"
+                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)"/>
+            </div>
+
+            @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input type="hidden"
+                       asp-for="@Model.Actual!.Id"/>
+            }
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+            {
+                <div class="containers_vn panel panel-default">
+                    <h3>Editar Almacén</h3>
+
+                    <div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                Ubicación
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmUbicacion"
+                                       class="cts_forms form-control"
+                                       asp-for="@Model.Actual!.Ubicacion"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                Capacidad
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmCapacidad"
+                                       type="number"
+                                       step="0.01"
+                                       class="cts_forms form-control"
+                                       asp-for="@Model.Actual!.Capacidad"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                <input type="hidden"
+                       asp-for="@Model.Accion"/>
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+            }
+
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <div class='popup'>
+                    <div class='pp_del_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h4 align="left">
+                                ¿Desea borrar este almacén?
+                            </h4>
+                            <h6 align="left">
+                                Ubicación: @Model.Actual!.Ubicacion
+                            </h6>
+                            <br/>
+                            <br/>
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary"/>
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCancelar"
+                                   class="btn btn-secondary"/>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input id="flUbicacion"
+                       class="cts_forms form-control"
+                       asp-for="@Model.Filtro!.Ubicacion"
+                       placeholder="Ubicación"/>
+                <br/>
+
+                <div class="containers_vn panel panel-default">
+
+                    <table class="tb_data table table-striped table-bordered table-hover">
+                        <tr>
+                            <th>
+                                Ubicación
+                            </th>
+                            <th>
+                                Capacidad
+                            </th>
+                            <th class="cl_actions">
+                                Acción
+                            </th>
+                        </tr>
+                        @if (Model != null && Model.Lista != null)
+                        {
+                            @foreach (var elemento in Model.Lista)
+                            {
+                                <tr>
+                                    <td>
+                                        @elemento.Ubicacion
+                                    </td>
+                                    <td>
+                                        @elemento.Capacidad
+                                    </td>
+                                    <td>
+                                        <input type="submit"
+                                               value="Modificar"
+                                               asp-page-handler="BtModificar"
+                                               class="btn btn-secondary"
+                                               asp-route-data="@elemento.Id"/>
+                                        <input type="submit"
+                                               value="Borrar"
+                                               asp-page-handler="BtBorrarVal"
+                                               class="btn btn-secondary"
+                                               asp-route-data="@elemento.Id"/>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        </form>
+    </div>
+</center>
