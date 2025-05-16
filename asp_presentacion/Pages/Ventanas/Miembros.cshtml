@@ -12,11 +12,11 @@
         </div>
 
         <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
-            <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-secondary"
+            <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-secondary"
+            <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-secondary"
+            <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
             <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
@@ -35,30 +35,30 @@
                 <h4>Detalles del Miembro</h4>
 
                 <div class="mb-3 row">
-                    <label for="nmNombre" class="col-sm-3 col-form-label">Nombre</label>
+                    <label class="col-sm-3 col-form-label">Nombre</label>
                     <div class="col-sm-9">
-                        <input id="nmNombre" class="cts_forms form-control" asp-for="@Model.Actual!.Nombre" />
+                        <input class="form-control" asp-for="@Model.Actual!.Nombre" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmFechaRegistro" class="col-sm-3 col-form-label">Fecha de Registro</label>
+                    <label class="col-sm-3 col-form-label">Fecha de Registro</label>
                     <div class="col-sm-9">
-                        <input id="nmFechaRegistro" type="date" class="cts_forms form-control" asp-for="@Model.Actual!.Fecha_registro" />
+                        <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_registro" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmNivel" class="col-sm-3 col-form-label">Nivel</label>
+                    <label class="col-sm-3 col-form-label">Nivel</label>
                     <div class="col-sm-9">
-                        <input id="nmNivel" class="cts_forms form-control" asp-for="@Model.Actual!.Nivel" />
+                        <input class="form-control" asp-for="@Model.Actual!.Nivel" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmPuntos" class="col-sm-3 col-form-label">Puntos</label>
+                    <label class="col-sm-3 col-form-label">Puntos</label>
                     <div class="col-sm-9">
-                        <input id="nmPuntos" type="number" min="0" class="cts_forms form-control" asp-for="@Model.Actual!.Puntos" />
+                        <input type="number" min="0" class="form-control" asp-for="@Model.Actual!.Puntos" />
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                         <h4 class="text-start">¿Desea borrar este miembro?</h4>
                         <h6 class="text-start">@Model.Actual!.Nombre</h6>
                         <br /><br />
-                        <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-secondary" />
+                        <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
                         <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
                     </div>
                 </div>
@@ -91,7 +91,7 @@
         @* Vista lista para listar y filtrar *@
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
         {
-            <input id="flNombre" class="cts_forms form-control mb-3" asp-for="@Model.Filtro!.Nombre" placeholder="Filtrar por Nombre" />
+            <input class="form-control mb-3" asp-for="@Model.Filtro!.Nombre" placeholder="Filtrar por Nombre" />
 
             <div class="containers_vn panel panel-default">
                 <table class="tb_data table table-striped table-bordered table-hover align-middle">
@@ -115,8 +115,8 @@
                                 <td>@miembro.Nivel</td>
                                 <td>@miembro.Puntos</td>
                                 <td>
-                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-secondary btn-sm me-1" asp-route-data="@miembro.Id" />
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-secondary btn-sm" asp-route-data="@miembro.Id" />
+                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@miembro.Id" />
+                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@miembro.Id" />
                                 </td>
                             </tr>
                         }

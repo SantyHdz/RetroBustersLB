@@ -1,5 +1,5 @@
 @page
-@model asp_presentacion.Pages.Ventanas.AlmacenesModel
+@model asp_presentacion.Pages.Ventanas.EmpleadosModel
 @{
     ViewData["Titulo"] = "";
 }
@@ -8,7 +8,7 @@
         @Html.AntiForgeryToken()
 
         <div class="text-start mb-3">
-            <h3>Almacenes</h3>
+            <h3>Empleados</h3>
         </div>
 
         <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
@@ -27,28 +27,36 @@
             <input type="hidden" asp-for="@Model.Actual!.Id" />
         }
 
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <input type="hidden" asp-for="@Model.Actual!.Capacidad" />
-            <input type="hidden" asp-for="@Model.Actual!.Ubicacion" />
-        }
-
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
         {
             <div class="containers_vn panel panel-default p-3">
-                <h4>Datos del Almacén</h4>
+                <h4>Detalles del Empleado</h4>
 
                 <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Capacidad</label>
+                    <label class="col-sm-3 col-form-label">Nombre</label>
                     <div class="col-sm-9">
-                        <input class="form-control" asp-for="@Model.Actual!.Capacidad" />
+                        <input class="form-control" asp-for="@Model.Actual!.Nombre" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Ubicación</label>
+                    <label class="col-sm-3 col-form-label">Cargo</label>
                     <div class="col-sm-9">
-                        <input class="form-control" asp-for="@Model.Actual!.Ubicacion" />
+                        <input class="form-control" asp-for="@Model.Actual!.Cargo" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Sueldo</label>
+                    <div class="col-sm-9">
+                        <input type="number" min="0" step="0.01" class="form-control" asp-for="@Model.Actual!.Sueldo" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Fecha de Contratación</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_contratacion" />
                     </div>
                 </div>
             </div>
@@ -66,8 +74,8 @@
                 <div class="pp_del_inner">
                     <div style="width:95%">
                         <h2 class="text-start">Mensaje</h2>
-                        <h4 class="text-start">¿Desea borrar la entidad?</h4>
-                        <h6 class="text-start">@Model.Actual!.Capacidad, @Model.Actual!.Ubicacion</h6>
+                        <h4 class="text-start">¿Desea borrar este empleado?</h4>
+                        <h6 class="text-start">@Model.Actual.Nombre, @Model.Actual.Cargo</h6>
                         <br /><br />
                         <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
                         <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
@@ -78,28 +86,32 @@
 
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
         {
-            <input class="form-control mb-3" asp-for="@Model.Filtro!.Ubicacion" placeholder="Filtrar por Ubicación" />
+            <input class="form-control mb-3" asp-for="@Model.Filtro!.Nombre" placeholder="Filtrar por Nombre" />
 
             <div class="containers_vn panel panel-default">
                 <table class="tb_data table table-striped table-bordered table-hover align-middle">
                     <thead>
                     <tr>
-                        <th>Capacidad</th>
-                        <th>Ubicación</th>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>Sueldo</th>
+                        <th>Fecha de Contratación</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if (Model != null && Model.Lista != null)
+                    @if (Model.Lista != null)
                     {
-                        @foreach (var elemento in Model.Lista)
+                        @foreach (var emp in Model.Lista)
                         {
                             <tr>
-                                <td>@elemento.Capacidad</td>
-                                <td>@elemento.Ubicacion</td>
+                                <td>@emp.Nombre</td>
+                                <td>@emp.Cargo</td>
+                                <td>@emp.Sueldo.ToString("C")</td>
+                                <td>@emp.Fecha_contratacion.ToShortDateString()</td>
                                 <td>
-                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
+                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@emp.Id" />
+                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@emp.Id" />
                                 </td>
                             </tr>
                         }
