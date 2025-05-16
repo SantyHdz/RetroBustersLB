@@ -49,7 +49,10 @@ public class ConsolasAplicacion : IConsolasAplicacion
 
     public List<Consolas> Listar()
     {
-        return this.IConexion!.Consolas!.Take(20).ToList();
+        return this.IConexion!.Consolas!
+            .Take(20)
+            .Include(x => x._Almacen)
+            .ToList();
     }
 
     public List<Consolas> PorTipo(Consolas? entidad)
