@@ -1,14 +1,14 @@
 @page
-@model asp_presentacion.Pages.Ventanas.ConsolasModel
+@model asp_presentacion.Pages.Ventanas.PeliculasModel
 @{
-    ViewData["Titulo"] = "";
+    ViewData["Titulo"] = "Películas";
 }
 <div class="text-center">
     <form method="POST" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 
         <div class="text-start mb-3">
-            <h3>Consolas</h3>
+            <h3>Películas</h3>
         </div>
 
         <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
@@ -22,7 +22,6 @@
                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
         </div>
 
-        @* Campos ocultos para editar/borrar *@
         @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
         {
             <input type="hidden" asp-for="@Model.Actual!.Id" />
@@ -30,88 +29,74 @@
 
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
         {
-            <input type="hidden" asp-for="@Model.Actual!.Tipo" />
-            <input type="hidden" asp-for="@Model.Actual!.Marca" />
+            <input type="hidden" asp-for="@Model.Actual!.Nombre" />
+            <input type="hidden" asp-for="@Model.Actual!.Genero" />
         }
 
-        @* Formulario para editar o crear *@
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
         {
             <div class="containers_vn panel panel-default p-3">
-                <h4>Detalles de la Consola</h4>
+                <h4>Datos de la Película</h4>
 
                 <div class="mb-3 row">
-                    <label for="nmTipo" class="col-sm-3 col-form-label">Tipo</label>
+                    <label class="col-sm-3 col-form-label">Nombre</label>
                     <div class="col-sm-9">
-                        <input id="nmTipo" class="form-control" asp-for="@Model.Actual!.Tipo" />
+                        <input class="form-control" asp-for="@Model.Actual!.Nombre" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmMarca" class="col-sm-3 col-form-label">Marca</label>
+                    <label class="col-sm-3 col-form-label">Género</label>
                     <div class="col-sm-9">
-                        <input id="nmMarca" class="form-control" asp-for="@Model.Actual!.Marca" />
+                        <input class="form-control" asp-for="@Model.Actual!.Genero" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
+                    <label class="col-sm-3 col-form-label">Fecha de Estreno</label>
                     <div class="col-sm-9">
-                        <select id="nmEstado" class="form-select" asp-for="@Model.Actual!.Estado">
-                            <option value="0" selected="@((Model.Actual.Estado == 0))">Nuevo</option>
-                            <option value="1" selected="@((Model.Actual.Estado == 1))">Usado</option>
-                            <option value="2" selected="@((Model.Actual.Estado == 2))">Reparación</option>
-                        </select>
+                        <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_estreno" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmCantidad" class="col-sm-3 col-form-label">Cantidad</label>
+                    <label class="col-sm-3 col-form-label">Cantidad</label>
                     <div class="col-sm-9">
-                        <input type="number" min="0" id="nmCantidad" class="form-control" asp-for="@Model.Actual!.Cantidad" />
+                        <input class="form-control" type="number" asp-for="@Model.Actual!.Cantidad" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="nmPrecio" class="col-sm-3 col-form-label">Precio Unitario</label>
+                    <label class="col-sm-3 col-form-label">Precio Unitario</label>
                     <div class="col-sm-9">
-                        <input type="number" min="0" step="0.01" id="nmPrecio" class="form-control" asp-for="@Model.Actual!.Precio_unitario" />
+                        <input class="form-control" type="number" step="0.01" asp-for="@Model.Actual!.Precio_unitario" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Total</label>
+                    <label class="col-sm-3 col-form-label">Estado</label>
                     <div class="col-sm-9">
-                        <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="nmAlmacen" class="col-sm-3 col-form-label">Almacén</label>
-                    <div class="col-sm-9">
-                        <select id="nmAlmacen" class="form-select" asp-for="@Model.Actual!.Almacen" asp-items="@(new SelectList(Model.Almacenes, "Id", "Ubicacion"))">
-                        </select>
+                        <input class="form-check-input" type="checkbox" asp-for="@Model.Actual!.Estado" />
+                        <label class="form-check-label ms-2">Disponible</label>
                     </div>
                 </div>
             </div>
         }
 
-        @* Mensajes emergentes (si hay) *@
         @if (ViewData.ContainsKey("Mensaje"))
         {
             <input type="hidden" asp-for="@Model.Accion" />
             @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
         }
 
-        @* Confirmación para borrar *@
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
         {
             <div class="popup">
                 <div class="pp_del_inner">
                     <div style="width:95%">
                         <h2 class="text-start">Mensaje</h2>
-                        <h4 class="text-start">¿Desea borrar esta consola?</h4>
-                        <h6 class="text-start">@Model.Actual.Tipo, @Model.Actual.Marca</h6>
+                        <h4 class="text-start">¿Desea borrar la película?</h4>
+                        <h6 class="text-start">@Model.Actual!.Nombre, @Model.Actual!.Genero</h6>
                         <br /><br />
                         <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
                         <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
@@ -120,41 +105,40 @@
             </div>
         }
 
-        @* Vista lista para listar y filtrar *@
         @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
         {
-            <input class="form-control mb-3" asp-for="@Model.Filtro!.Tipo" placeholder="Filtrar por Tipo" />
+            <input class="form-control mb-3" asp-for="@Model.Filtro!.Nombre" placeholder="Filtrar por Nombre" />
 
             <div class="containers_vn panel panel-default">
                 <table class="tb_data table table-striped table-bordered table-hover align-middle">
                     <thead>
                     <tr>
-                        <th>Tipo</th>
-                        <th>Marca</th>
+                        <th>Nombre</th>
+                        <th>Género</th>
+                        <th>Estreno</th>
                         <th>Estado</th>
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
                         <th>Total</th>
-                        <th>Almacén</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if (Model.Lista != null)
+                    @if (Model != null && Model.Lista != null)
                     {
-                        @foreach (var consola in Model.Lista)
+                        @foreach (var elemento in Model.Lista)
                         {
                             <tr>
-                                <td>@consola.Tipo</td>
-                                <td>@consola.Marca</td>
-                                <td>@consola.Estado_string</td>
-                                <td>@consola.Cantidad</td>
-                                <td>@consola.Precio_unitario.ToString("C")</td>
-                                <td>@consola.Total.ToString("C")</td>
-                                <td>@consola._Almacen.Ubicacion</td>
+                                <td>@elemento.Nombre</td>
+                                <td>@elemento.Genero</td>
+                                <td>@elemento.Fecha_estreno.ToString("yyyy-MM-dd")</td>
+                                <td>@(elemento.Estado ? "Activo" : "Inactivo")</td>
+                                <td>@elemento.Cantidad</td>
+                                <td>@elemento.Precio_unitario.ToString("C")</td>
+                                <td>@elemento.Total.ToString("C")</td>
                                 <td>
-                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@consola.Id" />
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@consola.Id" />
+                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
+                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
                                 </td>
                             </tr>
                         }

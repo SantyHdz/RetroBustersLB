@@ -58,6 +58,7 @@ public class ConsolasAplicacion : IConsolasAplicacion
     public List<Consolas> PorTipo(Consolas? entidad)
     {
         return this.IConexion!.Consolas!
+            .Include(x => x._Almacen)
             .Where(x => x.Tipo!.Contains(entidad!.Tipo!))
             .ToList();
     }

@@ -6,19 +6,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace asp_presentacion.Pages.Ventanas
 {
-    public class ConsolasModel : PageModel
+    public class PeliculasModel : PageModel
     {
-        private IConsolasPresentacion? iPresentacion = null;
-        private IAlmacenesPresentacion? iAlmacenesPresentacion = null;
+        private IPeliculasPresentacion? iPresentacion = null;
 
-        public ConsolasModel(IConsolasPresentacion iPresentacion,
-            IAlmacenesPresentacion iAlmacenesPresentacion)
+        public PeliculasModel(IPeliculasPresentacion iPresentacion)
         {
             try
             {
                 this.iPresentacion = iPresentacion;
-                this.iAlmacenesPresentacion = iAlmacenesPresentacion;
-                Filtro = new Consolas();
+                Filtro = new Peliculas();
             } 
             catch (Exception ex)
             {
@@ -28,10 +25,9 @@ namespace asp_presentacion.Pages.Ventanas
 
         public IFormFile? FormFile { get; set; }
         [BindProperty] public Enumerables.Ventanas Accion { get; set; }
-        [BindProperty] public Consolas? Actual { get; set; }
-        [BindProperty] public Consolas? Filtro { get; set; }
-        [BindProperty] public List<Consolas>? Lista { get; set; }
-        [BindProperty] public List<Almacenes>? Almacenes { get; set; }
+        [BindProperty] public Peliculas? Actual { get; set; }
+        [BindProperty] public Peliculas? Filtro { get; set; }
+        [BindProperty] public List<Peliculas>? Lista { get; set; }
 
         public virtual void OnGet() { OnPostBtRefrescar(); }
 
@@ -46,27 +42,13 @@ namespace asp_presentacion.Pages.Ventanas
                 //    return;
                 //}
 
-                Filtro!.Tipo = Filtro!.Tipo ?? "";
+                Filtro!.Nombre = Filtro!.Nombre ?? "";
 
                 Accion = Enumerables.Ventanas.Listas;
-                var task = this.iPresentacion!.PorTipo(Filtro!);
+                var task = this.iPresentacion!.PorNombre(Filtro!);
                 task.Wait();
                 Lista = task.Result;
                 Actual = null;
-            }
-            catch (Exception ex)
-            {
-                LogConversor.Log(ex, ViewData!);
-            }
-        }
-        
-        private void CargarCombox()
-        {
-            try
-            {
-                var task = this.iAlmacenesPresentacion!.Listar();
-                task.Wait();
-                Almacenes = task.Result;
             }
             catch (Exception ex)
             {
@@ -79,8 +61,7 @@ namespace asp_presentacion.Pages.Ventanas
             try
             {
                 Accion = Enumerables.Ventanas.Editar;
-                Actual = new Consolas();
-                CargarCombox();
+                Actual = new Peliculas();
             }
             catch (Exception ex)
             {
@@ -93,7 +74,6 @@ namespace asp_presentacion.Pages.Ventanas
             try
             {
                 OnPostBtRefrescar();
-                CargarCombox();
                 Accion = Enumerables.Ventanas.Editar;
                 Actual = Lista!.FirstOrDefault(x => x.Id.ToString() == data);
             }
@@ -109,7 +89,7 @@ namespace asp_presentacion.Pages.Ventanas
             {
                 Accion = Enumerables.Ventanas.Editar;
 
-                Task<Consolas>? task = null;
+                Task<Peliculas>? task = null;
                 if (Actual!.Id == 0)
                     task = this.iPresentacion!.Guardar(Actual!)!;
                 else

@@ -19,6 +19,7 @@ namespace asp_presentacion
             services.AddScoped<IConsolasPresentacion, ConsolasPresentacion>();
             services.AddScoped<IMiembrosPresentacion, MiembrosPresentacion>();
             services.AddScoped<IEmpleadosPresentacion, EmpleadosPresentacion>();
+            services.AddScoped<IPeliculasPresentacion, PeliculasPresentacion>();
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
