@@ -49,12 +49,16 @@ public class EnviosAplicacion : IEnviosAplicacion
 
     public List<Envios> Listar()
     {
-        return this.IConexion!.Envios!.Take(20).ToList();
+        return this.IConexion!.Envios!
+            .Take(20)
+            .Include(x => x._Empleado)
+            .ToList();
     }
 
     public List<Envios> PorEstado(Envios? entidad)
     {
         return this.IConexion!.Envios!
+            .Include(x => x._Empleado)
             .Where(x => x.Estado!.Contains(entidad!.Estado!))
             .ToList();
     }
