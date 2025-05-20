@@ -22,6 +22,8 @@ namespace asp_presentacion
             services.AddScoped<IPeliculasPresentacion, PeliculasPresentacion>();
             services.AddScoped<ISnacksPresentacion, SnacksPresentacion>();
             services.AddScoped<IEnviosPresentacion, EnviosPresentacion>();
+            services.AddScoped<IReservasPresentacion, ReservasPresentacion>();
+            services.AddScoped<IReservas_SnacksPresentacion, Reservas_SnacksPresentacion>();
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();

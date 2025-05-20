@@ -113,20 +113,60 @@ CREATE TABLE Auditorias
     Usuario       NVARCHAR(255) NULL
 );
 
-USE
-RetroBusters;
-GO
+-- Tabla de Usuarios
+CREATE TABLE Usuarios
+(
+    Id        INT PRIMARY KEY IDENTITY(1,1),
+    Nombre    NVARCHAR(100) NOT NULL,
+    Correo    NVARCHAR(100) NOT NULL,
+    Direccion NVARCHAR(200)
+);
+
+-- Tabla de Roles
+CREATE TABLE Roles
+(
+    Id     INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(50) NOT NULL
+);
+
+-- Tabla de Permisos
+CREATE TABLE Permisos
+(
+    Id     INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL
+);
+
+-- Relación Usuario ↔ Rol (Muchos a Muchos)
+CREATE TABLE Usuario_Roles
+(
+    UsuarioId INT NOT NULL,
+    RolId     INT NOT NULL,
+    PRIMARY KEY (UsuarioId, RolId),
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios (Id) ON DELETE CASCADE,
+    FOREIGN KEY (RolId) REFERENCES Roles (Id) ON DELETE CASCADE
+);
+
+-- Relación Rol ↔ Permiso (Muchos a Muchos)
+CREATE TABLE Rol_Permisos
+(
+    RolId     INT NOT NULL,
+    PermisoId INT NOT NULL,
+    PRIMARY KEY (RolId, PermisoId),
+    FOREIGN KEY (RolId) REFERENCES Roles (Id) ON DELETE CASCADE,
+    FOREIGN KEY (PermisoId) REFERENCES Permisos (Id) ON DELETE CASCADE
+);
+
 
 -- Almacenes
-INSERT INTO Almacenes (Ubicacion, Capacidad) VALUES
-('Bogotá - Centro', 500.00),
-('Medellín - Laureles', 300.00),
-('Cali - San Fernando', 400.00),
-('Barranquilla - Norte', 350.00),
-('Cartagena - Getsemaní', 250.00),
-('Bucaramanga - Cabecera', 280.00),
-('Pereira - Cuba', 320.00),
-('Manizales - Chipre', 270.00);
+INSERT INTO Almacenes (Ubicacion, Capacidad)
+VALUES ('Bogotá - Centro', 500.00),
+       ('Medellín - Laureles', 300.00),
+       ('Cali - San Fernando', 400.00),
+       ('Barranquilla - Norte', 350.00),
+       ('Cartagena - Getsemaní', 250.00),
+       ('Bucaramanga - Cabecera', 280.00),
+       ('Pereira - Cuba', 320.00),
+       ('Manizales - Chipre', 270.00);
 
 -- Miembros
 INSERT INTO Miembros (Nombre, Fecha_registro, Nivel, Puntos)
@@ -175,35 +215,35 @@ VALUES ('Palomitas Grandes', 8000.00, 50),
 -- Consolas
 INSERT INTO Consolas (Tipo, Marca, Estado, Estado_string, Cantidad, Precio_unitario, almacen)
 VALUES ('PlayStation 5', 'Sony', 1, 'Disponible ', 10, 20000.00, 1),
-       ('Xbox Series X', 'Microsoft', 1, 'Disponible', 8, 18000.00, 1),
-       ('Nintendo Switch', 'Nintendo', 1, 'Disponible', 15, 30000.00, 2),
-       ('PlayStation 4', 'Sony', 1, 'Disponible', 12, 15000.00, 1),
-       ('Xbox One', 'Microsoft', 1, 'Disponible', 10, 12000.00, 1),
+       ('Xbox Series X', 'Microsoft', 2, 'Disponible', 8, 18000.00, 1),
+       ('Nintendo Switch', 'Nintendo', 3, 'Disponible', 15, 30000.00, 2),
+       ('PlayStation 4', 'Sony', 2, 'Disponible', 12, 15000.00, 1),
+       ('Xbox One', 'Microsoft', 3, 'Disponible', 10, 12000.00, 1),
        ('Sega Genesis', 'Sega', 1, 'Disponible', 5, 8000.00, 2),
-       ('Atari 2600', 'Atari', 1, 'Disponible', 3, 6000.00, 2),
-       ('Nintendo 64', 'Nintendo', 1, 'Disponible', 7, 9000.00, 2);
+       ('Atari 2600', 'Atari', 3, 'Disponible', 3, 6000.00, 2),
+       ('Nintendo 64', 'Nintendo', 2, 'Disponible', 7, 9000.00, 2);
 
 
 -- Envios (8)
 INSERT INTO Envios (Estado, Direccion, Transportadora, empleado)
 VALUES ('En tránsito', 'Calle 45 # 12-34, Bogotá', 'Servientrega', 1),
        ('Entregado', 'Av. El Poblado # 23-45, Medellín', 'Deprisa', 2),
-       ('Pendiente', 'Calle 5 # 67-89, Cali', NULL, 3),
+       ('Pendiente', 'Calle 5 # 67-89, Cali', 'Fedex', 3),
        ('En tránsito', 'Carrera 7 # 50-60, Barranquilla', 'Envía', 4),
        ('Entregado', 'Calle 10 # 30-40, Cartagena', 'Servientrega', 5),
        ('Pendiente', 'Av. 9 # 70-80, Bucaramanga', 'Deprisa', 6),
        ('En tránsito', 'Carrera 21 # 15-25, Pereira', 'Envía', 7),
-       ('Entregado', 'Calle 23 # 45-55, Manizales', NULL, 8);
+       ('Entregado', 'Calle 23 # 45-55, Manizales', 'Global Transportadora', 8);
 
 -- Reservas (8) con IDs variados en las claves foráneas (Miembro, Pelicula, Consola, Empleado)
 INSERT INTO Reservas (Fecha_Reserva, Estado, Duracion, Total, Miembro, Pelicula, Consola, Empleado)
-VALUES ('2024-05-01', 'Confirmada', 3, 36000.00, 1, 3, 2, 4),
-       ('2024-05-02', 'Pendiente', 1, 15000.00, 3, 2, 4, 1),
+VALUES ('2024-05-01', 'Confirmada', 3, 36000.00, 1, 3, null, 4),
+       ('2024-05-02', 'Pendiente', 1, 15000.00, 3, null, 4, 1),
        ('2024-05-03', 'Cancelada', 2, 0.00, 2, 4, 1, 3),
        ('2024-05-04', 'Confirmada', 4, 80000.00, 4, 1, 3, 2),
        ('2024-05-05', 'Confirmada', 1, 20000.00, 5, 5, 5, 6),
-       ('2024-05-06', 'Pendiente', 2, 30000.00, 6, 6, 6, 7),
-       ('2024-05-07', 'Confirmada', 3, 45000.00, 7, 7, 7, 8),
+       ('2024-05-06', 'Pendiente', 2, 30000.00, 6, 6, null, 7),
+       ('2024-05-07', 'Confirmada', 3, 45000.00, 2, 7, 7, 8),
        ('2024-05-08', 'Cancelada', 1, 0.00, 8, 8, 8, 5);
 
 -- Reservas_Snacks (8)
@@ -216,3 +256,42 @@ VALUES (2, 16000.00, 1, 1),
        (4, 8000.00, 1, 5),
        (1, 2000.00, 8, 6),
        (3, 15000.00, 3, 7);
+
+-- Insertar roles
+INSERT INTO Roles (Nombre)
+VALUES ('Admin'),
+       ('Empleado'),
+       ('Cliente');
+
+-- Insertar permisos
+INSERT INTO Permisos (Nombre)
+VALUES ('Ver Panel Admin'),
+       ('Gestionar Reservas'),
+       ('Ver Consolas'),
+       ('Ver Snacks');
+
+-- Insertar relación rol-permisos
+INSERT INTO Rol_Permisos (RolId, PermisoId)
+VALUES (1, 1), -- Admin -> Ver Panel Admin
+       (1, 2), -- Admin -> Gestionar Reservas
+       (1, 3), -- Admin -> Ver Consolas
+       (1, 4), -- Admin -> Ver Snacks
+
+       (2, 2), -- Empleado -> Gestionar Reservas
+       (2, 3), -- Empleado -> Ver Consolas
+
+       (3, 3), -- Cliente -> Ver Consolas
+       (3, 4);
+-- Cliente -> Ver Snacks
+
+-- Insertar usuarios
+INSERT INTO Usuarios (Nombre, Correo, Direccion)
+VALUES ('Admin Uno', 'admin@rb.com', 'Admin City'),
+       ('Empleado Uno', 'empleado@rb.com', 'Empleado City'),
+       ('Cliente Uno', 'cliente@rb.com', 'Cliente City');
+
+-- Asignar roles a usuarios
+INSERT INTO Usuario_Roles (UsuarioId, RolId)
+VALUES (1, 1), -- Admin
+       (2, 2), -- Empleado
+       (3, 3); -- Cliente

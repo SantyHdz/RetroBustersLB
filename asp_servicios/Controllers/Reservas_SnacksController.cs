@@ -11,10 +11,10 @@ namespace asp_servicios.Controllers
     [Route("[controller]/[action]")]
     public class Reservas_SnacksController : ControllerBase
     {
-        private IReservasSnacksAplicacion? iAplicacion = null;
+        private IReservas_SnacksAplicacion? iAplicacion = null;
         private TokenController? tokenController = null;
 
-        public Reservas_SnacksController(IReservasSnacksAplicacion? iAplicacion,
+        public Reservas_SnacksController(IReservas_SnacksAplicacion? iAplicacion,
             TokenController tokenController)
         {
             this.iAplicacion = iAplicacion;
@@ -59,7 +59,7 @@ namespace asp_servicios.Controllers
         }
 
         [HttpPost]
-        public string PorReserva()
+        public string PorCantidad()
         {
             var respuesta = new Dictionary<string, object>();
             try
@@ -74,7 +74,7 @@ namespace asp_servicios.Controllers
                 var entidad = JsonConversor.ConvertirAObjeto<Reservas_Snacks>(
                     JsonConversor.ConvertirAString(datos["Entidad"]));
                 this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
-                respuesta["Entidades"] = this.iAplicacion!.PorReserva(entidad);
+                respuesta["Entidades"] = this.iAplicacion!.PorCantidad(entidad);
                 respuesta["Respuesta"] = "OK";
                 respuesta["Fecha"] = DateTime.Now.ToString();
                 return JsonConversor.ConvertirAString(respuesta);
@@ -181,5 +181,35 @@ namespace asp_servicios.Controllers
                 return JsonConversor.ConvertirAString(respuesta);
             }
         }
+        
+       /* [HttpPost]
+        public string PorCantidad()
+        {
+            var respuesta = new Dictionary<string, object>();
+            try
+            {
+                var datos = ObtenerDatos();
+                if (!tokenController!.Validate(datos))
+                {
+                    respuesta["Error"] = "lbNoAutenticacion";
+                    return JsonConversor.ConvertirAString(respuesta);
+                }
+
+                var entidad = JsonConversor.ConvertirAObjeto<Reservas_Snacks>(
+                    JsonConversor.ConvertirAString(datos["Entidad"]));
+                this.iAplicacion!.Configurar(Configuracion.ObtenerValor("StringConexion")); 
+                respuesta["Entidades"] = this.iAplicacion!.PorCantidad(entidad);
+                respuesta["Respuesta"] = "OK";
+                respuesta["Fecha"] = DateTime.Now.ToString();
+                return JsonConversor.ConvertirAString(respuesta);
+            }
+
+
+            catch (Exception ex)
+            {
+                respuesta["Error"] = ex.Message.ToString();
+                return JsonConversor.ConvertirAString(respuesta);
+            }
+        }*/
     }
 }

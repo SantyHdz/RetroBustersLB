@@ -1,0 +1,135 @@
+@page
+@model asp_presentacion.Pages.Ventanas.Reservas_SnacksModel
+@{
+    ViewData["Titulo"] = "Reservas de Snacks";
+}
+<div class="text-center">
+    <form method="POST">
+        @Html.AntiForgeryToken()
+
+        <div class="text-start mb-3">
+            <h3>Reservas de Snacks</h3>
+        </div>
+
+        <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
+            <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
+                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
+                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+        </div>
+
+        @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input type="hidden" asp-for="@Model.Actual!.Id" />
+        }
+
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input type="hidden" asp-for="@Model.Actual!.Snack" />
+            <input type="hidden" asp-for="@Model.Actual!.Cantidad" />
+            <input type="hidden" asp-for="@Model.Actual!.Snack" />
+        }
+
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+        {
+            <div class="containers_vn panel panel-default p-3">
+                <h4>Detalles de la Reserva de Snack</h4>
+
+                <div class="mb-3 row">
+                    <label for="nmSnack" class="col-sm-3 col-form-label">Snack</label>
+                    <div class="col-sm-9">
+                        <select id="nmSnack" class="form-select" asp-for="@Model.Actual!.Snack" asp-items="@(new SelectList(Model.Snacks, "Id", "Nombre"))">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmCantidad" class="col-sm-3 col-form-label">Cantidad</label>
+                    <div class="col-sm-9">
+                        <input type="number" min="1" class="form-control" id="nmCantidad" asp-for="@Model.Actual!.Cantidad" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Total</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" value="@Model.Actual.Total.ToString()" readonly />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmReserva" class="col-sm-3 col-form-label">Reserva</label>
+                    <div class="col-sm-9">
+                        <select id="nmReserva" class="form-select" asp-for="@Model.Actual!.Reserva " asp-items="@(new SelectList(Model.Reservas, "Id", "Fecha_Reserva"))">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (ViewData.ContainsKey("Mensaje"))
+        {
+            <input type="hidden" asp-for="@Model.Accion" />
+            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+        }
+
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <div class="popup">
+                <div class="pp_del_inner">
+                    <div style="width:95%">
+                        <h2 class="text-start">Mensaje</h2>
+                        <h4 class="text-start">¿Desea borrar este registro?</h4>
+                        <h6 class="text-start">@Model.Actual._Snack?.Nombre - Cantidad: @Model.Actual.Cantidad</h6>
+                        <br /><br />
+                        <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input class="form-control mb-3" asp-for="@Model.Filtro!._Snack.Nombre" placeholder="Filtrar por Snack" />
+
+            <div class="containers_vn panel panel-default">
+                <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                    <thead>
+                    <tr>
+                        <th>Snack</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Reserva</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.Lista != null)
+                    {
+                        @foreach (var item in Model.Lista)
+                        {
+                            <tr>
+                                <td>@item._Snack?.Nombre</td>
+                                <td>@item._Snack?.Precio.ToString("C")</td>
+                                <td>@item.Cantidad</td>
+                                <td>@item.Total.ToString()</td>
+                                <td>@item._Reserva?.Estado </td>
+                                <td>
+                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@item.Id" />
+                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@item.Id" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </form>
+</div>

@@ -49,14 +49,25 @@ public class ReservasAplicacion : IReservasAplicacion
 
     public List<Reservas> Listar()
     {
-        return this.IConexion!.Reservas!.Take(20).ToList();
+        return this.IConexion!.Reservas!
+            .Take(20)
+            .Include(x => x._Miembro)
+            .Include(x => x._Pelicula)
+            .Include(x => x._Consola)
+            .Include(x => x._Empleado)
+            //.Include(x => x._Reservas_Snacks)
+            .ToList();
     }
 
     public List<Reservas> PorEstado(Reservas? entidad)
     {
         return this.IConexion!.Reservas!
+            .Include(x => x._Miembro)
+            .Include(x => x._Pelicula)
+            .Include(x => x._Consola)
+            .Include(x => x._Empleado)
+            //.Include(x => x._Reservas_Snacks)
             .Where(x => x.Estado!.Contains(entidad!.Estado!))
             .ToList();
     }
 }
-

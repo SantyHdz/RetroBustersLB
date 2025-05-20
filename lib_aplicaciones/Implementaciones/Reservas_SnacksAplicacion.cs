@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lib_aplicaciones.Implementaciones;
 
-public class ReservasSnacksAplicacion : IReservasSnacksAplicacion
+public class Reservas_SnacksAplicacion : IReservas_SnacksAplicacion
 {
     private IConexion? IConexion = null;
 
-    public ReservasSnacksAplicacion(IConexion iConexion)
+    public Reservas_SnacksAplicacion(IConexion iConexion)
     {
         this.IConexion = iConexion;
     }
@@ -49,19 +49,45 @@ public class ReservasSnacksAplicacion : IReservasSnacksAplicacion
 
     public List<Reservas_Snacks> Listar()
     {
-        return this.IConexion!.Reservas_Snacks!.Take(20).ToList();
+        return this.IConexion!.Reservas_Snacks!
+            .Take(20)
+            .Include(x => x._Snack)
+            .Include(x => x._Reserva)
+            .ToList();
     }
 
     public List<Reservas_Snacks> PorReserva(Reservas_Snacks? entidad)
     {
         return this.IConexion!.Reservas_Snacks!
+            .Include(x => x._Snack)
+            .Include(x => x._Reserva)
             .Where(x => x.Reserva == entidad!.Reserva)
             .ToList();
     }
 
+    public List<Reservas_Snacks> PorCantidad(Reservas_Snacks? entidad)
+    {
+        string nombreSnack = entidad?._Snack?.Nombre ?? "";
+        int cantidad = entidad?.Cantidad ?? -1;
+
+        return this.IConexion!.Reservas_Snacks!
+            .Include(x => x._Snack)
+            .Include(x => x._Reserva)
+            .Where(x =>
+                (cantidad <= -1 || x.Cantidad == cantidad) &&
+                (string.IsNullOrEmpty(nombreSnack) || x._Snack!.Nombre.Contains(nombreSnack))
+            )
+            .ToList();
+    }
+
+
+
+
     public List<Reservas_Snacks> PorSnack(Reservas_Snacks? entidad)
     {
         return this.IConexion!.Reservas_Snacks!
+            .Include(x => x._Snack)
+            .Include(x => x._Reserva)
             .Where(x => x.Snack == entidad!.Snack)
             .ToList();
     }

@@ -36,7 +36,7 @@ namespace asp_servicios
             services.AddScoped<IEnviosAplicacion, EnviosAplicacion>();
             services.AddScoped<IMiembrosAplicacion, MiembrosAplicacion>();
             services.AddScoped<IPeliculasAplicacion, PeliculasAplicacion>();
-            services.AddScoped<IReservasSnacksAplicacion, ReservasSnacksAplicacion>();
+            services.AddScoped<IReservas_SnacksAplicacion, Reservas_SnacksAplicacion>();
             services.AddScoped<IReservasAplicacion, ReservasAplicacion>();
             services.AddScoped<ISnacksAplicacion, SnacksAplicacion>();
             services.AddScoped<IAuditoriaAplicacion, AuditoriaAplicacion>();

@@ -1,7 +1,7 @@
 ﻿using lib_dominio.Entidades;
 namespace lib_aplicaciones.Interfaces;
 
-public interface IReservasSnacksAplicacion
+public interface IReservas_SnacksAplicacion
 {
     void Configurar(string StringConexion);
     List<Reservas_Snacks> Listar();
@@ -10,4 +10,5 @@ public interface IReservasSnacksAplicacion
     Reservas_Snacks? Borrar(Reservas_Snacks? entidad);
     List<Reservas_Snacks> PorReserva(Reservas_Snacks? entidad);
     List<Reservas_Snacks> PorSnack(Reservas_Snacks? entidad);
+    List<Reservas_Snacks> PorCantidad(Reservas_Snacks? entidad);
 }

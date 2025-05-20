@@ -14,6 +14,12 @@ public class ConexionEF3
             var conexion = new Conexion();
             conexion.StringConexion = this.string_conexion;
         }
+        public Conexion ObtenerConexion()
+        {
+            var conexion = new Conexion();
+            conexion.StringConexion = this.string_conexion;
+            return conexion;
+        }
 
         /*public void ConexionInsert()
         {
