@@ -1,3 +1,5 @@
+using lib_aplicaciones.Interfaces;
+using lib_dominio.Implementaciones;
 using lib_presentaciones.Implementaciones;
 using lib_presentaciones.Interfaces;
 
@@ -24,11 +26,23 @@ namespace asp_presentacion
             services.AddScoped<IEnviosPresentacion, EnviosPresentacion>();
             services.AddScoped<IReservasPresentacion, ReservasPresentacion>();
             services.AddScoped<IReservas_SnacksPresentacion, Reservas_SnacksPresentacion>();
+            services.AddScoped<IUsuariosAplicacion, UsuariosAplicacion>();
+            services.AddScoped<IRolesAplicacion, RolesImplementacion>();
+            services.AddScoped<IPermisosAplicacion, PermisosImplementacion>();
+            services.AddScoped<IRolPermisoAplicacion, RolPermisoAplicacion>();
+
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddRazorPages();
-            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(30); });
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

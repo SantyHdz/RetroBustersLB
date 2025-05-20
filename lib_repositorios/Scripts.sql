@@ -113,20 +113,11 @@ CREATE TABLE Auditorias
     Usuario       NVARCHAR(255) NULL
 );
 
--- Tabla de Usuarios
-CREATE TABLE Usuarios
-(
-    Id        INT PRIMARY KEY IDENTITY(1,1),
-    Nombre    NVARCHAR(100) NOT NULL,
-    Correo    NVARCHAR(100) NOT NULL,
-    Direccion NVARCHAR(200)
-);
-
 -- Tabla de Roles
 CREATE TABLE Roles
 (
     Id     INT PRIMARY KEY IDENTITY(1,1),
-    Nombre NVARCHAR(50) NOT NULL
+    Nombre NVARCHAR(100) NOT NULL
 );
 
 -- Tabla de Permisos
@@ -136,24 +127,26 @@ CREATE TABLE Permisos
     Nombre NVARCHAR(100) NOT NULL
 );
 
--- Relación Usuario ↔ Rol (Muchos a Muchos)
-CREATE TABLE Usuario_Roles
-(
-    UsuarioId INT NOT NULL,
-    RolId     INT NOT NULL,
-    PRIMARY KEY (UsuarioId, RolId),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios (Id) ON DELETE CASCADE,
-    FOREIGN KEY (RolId) REFERENCES Roles (Id) ON DELETE CASCADE
-);
-
--- Relación Rol ↔ Permiso (Muchos a Muchos)
-CREATE TABLE Rol_Permisos
+-- Tabla intermedia RolPermiso (muchos a muchos)
+CREATE TABLE RolPermiso
 (
     RolId     INT NOT NULL,
     PermisoId INT NOT NULL,
     PRIMARY KEY (RolId, PermisoId),
-    FOREIGN KEY (RolId) REFERENCES Roles (Id) ON DELETE CASCADE,
-    FOREIGN KEY (PermisoId) REFERENCES Permisos (Id) ON DELETE CASCADE
+    FOREIGN KEY (RolId) REFERENCES Roles (Id),
+    FOREIGN KEY (PermisoId) REFERENCES Permisos (Id)
+);
+
+-- Tabla de Usuarios
+CREATE TABLE Usuarios
+(
+    Id             INT PRIMARY KEY IDENTITY(1,1),
+    Nombre         NVARCHAR(100) NOT NULL,
+    Correo         NVARCHAR(150) NOT NULL UNIQUE,
+    ContrasenaHash NVARCHAR(255) NOT NULL,
+    Direccion      NVARCHAR(255),
+    RolId          INT NOT NULL,
+    FOREIGN KEY (RolId) REFERENCES Roles (Id)
 );
 
 
@@ -257,41 +250,44 @@ VALUES (2, 16000.00, 1, 1),
        (1, 2000.00, 8, 6),
        (3, 15000.00, 3, 7);
 
--- Insertar roles
-INSERT INTO Roles (Nombre)
-VALUES ('Admin'),
-       ('Empleado'),
-       ('Cliente');
+-- Insertar Roles
+INSERT INTO Roles (Nombre) VALUES ('Administrador');
+INSERT INTO Roles (Nombre) VALUES ('Editor');
+INSERT INTO Roles (Nombre) VALUES ('Lector');
 
--- Insertar permisos
-INSERT INTO Permisos (Nombre)
-VALUES ('Ver Panel Admin'),
-       ('Gestionar Reservas'),
-       ('Ver Consolas'),
-       ('Ver Snacks');
+-- Insertar Permisos
+INSERT INTO Permisos (Nombre) VALUES ('VerUsuarios');
+INSERT INTO Permisos (Nombre) VALUES ('EditarUsuarios');
+INSERT INTO Permisos (Nombre) VALUES ('EliminarUsuarios');
+INSERT INTO Permisos (Nombre) VALUES ('VerRoles');
+INSERT INTO Permisos (Nombre) VALUES ('EditarRoles');
 
--- Insertar relación rol-permisos
-INSERT INTO Rol_Permisos (RolId, PermisoId)
-VALUES (1, 1), -- Admin -> Ver Panel Admin
-       (1, 2), -- Admin -> Gestionar Reservas
-       (1, 3), -- Admin -> Ver Consolas
-       (1, 4), -- Admin -> Ver Snacks
+-- Relación RolPermiso
+-- Administrador
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 1);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 2);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 3);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 4);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 5);
 
-       (2, 2), -- Empleado -> Gestionar Reservas
-       (2, 3), -- Empleado -> Ver Consolas
+-- Editor
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (2, 1);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (2, 2);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (2, 4);
 
-       (3, 3), -- Cliente -> Ver Consolas
-       (3, 4);
--- Cliente -> Ver Snacks
+-- Lector
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (3, 1);
+INSERT INTO RolPermiso (RolId, PermisoId) VALUES (3, 4);
 
--- Insertar usuarios
-INSERT INTO Usuarios (Nombre, Correo, Direccion)
-VALUES ('Admin Uno', 'admin@rb.com', 'Admin City'),
-       ('Empleado Uno', 'empleado@rb.com', 'Empleado City'),
-       ('Cliente Uno', 'cliente@rb.com', 'Cliente City');
+-- Insertar Usuarios
+INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
+VALUES ('Admin', 'admin@empresa.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Calle Falsa 123', 1);
 
--- Asignar roles a usuarios
-INSERT INTO Usuario_Roles (UsuarioId, RolId)
-VALUES (1, 1), -- Admin
-       (2, 2), -- Empleado
-       (3, 3); -- Cliente
+-- Contraseña: editor123
+INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
+VALUES ('Editor', 'editor@empresa.com', 'a3796d0c45e5a8ad8f0cb0893507dcdcf9e0a31ddc75c5b7db5bdc0f2625d7ec', 'Calle Real 456', 2);
+
+-- Contraseña: lector123
+INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
+VALUES ('Lector', 'lector@empresa.com', 'ecb21a7ddf1d31c2f53b349c2a65e6c8e08db66f490ce7bc1d1efc7165b5806f', 'Av. Siempre Viva 742', 3);
+
