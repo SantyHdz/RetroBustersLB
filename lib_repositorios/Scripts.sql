@@ -120,22 +120,6 @@ CREATE TABLE Roles
     Nombre NVARCHAR(100) NOT NULL
 );
 
--- Tabla de Permisos
-CREATE TABLE Permisos
-(
-    Id     INT PRIMARY KEY IDENTITY(1,1),
-    Nombre NVARCHAR(100) NOT NULL
-);
-
--- Tabla intermedia RolPermiso (muchos a muchos)
-CREATE TABLE RolPermiso
-(
-    RolId     INT NOT NULL,
-    PermisoId INT NOT NULL,
-    PRIMARY KEY (RolId, PermisoId),
-    FOREIGN KEY (RolId) REFERENCES Roles (Id),
-    FOREIGN KEY (PermisoId) REFERENCES Permisos (Id)
-);
 
 -- Tabla de Usuarios
 CREATE TABLE Usuarios
@@ -255,9 +239,10 @@ INSERT INTO Roles (Nombre) VALUES ('Admin');
 INSERT INTO Roles (Nombre) VALUES ('Lector');
 
 -- Insertar Usuarios
+-- Contraseña: admin123
 INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
-VALUES ('Admin', 'admin@empresa.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Calle Falsa 123', 1);
+VALUES ('Admin', 'admin@empresa.com', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Calle Falsa 123', 1);
+
 -- Contraseña: lector123
 INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
-VALUES ('Lector', 'lector@empresa.com', 'ecb21a7ddf1d31c2f53b349c2a65e6c8e08db66f490ce7bc1d1efc7165b5806f', 'Av. Siempre Viva 742', 2);
-
+VALUES ('Lector', 'lector@empresa.com', '3d75d79643ce69834f9ca9d28a82a7bc40934257b62a97f6ce2c9bd6af1bc932', 'Av. Siempre Viva 742', 2);
