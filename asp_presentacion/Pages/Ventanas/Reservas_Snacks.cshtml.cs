@@ -43,12 +43,12 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
-                //var variable_session = HttpContext.Session.GetString("Usuario");
-                //if (String.IsNullOrEmpty(variable_session))
-                //{
-                //    HttpContext.Response.Redirect("/");
-                //    return;
-                //}
+                var variable_session = HttpContext.Session.GetString("Usuario");
+                if (String.IsNullOrEmpty(variable_session))
+                {
+                    HttpContext.Response.Redirect("/");
+                    return;
+                }
 
                 Filtro!.Cantidad = Filtro!.Cantidad ?? -1;
                 Filtro._Snack = Filtro._Snack ?? new Snacks();

@@ -28,8 +28,6 @@ namespace asp_presentacion
             services.AddScoped<IReservas_SnacksPresentacion, Reservas_SnacksPresentacion>();
             services.AddScoped<IUsuariosAplicacion, UsuariosAplicacion>();
             services.AddScoped<IRolesAplicacion, RolesImplementacion>();
-            services.AddScoped<IPermisosAplicacion, PermisosImplementacion>();
-            services.AddScoped<IRolPermisoAplicacion, RolPermisoAplicacion>();
 
 
             services.AddControllers();

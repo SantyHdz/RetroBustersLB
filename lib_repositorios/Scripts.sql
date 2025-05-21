@@ -251,43 +251,13 @@ VALUES (2, 16000.00, 1, 1),
        (3, 15000.00, 3, 7);
 
 -- Insertar Roles
-INSERT INTO Roles (Nombre) VALUES ('Administrador');
-INSERT INTO Roles (Nombre) VALUES ('Editor');
+INSERT INTO Roles (Nombre) VALUES ('Admin');
 INSERT INTO Roles (Nombre) VALUES ('Lector');
-
--- Insertar Permisos
-INSERT INTO Permisos (Nombre) VALUES ('VerUsuarios');
-INSERT INTO Permisos (Nombre) VALUES ('EditarUsuarios');
-INSERT INTO Permisos (Nombre) VALUES ('EliminarUsuarios');
-INSERT INTO Permisos (Nombre) VALUES ('VerRoles');
-INSERT INTO Permisos (Nombre) VALUES ('EditarRoles');
-
--- Relación RolPermiso
--- Administrador
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 1);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 2);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 3);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 4);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (1, 5);
-
--- Editor
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (2, 1);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (2, 2);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (2, 4);
-
--- Lector
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (3, 1);
-INSERT INTO RolPermiso (RolId, PermisoId) VALUES (3, 4);
 
 -- Insertar Usuarios
 INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
 VALUES ('Admin', 'admin@empresa.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Calle Falsa 123', 1);
-
--- Contraseña: editor123
-INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
-VALUES ('Editor', 'editor@empresa.com', 'a3796d0c45e5a8ad8f0cb0893507dcdcf9e0a31ddc75c5b7db5bdc0f2625d7ec', 'Calle Real 456', 2);
-
 -- Contraseña: lector123
 INSERT INTO Usuarios (Nombre, Correo, ContrasenaHash, Direccion, RolId)
-VALUES ('Lector', 'lector@empresa.com', 'ecb21a7ddf1d31c2f53b349c2a65e6c8e08db66f490ce7bc1d1efc7165b5806f', 'Av. Siempre Viva 742', 3);
+VALUES ('Lector', 'lector@empresa.com', 'ecb21a7ddf1d31c2f53b349c2a65e6c8e08db66f490ce7bc1d1efc7165b5806f', 'Av. Siempre Viva 742', 2);
 
