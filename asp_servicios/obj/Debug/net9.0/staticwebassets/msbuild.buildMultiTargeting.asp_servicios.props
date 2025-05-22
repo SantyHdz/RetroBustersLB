@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\asp_servicios.props" />
+</Project>

@@ -107,13 +107,20 @@ namespace asp_presentacion.Pages.Ventanas
             }
             try
             {
+                // Antes de editar, garantizar la vista de edición
                 Accion = Enumerables.Ventanas.Editar;
 
+                // Solo hashear si se proporcionó una contraseña (nuevo o cambiada)
+                if (!string.IsNullOrWhiteSpace(Actual!.ContrasenaHash))
+                {
+                    Actual.ContrasenaHash = HashUtil.ComputeSha256Hash(Actual.ContrasenaHash);
+                }
+
                 Task<Usuarios>? task = null;
-                if (Actual!.Id == 0)
-                    task = _iPresentacion.Guardar(Actual!)!; // Use _iPresentacion
+                if (Actual.Id == 0)
+                    task = _iPresentacion.Guardar(Actual!);
                 else
-                    task = _iPresentacion.Modificar(Actual!)!; // Use _iPresentacion
+                    task = _iPresentacion.Modificar(Actual!);
                 task.Wait();
                 Actual = task.Result;
                 Accion = Enumerables.Ventanas.Listas;

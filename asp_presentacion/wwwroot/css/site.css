@@ -221,4 +221,10 @@ button.accept-policy {
 }
 
 
+.navbar-nav .nav-link {
+  font-size: 0.9rem; /* puedes ajustar a 0.8rem o 0.75rem si aún los quieres más pequeños */
+}
+
+
+
 

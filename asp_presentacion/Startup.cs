@@ -57,12 +57,12 @@ namespace asp_presentacion
 
             app.UseRouting();
 
-            app.UseSession();             // Session debe estar antes de usar HttpContext
+            app.UseSession();  
 
-            app.UseAuthentication();      // Si usas autenticación, va antes de Authorization
-            app.UseAuthorization();       // Luego autorización
+            app.UseAuthentication();
+            app.UseAuthorization();    
 
-            app.MapRazorPages();          // Mapea después de configurar middlewares
+            app.MapRazorPages();  
 
             app.Run();
         }

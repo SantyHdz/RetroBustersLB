@@ -20,16 +20,26 @@ namespace asp_servicios
         {
             services.Configure<KestrelServerOptions>(x =>
             {
-                x.AllowSynchronousIO =
-                    true;
+                x.AllowSynchronousIO = true;
             });
             services.Configure<IISServerOptions>(x => { x.AllowSynchronousIO = true; });
+
+            services.AddHttpContextAccessor();   
+            services.AddDistributedMemoryCache();     
+            services.AddSession(options =>       
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            //services.AddSwaggerGen(); 
-            // Repositorios 
+
+            // Repositorios
             services.AddScoped<IConexion, ConexionEF3.Conexion>();
-            // Aplicaciones 
+
+            // Aplicaciones
             services.AddScoped<IAlmacenesAplicacion, AlmacenesAplicacion>();
             services.AddScoped<IConsolasAplicacion, ConsolasAplicacion>();
             services.AddScoped<IEmpleadosAplicacion, EmpleadosAplicacion>();
@@ -43,7 +53,7 @@ namespace asp_servicios
             services.AddScoped<IUsuariosAplicacion, UsuariosAplicacion>();
             services.AddScoped<IRolesAplicacion, RolesAplicacion>();
 
-            // Controladores 
+            // Controladores
             services.AddScoped<TokenController, TokenController>();
 
             services.AddCors(o => o.AddDefaultPolicy(b => b.AllowAnyOrigin()));
@@ -53,16 +63,23 @@ namespace asp_servicios
         {
             if (env.IsDevelopment())
             {
-                //app.UseSwagger(); 
-                //app.UseSwaggerUI(); 
+                // app.UseSwagger();
+                // app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.MapControllers();
-            app.Run();
+
             app.UseRouting();
+
             app.UseCors();
+
+            app.UseSession(); 
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
         }
     }
 }
