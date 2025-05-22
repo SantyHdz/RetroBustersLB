@@ -14,10 +14,13 @@
         <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
             <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            @if (Model.IsAdmin)
+            {
+                <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
+                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
+                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            }
             <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
         </div>
@@ -42,7 +45,7 @@
                 <div class="mb-3 row">
                     <label for="nmSnack" class="col-sm-3 col-form-label">Snack</label>
                     <div class="col-sm-9">
-                        <select id="nmSnack" class="form-select" asp-for="@Model.Actual!.Snack" asp-items="@(new SelectList(Model.Snacks, "Id", "Nombre"))">
+                        <select id="nmSnack" class="form-select" asp-for="@Model.Actual!.Snack" asp-items="@(new SelectList(Model.Snacks, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
                         </select>
                     </div>
                 </div>
@@ -50,7 +53,7 @@
                 <div class="mb-3 row">
                     <label for="nmCantidad" class="col-sm-3 col-form-label">Cantidad</label>
                     <div class="col-sm-9">
-                        <input type="number" min="1" class="form-control" id="nmCantidad" asp-for="@Model.Actual!.Cantidad" />
+                        <input type="number" min="1" class="form-control" id="nmCantidad" asp-for="@Model.Actual!.Cantidad" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
@@ -64,7 +67,7 @@
                 <div class="mb-3 row">
                     <label for="nmReserva" class="col-sm-3 col-form-label">Reserva</label>
                     <div class="col-sm-9">
-                        <select id="nmReserva" class="form-select" asp-for="@Model.Actual!.Reserva " asp-items="@(new SelectList(Model.Reservas, "Id", "Fecha_Reserva"))">
+                        <select id="nmReserva" class="form-select" asp-for="@Model.Actual!.Reserva" asp-items="@(new SelectList(Model.Reservas, "Id", "Fecha_Reserva"))" disabled="@(!Model.IsAdmin)"> @* Corrected asp-for to remove trailing space *@
                         </select>
                     </div>
                 </div>
@@ -86,7 +89,10 @@
                         <h4 class="text-start">¿Desea borrar este registro?</h4>
                         <h6 class="text-start">@Model.Actual._Snack?.Nombre - Cantidad: @Model.Actual.Cantidad</h6>
                         <br /><br />
-                        <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        @if (Model.IsAdmin)
+                        {
+                            <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        }
                         <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
                     </div>
                 </div>
@@ -120,10 +126,17 @@
                                 <td>@item.Cantidad</td>
                                 <td>@item.Total.ToString()</td>
                                 <td>@item._Reserva?.Estado </td>
-                                <td>
-                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@item.Id" />
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@item.Id" />
-                                </td>
+                                @if (Model.IsAdmin)
+                                {
+                                    <td>
+                                        <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@item.Id" />
+                                        <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@item.Id" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>No disponible</td>
+                                }
                             </tr>
                         }
                     }

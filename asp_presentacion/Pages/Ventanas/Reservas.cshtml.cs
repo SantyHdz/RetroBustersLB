@@ -2,36 +2,39 @@ using lib_dominio.Entidades;
 using lib_dominio.Nucleo;
 using lib_presentaciones.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace asp_presentacion.Pages.Ventanas
 {
-    public class ReservasModel : PageModel
+    public class ReservasModel : SecurePageModel // Inherit from SecurePageModel
     {
-        private IReservasPresentacion? iPresentacion = null;
-        private IMiembrosPresentacion? iMiembrosPresentacion = null;
-        private IPeliculasPresentacion? iPeliculasPresentacion = null;
-        private IConsolasPresentacion? iConsolasPresentacion = null;
-        private IEmpleadosPresentacion? iEmpleadosPresentacion = null;
+        private readonly IReservasPresentacion _iPresentacion;
+        private readonly IMiembrosPresentacion _iMiembrosPresentacion;
+        private readonly IPeliculasPresentacion _iPeliculasPresentacion;
+        private readonly IConsolasPresentacion _iConsolasPresentacion;
+        private readonly IEmpleadosPresentacion _iEmpleadosPresentacion;
 
         public ReservasModel(IReservasPresentacion iPresentacion,
-            IMiembrosPresentacion iMiembrosPresentacion, 
-            IPeliculasPresentacion iPeliculasPresentacion, 
-            IConsolasPresentacion iConsolasPresentacion, 
-            IEmpleadosPresentacion iEmpleadosPresentacion)
+                             IMiembrosPresentacion iMiembrosPresentacion,
+                             IPeliculasPresentacion iPeliculasPresentacion,
+                             IConsolasPresentacion iConsolasPresentacion,
+                             IEmpleadosPresentacion iEmpleadosPresentacion,
+                             IRolesPresentacion rolesPresentacion,
+                             IHttpContextAccessor httpContextAccessor)
+            : base(rolesPresentacion, httpContextAccessor) // Call base constructor
         {
             try
             {
-                this.iPresentacion = iPresentacion;
-                this.iMiembrosPresentacion = iMiembrosPresentacion;
-                this.iPeliculasPresentacion = iPeliculasPresentacion;
-                this.iConsolasPresentacion = iConsolasPresentacion;
-                this.iEmpleadosPresentacion = iEmpleadosPresentacion;
+                _iPresentacion = iPresentacion;
+                _iMiembrosPresentacion = iMiembrosPresentacion;
+                _iPeliculasPresentacion = iPeliculasPresentacion;
+                _iConsolasPresentacion = iConsolasPresentacion;
+                _iEmpleadosPresentacion = iEmpleadosPresentacion;
                 Filtro = new Reservas();
-            } 
+            }
             catch (Exception ex)
             {
-                LogConversor.Log(ex, ViewData!);
+                // Consider logging here or ensuring ViewData is available
+                // LogConversor.Log(ex, ViewData!);
             }
         }
 
@@ -52,6 +55,7 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
+                // Session check is handled by SecurePageModel
                 var variable_session = HttpContext.Session.GetString("Usuario");
                 if (String.IsNullOrEmpty(variable_session))
                 {
@@ -62,7 +66,7 @@ namespace asp_presentacion.Pages.Ventanas
                 Filtro!.Estado = Filtro!.Estado ?? "";
 
                 Accion = Enumerables.Ventanas.Listas;
-                var task = this.iPresentacion!.PorEstado(Filtro!);
+                var task = _iPresentacion.PorEstado(Filtro!); // Use _iPresentacion
                 task.Wait();
                 Lista = task.Result;
                 Actual = null;
@@ -77,19 +81,19 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
-                var taskmiembros = this.iMiembrosPresentacion!.Listar();
+                var taskmiembros = _iMiembrosPresentacion.Listar(); // Use _iMiembrosPresentacion
                 taskmiembros.Wait();
                 Miembros = taskmiembros.Result;
                 
-                var taskpeliculas = this.iPeliculasPresentacion!.Listar();
+                var taskpeliculas = _iPeliculasPresentacion.Listar(); // Use _iPeliculasPresentacion
                 taskpeliculas.Wait();
                 Peliculas = taskpeliculas.Result;
                 
-                var taskconsolas = this.iConsolasPresentacion!.Listar();
+                var taskconsolas = _iConsolasPresentacion.Listar(); // Use _iConsolasPresentacion
                 taskconsolas.Wait();
                 Consolas = taskconsolas.Result;
                 
-                var taskempleados = this.iEmpleadosPresentacion!.Listar();
+                var taskempleados = _iEmpleadosPresentacion.Listar(); // Use _iEmpleadosPresentacion
                 taskempleados.Wait();
                 Empleados = taskempleados.Result;
                 
@@ -102,6 +106,11 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtNuevo()
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 Accion = Enumerables.Ventanas.Editar;
@@ -116,6 +125,11 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtModificar(string data)
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 OnPostBtRefrescar();
@@ -131,15 +145,20 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtGuardar()
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 Accion = Enumerables.Ventanas.Editar;
 
                 Task<Reservas>? task = null;
                 if (Actual!.Id == 0)
-                    task = this.iPresentacion!.Guardar(Actual!)!;
+                    task = _iPresentacion.Guardar(Actual!)!; // Use _iPresentacion
                 else
-                    task = this.iPresentacion!.Modificar(Actual!)!;
+                    task = _iPresentacion.Modificar(Actual!)!; // Use _iPresentacion
                 task.Wait();
                 Actual = task.Result;
                 Accion = Enumerables.Ventanas.Listas;
@@ -153,6 +172,11 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtBorrarVal(string data)
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 OnPostBtRefrescar();
@@ -167,9 +191,14 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtBorrar()
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
-                var task = this.iPresentacion!.Borrar(Actual!);
+                var task = _iPresentacion.Borrar(Actual!); // Use _iPresentacion
                 Actual = task.Result;
                 OnPostBtRefrescar();
             }

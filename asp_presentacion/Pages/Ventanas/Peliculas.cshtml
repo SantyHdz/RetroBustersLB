@@ -14,10 +14,13 @@
         <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
             <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            @if (Model.IsAdmin)
+            {
+                <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
+                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
+                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            }
             <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
         </div>
@@ -41,42 +44,42 @@
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Nombre</label>
                     <div class="col-sm-9">
-                        <input class="form-control" asp-for="@Model.Actual!.Nombre" />
+                        <input class="form-control" asp-for="@Model.Actual!.Nombre" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Género</label>
                     <div class="col-sm-9">
-                        <input class="form-control" asp-for="@Model.Actual!.Genero" />
+                        <input class="form-control" asp-for="@Model.Actual!.Genero" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Fecha de Estreno</label>
                     <div class="col-sm-9">
-                        <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_estreno" />
+                        <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_estreno" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Cantidad</label>
                     <div class="col-sm-9">
-                        <input class="form-control" type="number" asp-for="@Model.Actual!.Cantidad" />
+                        <input class="form-control" type="number" asp-for="@Model.Actual!.Cantidad" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Precio Unitario</label>
                     <div class="col-sm-9">
-                        <input class="form-control" type="number" step="0.01" asp-for="@Model.Actual!.Precio_unitario" />
+                        <input class="form-control" type="number" step="0.01" asp-for="@Model.Actual!.Precio_unitario" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Estado</label>
-                    <div class="col-sm-9">
-                        <input class="form-check-input" type="checkbox" asp-for="@Model.Actual!.Estado" />
+                    <div class="col-sm-9 text-start"> @* Added text-start for alignment *@
+                        <input class="form-check-input" type="checkbox" asp-for="@Model.Actual!.Estado" disabled="@(!Model.IsAdmin)" />
                         <label class="form-check-label ms-2">Disponible</label>
                     </div>
                 </div>
@@ -98,7 +101,10 @@
                         <h4 class="text-start">¿Desea borrar la película?</h4>
                         <h6 class="text-start">@Model.Actual!.Nombre, @Model.Actual!.Genero</h6>
                         <br /><br />
-                        <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        @if (Model.IsAdmin)
+                        {
+                            <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        }
                         <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
                     </div>
                 </div>
@@ -136,10 +142,17 @@
                                 <td>@elemento.Cantidad</td>
                                 <td>@elemento.Precio_unitario.ToString("C")</td>
                                 <td>@elemento.Total.ToString("C")</td>
-                                <td>
-                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
-                                </td>
+                                @if (Model.IsAdmin)
+                                {
+                                    <td>
+                                        <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
+                                        <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>No disponible</td>
+                                }
                             </tr>
                         }
                     }

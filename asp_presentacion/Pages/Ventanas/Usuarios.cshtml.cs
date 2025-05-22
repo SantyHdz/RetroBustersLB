@@ -2,34 +2,36 @@ using lib_dominio.Entidades;
 using lib_dominio.Nucleo;
 using lib_presentaciones.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+
 namespace asp_presentacion.Pages.Ventanas
 {
-    public class MiembrosModel : SecurePageModel // Inherit from SecurePageModel
+    public class UsuariosModel : SecurePageModel // Inherit from SecurePageModel
     {
-        private readonly IMiembrosPresentacion _iPresentacion; // Made readonly
+        private readonly IUsuariosPresentacion _iPresentacion; // Made readonly
 
-        public MiembrosModel(IMiembrosPresentacion iPresentacion,
-                             IRolesPresentacion rolesPresentacion,
-                             IHttpContextAccessor httpContextAccessor)
+        // Updated constructor to include IRolesPresentacion and IHttpContextAccessor
+        public UsuariosModel(IUsuariosPresentacion iPresentacion, 
+                              IRolesPresentacion rolesPresentacion, 
+                              IHttpContextAccessor httpContextAccessor) 
             : base(rolesPresentacion, httpContextAccessor) // Call base constructor
         {
             try
             {
                 _iPresentacion = iPresentacion;
-                Filtro = new Miembros();
-            }
+                Filtro = new Usuarios();
+            } 
             catch (Exception ex)
             {
-                // Consider logging here or ensuring ViewData is available
-                // LogConversor.Log(ex, ViewData!);
+                // Consider logging here or ensuring ViewData is available if SecurePageModel doesn't handle it
+                // LogConversor.Log(ex, ViewData!); // ViewData might not be fully initialized here
             }
         }
 
         public IFormFile? FormFile { get; set; }
         [BindProperty] public Enumerables.Ventanas Accion { get; set; }
-        [BindProperty] public Miembros? Actual { get; set; }
-        [BindProperty] public Miembros? Filtro { get; set; }
-        [BindProperty] public List<Miembros>? Lista { get; set; }
+        [BindProperty] public Usuarios? Actual { get; set; }
+        [BindProperty] public Usuarios? Filtro { get; set; }
+        [BindProperty] public List<Usuarios>? Lista { get; set; }
 
         public virtual void OnGet() { OnPostBtRefrescar(); }
 
@@ -37,7 +39,7 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
-                // Session check is handled by SecurePageModel
+                
                 var variable_session = HttpContext.Session.GetString("Usuario");
                 if (String.IsNullOrEmpty(variable_session))
                 {
@@ -45,10 +47,10 @@ namespace asp_presentacion.Pages.Ventanas
                     return;
                 }
 
-                Filtro!.Nombre = Filtro!.Nombre ?? "";
+                Filtro!.Correo = Filtro!.Correo ?? "";
 
                 Accion = Enumerables.Ventanas.Listas;
-                var task = _iPresentacion.Pornombre(Filtro!); // Use _iPresentacion
+                var task = _iPresentacion.PorCorreo(Filtro!); // Use _iPresentacion
                 task.Wait();
                 Lista = task.Result;
                 Actual = null;
@@ -69,7 +71,7 @@ namespace asp_presentacion.Pages.Ventanas
             try
             {
                 Accion = Enumerables.Ventanas.Editar;
-                Actual = new Miembros();
+                Actual = new Usuarios();
             }
             catch (Exception ex)
             {
@@ -107,7 +109,7 @@ namespace asp_presentacion.Pages.Ventanas
             {
                 Accion = Enumerables.Ventanas.Editar;
 
-                Task<Miembros>? task = null;
+                Task<Usuarios>? task = null;
                 if (Actual!.Id == 0)
                     task = _iPresentacion.Guardar(Actual!)!; // Use _iPresentacion
                 else

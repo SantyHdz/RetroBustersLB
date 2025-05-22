@@ -14,10 +14,13 @@
         <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
             <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            @if (Model.IsAdmin)
+            {
+                <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
+                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
+                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            }
             <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
         </div>
@@ -41,14 +44,14 @@
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Capacidad</label>
                     <div class="col-sm-9">
-                        <input class="form-control" asp-for="@Model.Actual!.Capacidad" />
+                        <input class="form-control" asp-for="@Model.Actual!.Capacidad" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">Ubicación</label>
                     <div class="col-sm-9">
-                        <input class="form-control" asp-for="@Model.Actual!.Ubicacion" />
+                        <input class="form-control" asp-for="@Model.Actual!.Ubicacion" readonly="@(!Model.IsAdmin)" />
                     </div>
                 </div>
             </div>
@@ -69,7 +72,10 @@
                         <h4 class="text-start">¿Desea borrar la entidad?</h4>
                         <h6 class="text-start">@Model.Actual!.Capacidad, @Model.Actual!.Ubicacion</h6>
                         <br /><br />
-                        <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        @if (Model.IsAdmin)
+                        {
+                            <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        }
                         <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
                     </div>
                 </div>
@@ -97,10 +103,17 @@
                             <tr>
                                 <td>@elemento.Capacidad</td>
                                 <td>@elemento.Ubicacion</td>
-                                <td>
-                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
-                                </td>
+                                @if (Model.IsAdmin)
+                                {
+                                    <td>
+                                        <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
+                                        <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>No disponible</td> @* Or just an empty td: <td></td> *@
+                                }
                             </tr>
                         }
                     }

@@ -1,0 +1,47 @@
+@page
+@model asp_presentacion.Pages.Ventanas.AuditoriasModel
+@{
+    ViewData["Titulo"] = "Auditorías";
+}
+
+<div class="text-start mb-3">
+    <h3>Auditorías</h3>
+</div>
+
+@* Solo mostramos la tabla, sin ningún botón de acción *@
+@if (Model.Lista != null && Model.Lista.Count > 0)
+{
+    <div class="containers_vn panel panel-default">
+        <table class="tb_data table table-striped table-bordered table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tabla</th>
+                <th>Acción</th>
+                <th>Llave PK</th>
+                <th>Cambios</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var a in Model.Lista)
+            {
+                <tr>
+                    <td>@a.Id</td>
+                    <td>@a.Tabla</td>
+                    <td>@a.Accion</td>
+                    <td>@a.LlavePrimaria</td>
+                    <td>@a.Cambios</td>
+                    <td>@a.Fecha.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@a.Usuario</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p class="text-muted">No hay registros de auditoría para mostrar.</p>
+}

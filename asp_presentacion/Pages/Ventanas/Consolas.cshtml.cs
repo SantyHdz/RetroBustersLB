@@ -2,27 +2,30 @@ using lib_dominio.Entidades;
 using lib_dominio.Nucleo;
 using lib_presentaciones.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace asp_presentacion.Pages.Ventanas
 {
-    public class ConsolasModel : PageModel
+    public class ConsolasModel : SecurePageModel // Inherit from SecurePageModel
     {
-        private IConsolasPresentacion? iPresentacion = null;
-        private IAlmacenesPresentacion? iAlmacenesPresentacion = null;
+        private readonly IConsolasPresentacion _iPresentacion; // Made readonly
+        private readonly IAlmacenesPresentacion _iAlmacenesPresentacion; // Made readonly
 
         public ConsolasModel(IConsolasPresentacion iPresentacion,
-            IAlmacenesPresentacion iAlmacenesPresentacion)
+                             IAlmacenesPresentacion iAlmacenesPresentacion,
+                             IRolesPresentacion rolesPresentacion,
+                             IHttpContextAccessor httpContextAccessor)
+            : base(rolesPresentacion, httpContextAccessor) // Call base constructor
         {
             try
             {
-                this.iPresentacion = iPresentacion;
-                this.iAlmacenesPresentacion = iAlmacenesPresentacion;
+                _iPresentacion = iPresentacion;
+                _iAlmacenesPresentacion = iAlmacenesPresentacion;
                 Filtro = new Consolas();
-            } 
+            }
             catch (Exception ex)
             {
-                LogConversor.Log(ex, ViewData!);
+                // Consider logging here or ensuring ViewData is available if SecurePageModel doesn't handle it
+                // LogConversor.Log(ex, ViewData!); // ViewData might not be fully initialized here
             }
         }
 
@@ -39,17 +42,18 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
+                // Session check is handled by SecurePageModel or redirects if session is not found by OnPageHandlerExecutionAsync
                 var variable_session = HttpContext.Session.GetString("Usuario");
                 if (String.IsNullOrEmpty(variable_session))
                 {
-                    HttpContext.Response.Redirect("/");
+                    HttpContext.Response.Redirect("/"); 
                     return;
                 }
 
                 Filtro!.Tipo = Filtro!.Tipo ?? "";
 
                 Accion = Enumerables.Ventanas.Listas;
-                var task = this.iPresentacion!.PorTipo(Filtro!);
+                var task = _iPresentacion.PorTipo(Filtro!); // Use _iPresentacion
                 task.Wait();
                 Lista = task.Result;
                 Actual = null;
@@ -64,7 +68,7 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
-                var task = this.iAlmacenesPresentacion!.Listar();
+                var task = _iAlmacenesPresentacion.Listar(); // Use _iAlmacenesPresentacion
                 task.Wait();
                 Almacenes = task.Result;
             }
@@ -76,6 +80,11 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtNuevo()
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 Accion = Enumerables.Ventanas.Editar;
@@ -90,6 +99,11 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtModificar(string data)
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 OnPostBtRefrescar();
@@ -105,15 +119,20 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtGuardar()
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 Accion = Enumerables.Ventanas.Editar;
 
                 Task<Consolas>? task = null;
                 if (Actual!.Id == 0)
-                    task = this.iPresentacion!.Guardar(Actual!)!;
+                    task = _iPresentacion.Guardar(Actual!)!; // Use _iPresentacion
                 else
-                    task = this.iPresentacion!.Modificar(Actual!)!;
+                    task = _iPresentacion.Modificar(Actual!)!; // Use _iPresentacion
                 task.Wait();
                 Actual = task.Result;
                 Accion = Enumerables.Ventanas.Listas;
@@ -127,6 +146,11 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtBorrarVal(string data)
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
                 OnPostBtRefrescar();
@@ -141,9 +165,14 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtBorrar()
         {
+            if (!IsAdmin)
+            {
+                OnPostBtRefrescar(); 
+                return;
+            }
             try
             {
-                var task = this.iPresentacion!.Borrar(Actual!);
+                var task = _iPresentacion.Borrar(Actual!); // Use _iPresentacion
                 Actual = task.Result;
                 OnPostBtRefrescar();
             }

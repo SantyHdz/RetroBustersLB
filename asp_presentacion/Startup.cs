@@ -29,9 +29,10 @@ namespace asp_presentacion
             services.AddScoped<IReservas_SnacksPresentacion, Reservas_SnacksPresentacion>();
             services.AddScoped<IUsuariosPresentacion, UsuariosPresentacion>();
             services.AddScoped<IRolesPresentacion, RolesPresentacion>();
+            services.AddScoped<IAuditoriasPresentacion, AuditoriasPresentacion>();
             
 
-
+            services.AddHttpContextAccessor();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddRazorPages();
@@ -53,11 +54,18 @@ namespace asp_presentacion
             }
 
             app.UseStaticFiles();
+
             app.UseRouting();
-            app.UseAuthorization();
-            app.MapRazorPages();
-            app.UseSession();
+
+            app.UseSession();             // Session debe estar antes de usar HttpContext
+
+            app.UseAuthentication();      // Si usas autenticación, va antes de Authorization
+            app.UseAuthorization();       // Luego autorización
+
+            app.MapRazorPages();          // Mapea después de configurar middlewares
+
             app.Run();
         }
+
     }
 }

@@ -58,7 +58,7 @@ namespace asp_servicios.Controllers
         }
 
         [HttpPost]
-        public string PorUbicacion()
+        public string PorId()
         {
             var respuesta = new Dictionary<string, object>();
             try
