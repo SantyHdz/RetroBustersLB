@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Base */
+body {
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0a1f33;
+  color: #ffda6b;
+  margin: 0;
+  padding-bottom: 80px;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Navbar */
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-word;
+  color: #ffda6b;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.navbar {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background-color: #123d66;
+}
+
+/* Enlaces */
+a {
+  color: #ffda6b;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #fff0b3;
+  text-shadow: 0 0 5px #ffda6b;
+}
+
+/* Botones */
+.btn-primary {
+  color: #0a1f33;
+  background-color: #ffda6b;
+  border-color: #f0c851;
+  font-weight: 600;
+  box-shadow: 0 0 5px #ffda6b;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  background-color: #f0c851;
+  box-shadow: 0 0 10px #fff0b3;
+}
+
+/* Nav pills */
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #0a1f33;
+  background-color: #ffda6b;
+  border-color: #f0c851;
+  font-weight: bold;
+}
+
+/* Footer fijo */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  line-height: 60px;
+  background-color: #123d66;
+  color: #ffda6b;
+  text-align: center;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenido principal */
+.main-content {
+  padding-bottom: 100px;
+}
+
+/* Cards */
+.card_index {
+  background-color: #123d66;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #ffda6b;
+  transition: all 0.3s ease;
+}
+
+.card_index:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(255, 218, 107, 0.2);
+}
+
+/* Tablas y formularios */
+.tb_data {
+  width: 100%;
+  border-radius: 10px;
+  background-color: #0a1f33;
+  color: #ffda6b;
+}
+
+.cts_forms {
+  width: 100%;
+  background-color: #123d66;
+  color: #ffda6b;
+  border: 1px solid #ffda6b;
+}
+
+.cl_actions {
+  width: 170px;
+}
+
+.cl_hidden {
+  display: normal;
+}
+
+@media (max-width: 950px) {
+  .cl_hidden {
+    display: none;
+  }
+}
+
+/* Contenedores scrollables */
+.containers_vn {
+  height: 70vh;
+  width: 100%;
+  overflow: auto;
+  display: inline-block;
+  background-color: #0a1f33;
+  border: 1px solid #ffda6b;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+.containers_em {
+  height: 250px;
+  width: 100%;
+  overflow: auto;
+  display: inline-block;
+  background-color: #0a1f33;
+  border: 1px solid #ffda6b;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+/* Popups */
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
+
+.pp_inner,
+.pp_del_inner,
+.pp_ms_inner {
+  position: absolute;
+  left: 50px;
+  right: 50px;
+  top: 50px;
+  bottom: 25%;
+  min-width: 300px;
+  max-width: 500px;
+  height: 440px;
+  margin: auto;
+  background: #123d66;
+  border: 2px solid #ffda6b;
+  border-radius: 12px;
+  color: #ffda6b;
+  padding: 1rem;
+}
+
+/* Botón política cookies */
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+  background-color: #ffda6b;
+  color: #0a1f33;
+  font-weight: 600;
+}
+
+/* Bordes y sombras generales */
+.border-top {
+  border-top: 1px solid #26415c;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #26415c;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(255, 218, 107, 0.1);
+}
+
+.btn-group-centered {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+
+
