@@ -40,6 +40,8 @@ namespace asp_servicios
             services.AddScoped<IReservasAplicacion, ReservasAplicacion>();
             services.AddScoped<ISnacksAplicacion, SnacksAplicacion>();
             services.AddScoped<IAuditoriaAplicacion, AuditoriaAplicacion>();
+            services.AddScoped<IUsuariosAplicacion, UsuariosAplicacion>();
+            services.AddScoped<IRolesAplicacion, RolesAplicacion>();
 
             // Controladores 
             services.AddScoped<TokenController, TokenController>();

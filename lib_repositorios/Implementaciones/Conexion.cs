@@ -61,6 +61,8 @@ public class ConexionEF3
         public DbSet<Snacks>? Snacks { get; set; }
         public DbSet<Reservas_Snacks>? Reservas_Snacks { get; set; }
         public DbSet<Auditoria>? Auditorias { get; set; }
+        public DbSet<Roles>? Roles { get; set; }
+        public DbSet<Usuarios>? Usuarios { get; set; }
 
         public override int SaveChanges()
         {

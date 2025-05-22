@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace lib_dominio.Entidades;
 
 public class Usuarios
@@ -7,7 +9,8 @@ public class Usuarios
     public string Correo { get; set; } = "";
     public string ContrasenaHash { get; set; } = "";
     public string Direccion { get; set; } = "";
-
+    
     public int RolId { get; set; }
-    public Roles? Rol { get; set; }
+    
+    [ForeignKey("RolId")] public Roles? _RolId { get; set; }
 }

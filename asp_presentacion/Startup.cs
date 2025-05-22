@@ -1,5 +1,6 @@
+using lib_aplicaciones.Implementaciones;
 using lib_aplicaciones.Interfaces;
-using lib_dominio.Implementaciones;
+using lib_dominio.Entidades;
 using lib_presentaciones.Implementaciones;
 using lib_presentaciones.Interfaces;
 
@@ -26,8 +27,9 @@ namespace asp_presentacion
             services.AddScoped<IEnviosPresentacion, EnviosPresentacion>();
             services.AddScoped<IReservasPresentacion, ReservasPresentacion>();
             services.AddScoped<IReservas_SnacksPresentacion, Reservas_SnacksPresentacion>();
-            services.AddScoped<IUsuariosAplicacion, UsuariosAplicacion>();
-            services.AddScoped<IRolesAplicacion, RolesImplementacion>();
+            services.AddScoped<IUsuariosPresentacion, UsuariosPresentacion>();
+            services.AddScoped<IRolesPresentacion, RolesPresentacion>();
+            
 
 
             services.AddControllers();
