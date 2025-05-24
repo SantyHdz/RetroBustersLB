@@ -19,4 +19,8 @@
       <_ContentIncludedByDefault Remove="GestionRoles\Upsert.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\vendor\" />
+    </ItemGroup>
+
 </Project>

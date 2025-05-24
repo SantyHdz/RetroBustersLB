@@ -49,7 +49,7 @@ namespace asp_presentacion.Pages.Ventanas
                 Filtro!.Cargo = Filtro!.Cargo ?? "";
 
                 Accion = Enumerables.Ventanas.Listas;
-                var task = _iPresentacion.PorCargo(Filtro!); // Use _iPresentacion
+                var task = _iPresentacion.PorCargo(Filtro!);
                 task.Wait();
                 Lista = task.Result;
                 Actual = null;

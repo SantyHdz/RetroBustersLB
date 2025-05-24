@@ -1,49 +1,56 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿(function($) {
+    "use strict"; // Start of use strict
 
-document.addEventListener("DOMContentLoaded", function () {
-    // 🔹 Obtener los elementos
-    const cantidad = document.querySelector("input[name='Actual.Cantidad']");
-    const precio = document.querySelector("input[name='Actual.Precio_unitario']");
-    const guardarBtn = document.querySelector("input[type=submit][value='Guardar']");
-    const totalDiv = document.getElementById("total-din");
-
-    // 🔹 Mostrar total dinámico
-    const mostrarTotal = () => {
-        const cant = parseInt(cantidad?.value || 0);
-        const prec = parseFloat(precio?.value || 0);
-        if (totalDiv) {
-            const total = cant * prec;
-            totalDiv.textContent = `Total estimado: $${total.toFixed(2)}`;
-        }
-    };
-
-    // 🔹 Habilitar/deshabilitar botón "Guardar" según validez de campos
-    const validarFormulario = () => {
-        if (!cantidad || !precio || !guardarBtn) return;
-        const cantVal = cantidad.value.trim();
-        const precVal = precio.value.trim();
-        guardarBtn.disabled = !(cantVal !== "" && precVal !== "" && parseFloat(precVal) >= 0);
-    };
-
-    // 🔹 Resaltar campos modificados
-    const aplicarResaltado = (input) => {
-        input.classList.add("highlight-change");
-        setTimeout(() => input.classList.remove("highlight-change"), 1500);
-    };
-
-    // 🔹 Asignar eventos
-    [cantidad, precio].forEach(input => {
-        if (!input) return;
-        input.addEventListener("input", () => {
-            mostrarTotal();
-            validarFormulario();
-            aplicarResaltado(input);
-        });
+    // Toggle the side navigation
+    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+        $("body").toggleClass("sidebar-toggled");
+        $(".sidebar").toggleClass("toggled");
+        if ($(".sidebar").hasClass("toggled")) {
+            $('.sidebar .collapse').collapse('hide');
+        };
     });
 
-    // 🔹 Inicial
-    mostrarTotal();
-    validarFormulario();
-});
+    // Close any open menu accordions when window is resized below 768px
+    $(window).resize(function() {
+        if ($(window).width() < 768) {
+            $('.sidebar .collapse').collapse('hide');
+        };
 
+        // Toggle the side navigation when window is resized below 480px
+        if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+            $("body").addClass("sidebar-toggled");
+            $(".sidebar").addClass("toggled");
+            $('.sidebar .collapse').collapse('hide');
+        };
+    });
+
+    // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
+        if ($(window).width() > 768) {
+            var e0 = e.originalEvent,
+                delta = e0.wheelDelta || -e0.detail;
+            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+            e.preventDefault();
+        }
+    });
+
+    // Scroll to top button appear
+    $(document).on('scroll', function() {
+        var scrollDistance = $(this).scrollTop();
+        if (scrollDistance > 100) {
+            $('.scroll-to-top').fadeIn();
+        } else {
+            $('.scroll-to-top').fadeOut();
+        }
+    });
+
+    // Smooth scrolling using jQuery easing
+    $(document).on('click', 'a.scroll-to-top', function(e) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: ($($anchor.attr('href')).offset().top)
+        }, 1000, 'easeInOutExpo');
+        e.preventDefault();
+    });
+
+})(jQuery); // End of use strict
