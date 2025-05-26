@@ -17,6 +17,10 @@
       <_ContentIncludedByDefault Remove="GestionPermisos\Upsert.cshtml" />
       <_ContentIncludedByDefault Remove="GestionRoles\Index.cshtml" />
       <_ContentIncludedByDefault Remove="GestionRoles\Upsert.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\vendor\chart.js\Chart.bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\vendor\chart.js\Chart.bundle.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\vendor\chart.js\Chart.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\vendor\chart.js\Chart.min.js" />
     </ItemGroup>
 
     <ItemGroup>

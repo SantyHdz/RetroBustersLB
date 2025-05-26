@@ -5,10 +5,6 @@
       "PackagePath": "staticwebassets\\asp_presentacion.443kg3tsa5.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\css\\mynewcss.css",
-      "PackagePath": "staticwebassets\\css\\mynewcss.css"
-    },
-    {
       "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\css\\sb-admin-2.min.css",
       "PackagePath": "staticwebassets\\css\\sb-admin-2.min.css"
     },
@@ -803,46 +799,6 @@
     {
       "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\bootstrap\\scss\\vendor\\_rfs.scss",
       "PackagePath": "staticwebassets\\vendor\\bootstrap\\scss\\vendor\\_rfs.scss"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\chart.js\\Chart.bundle.js",
-      "PackagePath": "staticwebassets\\vendor\\chart.js\\Chart.bundle.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\chart.js\\Chart.bundle.min.js",
-      "PackagePath": "staticwebassets\\vendor\\chart.js\\Chart.bundle.min.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\chart.js\\Chart.js",
-      "PackagePath": "staticwebassets\\vendor\\chart.js\\Chart.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\chart.js\\Chart.min.js",
-      "PackagePath": "staticwebassets\\vendor\\chart.js\\Chart.min.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\datatables\\dataTables.bootstrap4.css",
-      "PackagePath": "staticwebassets\\vendor\\datatables\\dataTables.bootstrap4.css"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\datatables\\dataTables.bootstrap4.js",
-      "PackagePath": "staticwebassets\\vendor\\datatables\\dataTables.bootstrap4.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\datatables\\dataTables.bootstrap4.min.css",
-      "PackagePath": "staticwebassets\\vendor\\datatables\\dataTables.bootstrap4.min.css"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\datatables\\dataTables.bootstrap4.min.js",
-      "PackagePath": "staticwebassets\\vendor\\datatables\\dataTables.bootstrap4.min.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\datatables\\jquery.dataTables.js",
-      "PackagePath": "staticwebassets\\vendor\\datatables\\jquery.dataTables.js"
-    },
-    {
-      "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\datatables\\jquery.dataTables.min.js",
-      "PackagePath": "staticwebassets\\vendor\\datatables\\jquery.dataTables.min.js"
     },
     {
       "Id": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\asp_presentacion\\wwwroot\\vendor\\fontawesome-free\\LICENSE.txt",

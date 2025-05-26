@@ -143,11 +143,8 @@ C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\re
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\asp_presentacion.pdb
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\asp_presentacion.genruntimeconfig.cache
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\ref\asp_presentacion.dll
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\gjqgrw1mhj-8ugpe2ckfe.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\3ad0kwmyut-02037ac2e4.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\4yxp0ba4zz-m2e4o71t8u.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\m1hieia4vb-3wkk0jr7h6.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\zdzaarmo4e-5o97bouyya.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\tcvhfim1kb-holytffiuu.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\4pxvujdcid-lvacmjdy9i.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\j91y77tob6-8u741w00kw.gz
@@ -156,16 +153,6 @@ C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\co
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\v0sjllve21-o3jle8hwwp.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\p8z0awegih-p9psm714dd.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\9590n2rcqx-rgpsy9uzoj.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\9t53d2aqo0-1bkk5f9ct6.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\3hk65vbe57-8kror95xv6.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\a47rec1d01-sot52ot9a1.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\5ssqiwh8e5-dz54bq2ur0.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\0m4hj2t9m4-ff1nfxpcct.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\vurhxi7ce7-3th4muvuar.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\wsdq3j9xek-uycvkzzoji.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\vheca68v9c-l9m6i47t5v.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\285ag8whx6-xyf7nynjmq.gz
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\y2ko99b6zk-mcjyg0kpav.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\zcpdk1uq4w-7jzic7vmq9.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\9o9zulspv6-9ne7oglbed.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\wgndjb4pfa-guatu28glt.gz
@@ -1831,3 +1818,5 @@ C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\co
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\gkou6agyd7-eeix3wlwuj.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\ftj516h3q7-8c6joi3n26.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\bin\Debug\net9.0\package.json
+C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\4yxp0ba4zz-l266wuvu9c.gz
+C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\zdzaarmo4e-5o97bouyya.gz
