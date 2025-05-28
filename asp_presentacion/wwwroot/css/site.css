@@ -11279,3 +11279,142 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+ body {
+   background: #e9f0f8;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+   margin: 0;
+   padding: 0;
+ }
+.dashboard-container {
+  max-width: 680px;
+  background: #fff;
+  margin: 3rem auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  color: #222;
+}
+.dashboard-container h2 {
+  color: #007bff; /* Updated theme color */
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  font-size: 2.4rem;
+  border-bottom: 3px solid #007bff; /* Updated theme color */
+  padding-bottom: 0.5rem;
+}
+.dashboard-container p.description {
+  color: #444;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+form.new-reserva-form {
+  background: #f7f9fc;
+  border-radius: 10px;
+  padding: 1.8rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* Updated box-shadow */
+}
+form.new-reserva-form label {
+  display: block;
+  font-weight: 600;
+  color: #007bff; /* Updated theme color */
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+form.new-reserva-form input,
+form.new-reserva-form select {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1.3rem;
+  border-radius: 8px; /* Updated border-radius */
+  border: 1.8px solid #c3cfd9;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+}
+form.new-reserva-form input:focus,
+form.new-reserva-form select:focus {
+  outline: none;
+  border-color: #007bff; /* Updated theme color */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap-like focus shadow */
+}
+/* Styling for the actual button used in the form */
+button[type="submit"].btn.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  font-weight: 600; /* Adjusted font-weight */
+  padding: 0.6rem 1.5rem; /* Specific padding */
+  border-radius: 8px; /* Consistent border-radius */
+  font-size: 1.05rem; /* Adjusted font-size */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: auto; /* Specific width */
+  display: inline-block; /* Ensure padding and width auto work as expected */
+}
+button[type="submit"].btn.btn-primary:hover {
+  background-color: #0056b3; /* Darker shade for hover */
+  border-color: #0056b3;
+}
+button[type="submit"].btn.btn-primary:focus {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Clearer focus shadow */
+}
+.feedback-message {
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #27ae60;
+  display: none;
+}
+.feedback-error {
+  color: #e74c3c;
+}
+/* Add these styles to the existing <style> block */
+.user-reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* Consistent with form shadow */
+  border-radius: 8px; /* Consistent with form elements */
+  overflow: hidden; /* To ensure child elements adhere to border-radius */
+}
+.user-reservations-table thead tr {
+  background-color: #007bff; /* New theme color */
+  color: #ffffff;
+  text-align: left;
+  font-weight: 600;
+}
+.user-reservations-table th,
+.user-reservations-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #dddddd;
+}
+.user-reservations-table tbody tr {
+  background-color: #f8f9fa;
+}
+.user-reservations-table tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+.user-reservations-table tbody tr:last-of-type {
+  border-bottom: 2px solid #007bff; /* Theme color for final border */
+}
+.user-reservations-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+.no-reservations-message {
+  color: #555;
+  font-size: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f7f9fc;
+  border-left: 4px solid #007bff; /* Theme color accent */
+  border-radius: 8px;
+}
+h3 { /* General h3 styling if not already present for user section */
+  color: #007bff;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}

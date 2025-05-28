@@ -1,341 +1,487 @@
-    @page
-    @model asp_presentacion.Pages.Ventanas.ReservasModel
-    @{
-        ViewData["Titulo"] = "Reservas";
-    }
-    <div class="text-center">
-        @if (Model.CurrentUserRoleName == "Usuario")
+@page
+@model asp_presentacion.Pages.Ventanas.ReservasModel
+@{
+    ViewData["Titulo"] = "Reservas";
+}
+<div class="text-center">
+    @if (Model.CurrentUserRoleName == "Usuario")
     {
-        <style>
-            body {
-                background: #e9f0f8;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 0;
-            }
-            .dashboard-container {
-                max-width: 680px;
-                background: #fff;
-                margin: 3rem auto;
-                padding: 2.5rem 3rem;
-                border-radius: 12px;
-                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-                color: #222;
-            }
-            .dashboard-container h2 {
-                color: #0a3d62;
-                font-weight: 700;
-                margin-bottom: 0.3rem;
-                font-size: 2.4rem;
-                border-bottom: 3px solid #0a3d62;
-                padding-bottom: 0.5rem;
-            }
-            .dashboard-container p.description {
-                color: #444;
-                font-size: 1.1rem;
-                line-height: 1.6;
-                margin-bottom: 2rem;
-            }
-            form.new-reserva-form {
-                background: #f7f9fc;
-                border-radius: 10px;
-                padding: 1.8rem 2rem;
-                box-shadow: 0 4px 14px rgba(10, 61, 98, 0.08);
-            }
-            form.new-reserva-form label {
-                display: block;
-                font-weight: 600;
-                color: #0a3d62;
-                margin-bottom: 0.4rem;
-                font-size: 1rem;
-            }
-            form.new-reserva-form input,
-            form.new-reserva-form select {
-                width: 100%;
-                padding: 0.6rem 0.9rem;
-                margin-bottom: 1.3rem;
-                border-radius: 6px;
-                border: 1.8px solid #c3cfd9;
-                font-size: 1rem;
-                transition: border-color 0.3s ease;
-            }
-            form.new-reserva-form input:focus,
-            form.new-reserva-form select:focus {
-                outline: none;
-                border-color: #0a3d62;
-                box-shadow: 0 0 6px #0a3d62a6;
-            }
-            button#btnAgregarReserva {
-                background: #0a3d62;
-                color: white;
-                font-weight: 700;
-                padding: 0.75rem 1.8rem;
-                border: none;
-                border-radius: 25px;
-                font-size: 1.1rem;
-                cursor: pointer;
-                transition: background-color 0.25s ease;
-                width: 100%;
-            }
-            button#btnAgregarReserva:hover {
-                background: #07406a;
-            }
-            .feedback-message {
-                margin-top: 1rem;
-                font-weight: 600;
-                font-size: 1rem;
-                color: #27ae60;
-                display: none;
-            }
-            .feedback-error {
-                color: #e74c3c;
-            }
-        </style>
-            <section class="dashboard-container" role="main" aria-label="Panel principal de usuario">
-                <h2>Bienvenido a tu Panel de Reservas</h2>
-                <p class="description">
-                    Desde aquí puedes agregar una nueva reserva fácilmente. Completa los datos del formulario y haz clic en "Agregar Reserva".
-                    Tu solicitud se procesará de forma rápida y segura, y podrás ver tus reservas actualizadas en el listado.
-                </p>
+        <section class="dashboard-container" role="main" aria-label="Panel principal de usuario">
 
-                <form method="post">
+            <header class="dashboard-header">
+                <h1>Tu Espacio de Reservas</h1>
+                <p class="subtitle">Organiza y gestiona tus reservas con facilidad y rapidez</p>
+            </header>
+
+            <div class="dashboard-main">
+
+                <div class="dashboard-visual">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Gestión de reservas" />
+                    <p class="visual-text">
+                        Gestiona tus reservas de películas y consolas, elige fechas y miembros, y lleva todo bajo control en un solo lugar.
+                    </p>
+                </div>
+
+                <form method="post" class="reservation-form" novalidate>
                     @Html.AntiForgeryToken()
 
-                    <div class="mb-3">
-                        <label asp-for="Actual.Pelicula" class="form-label">Selecciona la película (opcional)</label>
-                        <select asp-for="Actual.Pelicula" class="form-select" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))">
+                    <h2>Agregar Nueva Reserva</h2>
+
+                    <div class="form-row">
+                        <label asp-for="Actual.Pelicula">Película (opcional)</label>
+                        <select asp-for="Actual.Pelicula" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))">
                             <option value="">-- Ninguna --</option>
                         </select>
                         <span asp-validation-for="Actual.Pelicula" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Actual.Consola" class="form-label">Selecciona la consola (opcional)</label>
-                        <select asp-for="Actual.Consola" class="form-select" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))">
+                    <div class="form-row">
+                        <label asp-for="Actual.Consola">Consola (opcional)</label>
+                        <select asp-for="Actual.Consola" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))">
                             <option value="">-- Ninguna --</option>
                         </select>
                         <span asp-validation-for="Actual.Consola" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Actual.Miembro" class="form-label">Selecciona el miembro</label>
-                        <select asp-for="Actual.Miembro" class="form-select" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" required>
+                    <div class="form-row">
+                        <label asp-for="Actual.Miembro">Miembro</label>
+                        <select asp-for="Actual.Miembro" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" required>
                             <option value="" disabled selected>-- Elige un miembro --</option>
                         </select>
                         <span asp-validation-for="Actual.Miembro" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Actual.Empleado" class="form-label">Selecciona el empleado</label>
-                        <select asp-for="Actual.Empleado" class="form-select" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" required>
+                    <div class="form-row">
+                        <label asp-for="Actual.Empleado">Empleado</label>
+                        <select asp-for="Actual.Empleado" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" required>
                             <option value="" disabled selected>-- Elige un empleado --</option>
                         </select>
                         <span asp-validation-for="Actual.Empleado" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Actual.Fecha_Reserva" class="form-label">Fecha y hora de la reserva</label>
-                        <input asp-for="Actual.Fecha_Reserva" type="datetime-local" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
+                    <div class="form-row">
+                        <label asp-for="Actual.Fecha_Reserva">Fecha y hora</label>
+                        <input asp-for="Actual.Fecha_Reserva" type="datetime-local" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
                         <span asp-validation-for="Actual.Fecha_Reserva" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Actual.Duracion" class="form-label">Duración (en horas)</label>
-                        <input asp-for="Actual.Duracion" type="number" class="form-control" min="1" value="1" required />
+                    <div class="form-row">
+                        <label asp-for="Actual.Duracion">Duración (días)</label>
+                        <input asp-for="Actual.Duracion" type="number" min="1" value="1" required />
                         <span asp-validation-for="Actual.Duracion" class="text-danger"></span>
                     </div>
 
-                    <button type="submit" asp-page-handler="BtGuardar" class="btn btn-primary">Agregar Reserva</button>
-                </form>
-            </section>
+                    <div class="form-row">
+                        <label asp-for="Actual.Estado">Estado</label>
+                        <select asp-for="Actual.Estado" required>
+                            <option value="">Seleccione un estado</option>
+                            <option value="Confirmada">Confirmada</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Entregado">Entregado</option>
+                        </select>
+                        <span asp-validation-for="Actual.Estado" class="text-danger"></span>
+                    </div>
 
-            @section Scripts {
-                <partial name="_ValidationScriptsPartial" />
-            }
+                    <button type="submit" asp-page-handler="BtGuardar" class="btn-submit">Agregar Reserva</button>
+                </form>
+            </div>
+
+        </section>
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial" />
         }
-        else
-        {
-            <form method="POST" enctype="multipart/form-data">
-                @Html.AntiForgeryToken()
-    
-                <div class="text-start mb-3">
-                    <h3>Reservas</h3>
-                </div>
-    
-                <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
-                    <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+
+        <style>
+            /* Contenedor principal */
+            .dashboard-container {
+                max-width: 1100px;
+                margin: 2rem auto 4rem;
+                background: #fff;
+                border-radius: 16px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+                padding: 2.5rem 3rem;
+                font-family: 'Poppins', sans-serif;
+                color: #222;
+            }
+
+            /* Header */
+            .dashboard-header h1 {
+                font-size: 2.8rem;
+                font-weight: 800;
+                color: #0d6efd;
+                text-align: center;
+                margin-bottom: 0.2rem;
+                letter-spacing: 1.8px;
+            }
+            .dashboard-header .subtitle {
+                font-size: 1.2rem;
+                font-weight: 500;
+                text-align: center;
+                color: #6c757d;
+                margin-bottom: 2.5rem;
+                font-style: italic;
+            }
+
+            /* Grid principal con 2 columnas */
+            .dashboard-main {
+                display: grid;
+                grid-template-columns: 1fr 1.3fr;
+                gap: 3rem;
+                align-items: start;
+            }
+
+            /* Imagen + texto visual */
+            .dashboard-visual {
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 12px 24px rgba(13,110,253,0.2);
+                background: linear-gradient(135deg, #e9f0ff 0%, #cde4ff 100%);
+                text-align: center;
+                padding: 1.5rem 1rem 2rem;
+            }
+            .dashboard-visual img {
+                max-width: 100%;
+                border-radius: 12px;
+                box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+                margin-bottom: 1.25rem;
+                transition: transform 0.4s ease;
+                cursor: default;
+            }
+            .dashboard-visual img:hover {
+                transform: scale(1.05);
+            }
+            .visual-text {
+                font-size: 1.15rem;
+                color: #0d6efd;
+                font-weight: 600;
+                line-height: 1.4;
+            }
+
+            /* Formulario */
+            form.reservation-form {
+                background: #f7f9fc;
+                border-radius: 16px;
+                padding: 2rem 2.5rem;
+                box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+            }
+            form.reservation-form h2 {
+                color: #0d6efd;
+                font-weight: 700;
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 3px solid #0d6efd;
+                padding-bottom: 0.3rem;
+            }
+            .form-row {
+                margin-bottom: 1.4rem;
+                display: flex;
+                flex-direction: column;
+            }
+            .form-row label {
+                font-weight: 600;
+                margin-bottom: 0.4rem;
+                color: #212529;
+            }
+            .form-row select,
+            .form-row input {
+                padding: 0.6rem 0.9rem;
+                font-size: 1rem;
+                border-radius: 10px;
+                border: 1.8px solid #0d6efd;
+                transition: all 0.3s ease;
+                font-family: 'Poppins', sans-serif;
+                outline-offset: 2px;
+            }
+            .form-row select:focus,
+            .form-row input:focus {
+                border-color: #084298;
+                box-shadow: 0 0 8px rgba(13,110,253,0.4);
+                outline: none;
+            }
+            .text-danger {
+                font-size: 0.85rem;
+                margin-top: -0.7rem;
+                margin-bottom: 0.5rem;
+                color: #dc3545;
+                font-weight: 600;
+            }
+
+            /* Botón */
+            .btn-submit {
+                margin-top: 1rem;
+                background: linear-gradient(90deg, #0d6efd, #084298);
+                border: none;
+                padding: 0.75rem 0;
+                font-weight: 700;
+                font-size: 1.25rem;
+                color: white;
+                border-radius: 14px;
+                width: 100%;
+                cursor: pointer;
+                box-shadow: 0 8px 18px rgba(13, 110, 253, 0.45);
+                transition: background 0.3s ease, box-shadow 0.3s ease;
+            }
+            .btn-submit:hover {
+                background: linear-gradient(90deg, #084298, #062863);
+                box-shadow: 0 12px 24px rgba(6, 40, 99, 0.75);
+            }
+
+            /* Tabla de reservas */
+            .reservations-list {
+                margin-top: 3rem;
+            }
+            .reservations-list h2 {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #0d6efd;
+                margin-bottom: 1.5rem;
+                border-bottom: 3px solid #0d6efd;
+                padding-bottom: 0.25rem;
+                text-align: center;
+            }
+            .table-reservations {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0 0.8rem;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+                color: #222;
+            }
+            .table-reservations thead th {
+                color: #fff;
+                background-color: #0d6efd;
+                font-weight: 700;
+                padding: 1rem 1.2rem;
+                border-radius: 12px 12px 0 0;
+                text-align: center;
+                user-select: none;
+            }
+            .table-reservations tbody tr {
+                background: #f1f7ff;
+                box-shadow: 0 2px 6px rgba(13, 110, 253, 0.12);
+                border-radius: 12px;
+                transition: transform 0.25s ease;
+            }
+            .table-reservations tbody tr:hover {
+                background: #dbe9ff;
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(13, 110, 253, 0.25);
+            }
+            .table-reservations tbody td {
+                padding: 1rem 1.2rem;
+                text-align: center;
+                vertical-align: middle;
+                border-radius: 12px;
+            }
+
+            /* Mensaje cuando no hay reservas */
+            .no-reservations-message {
+                text-align: center;
+                font-size: 1.15rem;
+                color: #6c757d;
+                margin-top: 1.4rem;
+                font-style: italic;
+            }
+
+            /* Responsive */
+            @@media (max-width: 900px) {
+            .dashboard-main {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .dashboard-visual {
+                margin: 0 auto;
+                max-width: 400px;
+            }
+            }
+        </style>
+
+
+    }
+    else
+    {
+        <form method="POST" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="text-start mb-3">
+                <h3>Reservas</h3>
+            </div>
+
+            <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
+                <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                @if (Model.IsAdmin)
+                {
+                    <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
                            disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                    @if (Model.IsAdmin)
-                    {
-                        <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                               disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                        <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                               disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                    }
-                    <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                    <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
                            disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                </div>
-    
-                @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-                {
-                    <input type="hidden" asp-for="@Model.Actual!.Id" />
                 }
-    
-                @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
-                {
-                    <div class="containers_vn panel panel-default p-3">
-                        <h4>Detalles de la Reserva</h4>
-    
-                        <div class="mb-3 row">
-                            <label for="nmFecha" class="col-sm-3 col-form-label">Fecha de Reserva</label>
-                            <div class="col-sm-9">
-                                <input id="nmFecha" type="datetime-local" class="form-control" asp-for="@Model.Actual!.Fecha_Reserva" readonly="@(!Model.IsAdmin)" />
-                            </div>
+                <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            </div>
+
+            @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input type="hidden" asp-for="@Model.Actual!.Id" />
+            }
+
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+            {
+                <div class="containers_vn panel panel-default p-3">
+                    <h4>Detalles de la Reserva</h4>
+
+                    <div class="mb-3 row">
+                        <label for="nmFecha" class="col-sm-3 col-form-label">Fecha de Reserva</label>
+                        <div class="col-sm-9">
+                            <input id="nmFecha" type="datetime-local" class="form-control" asp-for="@Model.Actual!.Fecha_Reserva" readonly="@(!Model.IsAdmin)" />
                         </div>
-    
-                        <div class="mb-3 row">
-                            <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
-                            <div class="col-sm-9">
-                                <input id="nmEstado" class="form-control" asp-for="@Model.Actual!.Estado" readonly="@(!Model.IsAdmin)" />
-                            </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
+                        <div class="col-sm-9">
+                            <input id="nmEstado" class="form-control" asp-for="@Model.Actual!.Estado" readonly="@(!Model.IsAdmin)" />
                         </div>
-    
-                        <div class="mb-3 row">
-                            <label for="nmDuracion" class="col-sm-3 col-form-label">Duración (días)</label>
-                            <div class="col-sm-9">
-                                <input id="nmDuracion" type="number" min="1" class="form-control" asp-for="@Model.Actual!.Duracion" readonly="@(!Model.IsAdmin)" />
-                            </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="nmDuracion" class="col-sm-3 col-form-label">Duración (días)</label>
+                        <div class="col-sm-9">
+                            <input id="nmDuracion" type="number" min="1" class="form-control" asp-for="@Model.Actual!.Duracion" readonly="@(!Model.IsAdmin)" />
                         </div>
-    
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Total</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
-                            </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Total</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
                         </div>
-    
-                        @*<div class="mb-3 row">
+                    </div>
+
+                    @*<div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Total</label>
                         <div class="col-sm-9">
                             <input class="form-control" value="@Model.TotalCalculado.ToString("C")" readonly />
                         </div>
                     </div>*@
-    
-    
-                        <div class="mb-3 row">
-                            <label for="nmMiembro" class="col-sm-3 col-form-label">Miembro</label>
-                            <div class="col-sm-9">
-                                <select id="nmMiembro" class="form-select" asp-for="@Model.Actual!.Miembro" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
-                                </select>
-                            </div>
-                        </div>
-    
-                        <div class="mb-3 row">
-                            <label for="nmPelicula" class="col-sm-3 col-form-label">Película</label>
-                            <div class="col-sm-9">
-                                <select id="nmPelicula" class="form-select" asp-for="@Model.Actual!.Pelicula" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
-                                    <option value="">-- Ninguna --</option>
-                                </select>
-                            </div>
-                        </div>
-    
-                        <div class="mb-3 row">
-                            <label for="nmConsola" class="col-sm-3 col-form-label">Consola</label>
-                            <div class="col-sm-9">
-                                <select id="nmConsola" class="form-select" asp-for="@Model.Actual!.Consola" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))" disabled="@(!Model.IsAdmin)">
-                                    <option value="">-- Ninguna --</option>
-                                </select>
-                            </div>
-                        </div>
-    
-    
-                        <div class="mb-3 row">
-                            <label for="nmEmpleado" class="col-sm-3 col-form-label">Empleado</label>
-                            <div class="col-sm-9">
-                                <select id="nmEmpleado" class="form-select" asp-for="@Model.Actual!.Empleado" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
-                                </select>
-                            </div>
+
+
+                    <div class="mb-3 row">
+                        <label for="nmMiembro" class="col-sm-3 col-form-label">Miembro</label>
+                        <div class="col-sm-9">
+                            <select id="nmMiembro" class="form-select" asp-for="@Model.Actual!.Miembro" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                            </select>
                         </div>
                     </div>
-                }
-    
-                @if (ViewData.ContainsKey("Mensaje"))
-                {
-                    <input type="hidden" asp-for="@Model.Accion" />
-                    @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
-                }
-    
-                @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-                {
-                    <div class="popup">
-                        <div class="pp_del_inner">
-                            <div style="width:95%">
-                                <h2 class="text-start">Mensaje</h2>
-                                <h4 class="text-start">¿Desea borrar esta reserva?</h4>
-                                <h6 class="text-start">Miembro: @Model.Actual._Miembro?.Nombre</h6>
-                                <br /><br />
-                                @if (Model.IsAdmin)
-                                {
-                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
-                                }
-                                <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
-                            </div>
+
+                    <div class="mb-3 row">
+                        <label for="nmPelicula" class="col-sm-3 col-form-label">Película</label>
+                        <div class="col-sm-9">
+                            <select id="nmPelicula" class="form-select" asp-for="@Model.Actual!.Pelicula" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                                <option value="">-- Ninguna --</option>
+                            </select>
                         </div>
                     </div>
-                }
-    
-                @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-                {
-                    <input class="form-control mb-3" asp-for="@Model.Filtro!.Estado" placeholder="Filtrar por Estado" />
-    
-                    <div class="containers_vn panel panel-default">
-                        <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                            <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th>Duración</th>
-                                <th>Total</th>
-                                <th>Miembro</th>
-                                <th>Película</th>
-                                <th>Consola</th>
-                                <th>Empleado</th>
-                                <th>Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if (Model.Lista != null)
+
+                    <div class="mb-3 row">
+                        <label for="nmConsola" class="col-sm-3 col-form-label">Consola</label>
+                        <div class="col-sm-9">
+                            <select id="nmConsola" class="form-select" asp-for="@Model.Actual!.Consola" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))" disabled="@(!Model.IsAdmin)">
+                                <option value="">-- Ninguna --</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3 row">
+                        <label for="nmEmpleado" class="col-sm-3 col-form-label">Empleado</label>
+                        <div class="col-sm-9">
+                            <select id="nmEmpleado" class="form-select" asp-for="@Model.Actual!.Empleado" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                <input type="hidden" asp-for="@Model.Accion" />
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+            }
+
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <div class="popup">
+                    <div class="pp_del_inner">
+                        <div style="width:95%">
+                            <h2 class="text-start">Mensaje</h2>
+                            <h4 class="text-start">¿Desea borrar esta reserva?</h4>
+                            <h6 class="text-start">Miembro: @Model.Actual._Miembro?.Nombre</h6>
+                            <br /><br />
+                            @if (Model.IsAdmin)
                             {
-                                @foreach (var reserva in Model.Lista)
-                                {
-                                    <tr>
-                                        <td>@reserva.Fecha_Reserva.ToString("g")</td>
-                                        <td>@reserva.Estado</td>
-                                        <td>@reserva.Duracion</td>
-                                        <td>@reserva.Total.ToString("C")</td>
-                                        <td>@reserva._Miembro?.Nombre</td>
-                                        <td>@reserva._Pelicula?.Nombre</td>
-                                        <td>@reserva._Consola?.Tipo</td>
-                                        <td>@reserva._Empleado?.Nombre</td>
-                                        @if (Model.IsAdmin)
-                                        {
-                                            <td>
-                                                <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@reserva.Id" />
-                                                <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@reserva.Id" />
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>No disponible</td>
-                                        }
-                                    </tr>
-                                }
+                                <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
                             }
-                            </tbody>
-                        </table>
+                            <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
+                        </div>
                     </div>
-                }
-            </form>
-        }
-    </div>
+                </div>
+            }
+
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input class="form-control mb-3" asp-for="@Model.Filtro!.Estado" placeholder="Filtrar por Estado" />
+
+                <div class="containers_vn panel panel-default">
+                    <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Duración</th>
+                            <th>Total</th>
+                            <th>Miembro</th>
+                            <th>Película</th>
+                            <th>Consola</th>
+                            <th>Empleado</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.Lista != null)
+                        {
+                            @foreach (var reserva in Model.Lista)
+                            {
+                                <tr>
+                                    <td>@reserva.Fecha_Reserva.ToString("g")</td>
+                                    <td>@reserva.Estado</td>
+                                    <td>@reserva.Duracion</td>
+                                    <td>@reserva.Total.ToString("C")</td>
+                                    <td>@reserva._Miembro?.Nombre</td>
+                                    <td>@reserva._Pelicula?.Nombre</td>
+                                    <td>@reserva._Consola?.Tipo</td>
+                                    <td>@reserva._Empleado?.Nombre</td>
+                                    @if (Model.IsAdmin)
+                                    {
+                                        <td>
+                                            <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@reserva.Id" />
+                                            <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@reserva.Id" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>No disponible</td>
+                                    }
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </form>
+    }
+</div>
     

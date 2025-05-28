@@ -48,6 +48,7 @@ namespace asp_presentacion.Pages.Ventanas
         [BindProperty] public List<Peliculas>? Peliculas { get; set; }
         [BindProperty] public List<Consolas>? Consolas { get; set; }
         [BindProperty] public List<Empleados>? Empleados { get; set; }
+        public List<Reservas>? UserReservations { get; set; }
 
         public virtual void OnGet() { OnPostBtRefrescar(); }
 
@@ -55,6 +56,8 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
+                CargarCombox(); // Moved to the beginning
+
                 // Session check is handled by SecurePageModel
                 var variable_session = HttpContext.Session.GetString("Usuario");
                 if (String.IsNullOrEmpty(variable_session))
@@ -70,6 +73,11 @@ namespace asp_presentacion.Pages.Ventanas
                 task.Wait();
                 Lista = task.Result;
                 Actual = null;
+
+                if (CurrentUserRoleName == "Usuario")
+                {
+                    UserReservations = new List<Reservas>();
+                }
             }
             catch (Exception ex)
             {
@@ -115,7 +123,6 @@ namespace asp_presentacion.Pages.Ventanas
             {
                 Accion = Enumerables.Ventanas.Editar;
                 Actual = new Reservas();
-                CargarCombox();
             }
             catch (Exception ex)
             {
@@ -145,7 +152,7 @@ namespace asp_presentacion.Pages.Ventanas
 
         public virtual void OnPostBtGuardar()
         {
-            if (!IsAdmin)
+            if (!IsAdmin && CurrentUserRoleName != "Usuario")
             {
                 OnPostBtRefrescar(); 
                 return;

@@ -1,46 +1,46 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "RetroBusters - Inicio";
+    ViewData["Title"] = "RetroBusters - Gestión de Reservas";
 }
 
 @if (!Model.EstaLogueado)
 {
-    <!-- Sección Login Mejorada -->
+    <!-- Sección Login Profesional -->
     <div class="login-container">
         <div class="login-overlay">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="card login-card animate__animated animate__zoomIn">
-                            <div class="card-header bg-retro">
-                                <h3 class="text-center mt-3 text-black">Acceso al Sistema</h3>
+                    <div class="col-md-5 col-lg-4">
+                        <div class="card login-card shadow animate__animated animate__fadeInDown">
+                            <div class="card-header bg-primary text-white text-center">
+                                <h3 class="mb-0">Acceso al Sistema</h3>
                             </div>
                             <div class="card-body">
                                 <form method="post" class="login-box">
-                                    <div class="form-group">
-                                        <label class="retro-label">Usuario:</label>
-                                        <input asp-for="Email" class="form-control retro-input" placeholder="Tu email...">
-                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    <div class="mb-3">
+                                        <label asp-for="Email" class="form-label">Usuario (Email):</label>
+                                        <input asp-for="Email" class="form-control" placeholder="Tu email..." />
+                                        <span asp-validation-for="Email" class="text-danger small"></span>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="retro-label">Contraseña:</label>
-                                        <input type="password" asp-for="Contrasena" class="form-control retro-input" placeholder="Tu contraseña...">
-                                        <span asp-validation-for="Contrasena" class="text-danger"></span>
+                                    <div class="mb-3">
+                                        <label asp-for="Contrasena" class="form-label">Contraseña:</label>
+                                        <input asp-for="Contrasena" type="password" class="form-control" placeholder="Tu contraseña..." />
+                                        <span asp-validation-for="Contrasena" class="text-danger small"></span>
                                     </div>
 
                                     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                                     {
-                                        <div class="alert alert-danger retro-alert">@Model.ErrorMessage</div>
+                                        <div class="alert alert-danger small">@Model.ErrorMessage</div>
                                     }
 
-                                    <div class="btn-group d-flex justify-content-between mt-4">
-                                        <button type="submit" asp-page-handler="BtClean" class="btn btn-retro-secondary">
-                                            <i class="fas fa-eraser me-2"></i>Limpiar
+                                    <div class="d-flex justify-content-between">
+                                        <button type="submit" asp-page-handler="BtClean" class="btn btn-outline-secondary">
+                                            <i class="fas fa-eraser me-1"></i> Limpiar
                                         </button>
-                                        <button type="submit" asp-page-handler="BtEnter" class="btn btn-retro-primary">
-                                            <i class="fas fa-sign-in-alt me-2"></i>Entrar
+                                        <button type="submit" asp-page-handler="BtEnter" class="btn btn-primary">
+                                            <i class="fas fa-sign-in-alt me-1"></i> Entrar
                                         </button>
                                     </div>
                                 </form>
@@ -54,122 +54,69 @@
 }
 else
 {
-    <!-- Sección Hero con Efecto VHS -->
-    <div class="retro-hero">
-        <div class="vhs-overlay"></div>
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 text-center hero-content">
-                    <h1 class="retro-title animate__animated animate__fadeInDown">
-                        <span class="blink">▶</span> BIENVENIDO A RETROBUSTERS
-                    </h1>
-                    <div class="retro-tv-effect">
-                        <div class="scanlines"></div>
-                        <div class="content-wrapper">
-                            <p class="lead retro-subtitle">
-                                Tu portal al cine retro<br>
-                                <span class="typed-text" data-typed-items="Películas Clásicas, Snacks Retro, Consolas Vintage, Experiencia 90's"></span>
-                            </p>
-                        </div>
+    <!-- Dashboard Principal -->
+    <div class="dashboard-hero bg-primary text-white py-5 mb-4">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Gestión de Reservas RetroBusters</h1>
+            <p class="lead">Administra tus reservas de películas, snacks y consolas con facilidad y estilo.</p>
+            <img src="https://images.unsplash.com/photo-1695606452750-bd992e903053?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Gestión de reservas" class="img-fluid rounded shadow mt-4" style="max-height:300px; object-fit:cover;" />
+        </div>
+    </div>
+
+    <!-- Tarjetas de Sección -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            <!-- Películas -->
+            <div class="col-md-4">
+                <div class="card shadow h-100 border-primary">
+                    <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Catálogo de Películas" />
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Catálogo de Películas</h5>
+                        <p class="card-text">Clásicos y éxitos para toda la familia. Reserva VHS, DVD y ediciones especiales.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snacks -->
+            <div class="col-md-4">
+                <div class="card shadow h-100 border-warning">
+                    <img src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Combo Snacks Retro" />
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">Combo Snacks Retro</h5>
+                        <p class="card-text">Personaliza tu combo para disfrutar la experiencia completa en casa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consolas -->
+            <div class="col-md-4">
+                <div class="card shadow h-100 border-success">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Consolas clásicas" />
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Arcade Experience</h5>
+                        <p class="card-text">Reserva consolas clásicas para revivir tus mejores momentos gaming.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Sección de Servicios -->
-    <div class="retro-services">
+    <!-- Llamado a la acción -->
+    <div class="cta-section bg-light py-5 text-center mb-4">
         <div class="container">
-            <div class="row g-4">
-                
-                <!-- Películas -->
-                <div class="col-md-4">
-                    <div class="service-card movie-rental">
-                        <div class="film-strip"></div>
-                        <div class="card-body">
-                            <i class="fas fa-film"></i>
-                            <h3>Catálogo de Películas</h3>
-                            <p>Desde clásicos de los 80s hasta éxitos de los 2000s</p>
-                            <ul class="retro-list">
-                                <li>VHS y DVD</li>
-                                <li>Ediciones Especiales</li>
-                                <li>Colecciones Temáticas</li>
-                            </ul>
-                            <div class="console-carousel">
-                                <img src="/img/movie-icon-15142.png"
-                                     alt="movies"
-                                     style="max-width: 100%; height: auto">
-                            </div>
-                            <a class="btn-retro" asp-page="/Ventanas/Peliculas">
-                                Explorar Catálogo <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Snacks -->
-                <div class="col-md-4">
-                    <div class="service-card snack-box">
-                        <div class="card-body">
-                            <i class="fas fa-popcorn"></i>
-                            <h3>Combo Snacks Retro</h3>
-                            <p>La auténtica experiencia cinematográfica</p>
-                            <div class="console-carousel">
-                                <img src="/img/snacks.png"
-                                     alt="snacks"
-                                     style="max-width: 100%; height: auto">
-                            </div>
-                            <a class="btn-retro" asp-page="/Ventanas/Reservas_Snacks">
-                                Personaliza tu combo <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Consolas -->
-                <div class="col-md-4">
-                    <div class="service-card console-rental">
-                        <div class="pixel-overlay"></div>
-                        <div class="card-body">
-                            <i class="fas fa-gamepad"></i>
-                            <h3>Arcade Experience</h3>
-                            <p>Consolas clásicas para revivir tu infancia</p>
-                            <div class="console-carousel">
-                                <img src="/img/sony_playstation_PNG17542.png"
-                                     alt="PS1"
-                                     style="max-width: 100%; height: auto">
-                            </div>
-                            <a class="btn-retro" asp-page="/Ventanas/Consolas">
-                                Ver consolas <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="fw-bold mb-3">¿Listo para comenzar?</h2>
+            <p class="mb-4">Renta 3 películas y obtén un combo snack gratis. ¡Aprovecha esta oferta exclusiva!</p>
+            <a asp-page="/Ventanas/Reservas" class="btn btn-primary btn-lg">
+                Empezar ahora <i class="fas fa-ticket-alt ms-1"></i>
+            </a>
         </div>
     </div>
 
-    <!-- Sección Nostalgia -->
-    <div class="retro-cta">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto text-center">
-                    <div class="vhs-box">
-                        <h2 class="glitch">¿Listo para el viaje?</h2>
-                        <p class="retro-text">¡Renta 3 películas y obtén un combo snack gratis!</p>
-                        <a class="btn-retro" asp-page="/Ventanas/Reservas">
-                            Empezar ahora <i class="fas fa-ticket-alt"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cerrar Sesión -->
-    <div class="text-center mt-5">
+    <!-- Botón de Cerrar Sesión -->
+    <div class="container text-center mb-5">
         <form method="post">
-            <button type="submit" asp-page-handler="BtClose" class="btn-retro-logout">
+            <button type="submit" asp-page-handler="BtClose" class="btn btn-danger btn-lg">
                 <i class="fas fa-sign-out-alt me-2"></i> Finalizar Sesión
             </button>
         </form>
@@ -177,145 +124,95 @@ else
 }
 
 <style>
-    /* Efecto VHS mejorado */
-    .vhs-overlay {
-        position: fixed;
+    /* Login */
+    .login-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #001a3d, #002f6c);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+    .login-overlay {
         width: 100%;
-        height: 100%;
-        background:
-            repeating-linear-gradient(0deg,
-            rgba(255, 0, 0, 0.1) 0px,
-            rgba(255, 0, 0, 0.1) 2px,
-            transparent 3px,
-            transparent 5px),
-            repeating-linear-gradient(90deg,
-            rgba(0, 255, 0, 0.1) 0px,
-            rgba(0, 255, 0, 0.1) 2px,
-            transparent 3px,
-            transparent 5px),
-            repeating-linear-gradient(180deg,
-            rgba(0, 0, 255, 0.1) 0px,
-            rgba(0, 0, 255, 0.1) 2px,
-            transparent 3px,
-            transparent 5px);
-        pointer-events: none;
-        z-index: 999;
-        mix-blend-mode: screen;
-        animation: vhsEffect 1s infinite;
+        max-width: 3000px;
     }
 
-    .retro-hero {
-        background: linear-gradient(
-            45deg,
-            #002f6c,  /* Azul corporativo */
-            #001a3d    /* Tono más oscuro para contraste */
-        );
-        min-height: 70vh;
-        position: relative;
-        padding: 4rem 0;
-        color: #fff;
-        border-bottom: 3px solid #ffd700; /* Borde dorado */
-    }
+    .dashboard-hero {
+        background: linear-gradient(135deg, #002f6c, #001a3d);
+        color: #ffd700;
+        border-bottom: 6px solid #ffd700; /* un poco más grueso */
+        font-family: 'Poppins', sans-serif;
 
-    /* Efecto de líneas de escaneo CRT */
-    .retro-hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: repeating-linear-gradient(
-            transparent 0px,
-            rgba(0, 0, 0, 0.1) 3px,
-            transparent 6px
-        );
-        animation: scan 5s linear infinite;
-        pointer-events: none;
-    }
-
-    .retro-title {
-        font-family: 'Press Start 2P', cursive;
-        font-size: 2.5rem;
-        text-shadow: 3px 3px 0 #000;
-        margin-bottom: 2rem;
-        color: #ffd700; /* Texto dorado */
-        position: relative;
-        z-index: 2;
-    }
-
-    .retro-tv-effect {
-        background: rgba(0, 0, 0, 0.8);
-        border: 3px solid #666;
-        padding: 2rem;
-        margin: 2rem 0;
-        transform: perspective(500px) rotateX(5deg);
-        box-shadow: 0 0 20px rgba(0, 47, 108, 0.5);
-    }
-
-    .service-card {
-        background: rgba(0, 0, 0, 0.9);
-        border: 2px solid #ffd700;
-        padding: 2rem;
-        margin: 1rem;
-        transition: all 0.3s ease;
+        /* Agregar sombra intensa y efecto de iluminación */
+        box-shadow: 0 0 30px 8px rgba(255, 215, 0, 0.7);
         position: relative;
         overflow: hidden;
     }
 
-    .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+    /* Texto más grande y con sombra más definida */
+    .dashboard-hero h1 {
+        font-size: 3.5rem; /* más grande */
     }
 
-    /* Efecto de ruido analógico */
-    .service-card::after {
+    .dashboard-hero p {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-shadow: 1px 1px 5px rgba(0,0,0,0.9);
+    }
+
+    /* Añadir un ligero brillo animado en el fondo (opcional y muy llamativo) */
+    .dashboard-hero::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzJ5YzTTJ1yKhqtiFBql0DNn3hOCRYPyH5QrFeY0iFk2arlM1mEeUCrNUYF6peB07VRqrC5D+ScRNkEnYFuOp8tV4QxFuEJL6oJE5Fhwk9xpgHvMbCLnQCiL6DDbmfMM2ow9XhJ4shl/lRCgCKLFjOq8Bqz8iLwC4u19WjQOHB3C5K6UcovGkNZkZLR4TWAvaU/axIYWjJ2CjD4i5j4sBGQ7CjQ4i5h4sBCQ7CjQ4i5h4sBCQ7CjQ4i5h4sBCQ7CjQ4i5h4sBCQ7CjT4P5UBS4Qdr16oAAAAAElFTkSuQmCC');
-        opacity: 0.1;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 70%);
+        animation: shine 6s linear infinite;
         pointer-events: none;
     }
 
-    /* Resto de estilos permanecen igual */
-    @@keyframes vhsEffect {
-        0% { opacity: 0.9; }
-        50% { opacity: 0.7; }
-        100% { opacity: 0.9; }
+    @@keyframes shine {
+        0% { transform: rotate(0deg) translateX(0); }
+        100% { transform: rotate(360deg) translateX(0); }
     }
 
-    @@keyframes scan {
-        0% { transform: translateY(-100%); }
-        100% { transform: translateY(100%); }
+
+    /* Cards */
+    .card {
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+    }
+    .card-img-top {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        height: 200px;
+        object-fit: cover;
+    }
+    .card-title {
+        font-weight: 700;
     }
 
-    /* Contenedor principal */
-    .console-carousel {
-        display: flex;
-        gap: 1.5rem;
-        padding: 1rem 0;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+    /* CTA */
+    .cta-section {
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgb(0 47 108 / 0.3);
     }
 
-    /* Cada imagen individual */
-    .console-carousel > img {
-        scroll-snap-align: start;
-        width: 150px !important; /* Fuerza el ancho */
-        height: 100px !important; /* Fuerza el alto */
-        object-fit: contain; /* Mantiene proporciones */
-        flex-shrink: 0; /* Evita que se encojan */
-        filter: grayscale(100%) contrast(120%);
-        transition: all 0.3s ease;
+    /* Botón cerrar sesión */
+    .btn-danger {
+        background-color: #b22222;
+        border-color: #b22222;
     }
-
-    /* Efecto hover */
-    .console-carousel > img:hover {
-        filter: none;
-        transform: scale(1.1);
+    .btn-danger:hover {
+        background-color: #800000;
+        border-color: #800000;
     }
 </style>

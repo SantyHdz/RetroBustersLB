@@ -1818,5 +1818,5 @@ C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\co
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\gkou6agyd7-eeix3wlwuj.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\ftj516h3q7-8c6joi3n26.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\bin\Debug\net9.0\package.json
-C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\4yxp0ba4zz-l266wuvu9c.gz
 C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\zdzaarmo4e-5o97bouyya.gz
+C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\obj\Debug\net9.0\compressed\4yxp0ba4zz-nesy4t2moi.gz
