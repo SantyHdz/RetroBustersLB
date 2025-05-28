@@ -237,6 +237,7 @@ VALUES (2, 16000.00, 1, 1),
 -- Insertar Roles
 INSERT INTO Roles (Nombre) VALUES ('Admin');
 INSERT INTO Roles (Nombre) VALUES ('Lector');
+INSERT INTO Roles (Nombre) VALUES ('Usuario');
 
 -- Insertar Usuarios
 -- Contraseña: admin123

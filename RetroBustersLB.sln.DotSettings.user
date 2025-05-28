@@ -22,4 +22,11 @@
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a7c65225_002Da21b_002D4fef_002D9e93_002D92f90c676373/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;4. Pruebas unitarias&amp;gt;\&amp;lt;ut_presentacion&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\santi\RiderProjects\RetroBustersLB\ut_presentacion" Presentation="&amp;lt;4. Pruebas unitarias&amp;gt;\&amp;lt;ut_presentacion&amp;gt;" /&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>

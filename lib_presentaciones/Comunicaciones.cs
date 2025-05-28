@@ -2,7 +2,7 @@ using lib_dominio.Nucleo;
 
 namespace lib_presentaciones
 {
-    public class Comunicaciones
+    public class Comunicaciones : IComunicaciones
     {
         private string? Protocolo = string.Empty,
             Host = string.Empty,

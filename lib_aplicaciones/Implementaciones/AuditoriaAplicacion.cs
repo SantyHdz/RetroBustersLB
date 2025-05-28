@@ -20,7 +20,7 @@ namespace lib_aplicaciones.Implementaciones
 
         public List<Auditoria> Listar()
         {
-            return this.IConexion!.Auditorias!.Take(100).ToList();
+            return this.IConexion!.Auditorias!.Take(200).ToList();
         }
 
         public Auditoria? ObtenerPorId(int id)

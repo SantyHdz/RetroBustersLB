@@ -6,112 +6,84 @@ namespace lib_presentaciones.Implementaciones
 {
     public class AlmacenesPresentacion : IAlmacenesPresentacion
     {
-        private Comunicaciones? comunicaciones = null;
+        private readonly IComunicaciones comunicaciones; 
+
+        public AlmacenesPresentacion(IComunicaciones comunicaciones)
+        {
+            this.comunicaciones = comunicaciones;
+        }
 
         public async Task<List<Almacenes>> Listar()
         {
-            var lista = new List<Almacenes>();
-            var datos = new Dictionary<string, object>();
-
-            comunicaciones = new Comunicaciones();
-            datos = comunicaciones.ConstruirUrl(datos, "Almacenes/Listar");
-            var respuesta = await comunicaciones!.Execute(datos);
+            var datos = comunicaciones.ConstruirUrl(new Dictionary<string, object>(), "Almacenes/Listar");
+            var respuesta = await comunicaciones.Execute(datos);
 
             if (respuesta.ContainsKey("Error"))
-            {
                 throw new Exception(respuesta["Error"].ToString()!);
-            }
-            lista = JsonConversor.ConvertirAObjeto<List<Almacenes>>(
+
+            return JsonConversor.ConvertirAObjeto<List<Almacenes>>(
                 JsonConversor.ConvertirAString(respuesta["Entidades"]));
-            return lista;
         }
 
         public async Task<List<Almacenes>> PorUbicacion(Almacenes? entidad)
         {
-            var lista = new List<Almacenes>();
-            var datos = new Dictionary<string, object>();
-            datos["Entidad"] = entidad!;
-
-            comunicaciones = new Comunicaciones();
+            var datos = new Dictionary<string, object> { ["Entidad"] = entidad! };
             datos = comunicaciones.ConstruirUrl(datos, "Almacenes/PorUbicacion");
-            var respuesta = await comunicaciones!.Execute(datos);
+            var respuesta = await comunicaciones.Execute(datos);
 
             if (respuesta.ContainsKey("Error"))
-            {
                 throw new Exception(respuesta["Error"].ToString()!);
-            }
-            lista = JsonConversor.ConvertirAObjeto<List<Almacenes>>(
+
+            return JsonConversor.ConvertirAObjeto<List<Almacenes>>(
                 JsonConversor.ConvertirAString(respuesta["Entidades"]));
-            return lista;
         }
 
         public async Task<Almacenes?> Guardar(Almacenes? entidad)
         {
             if (entidad!.Id != 0)
-            {
                 throw new Exception("lbFaltaInformacion");
-            }
 
-            var datos = new Dictionary<string, object>();
-            datos["Entidad"] = entidad;
-
-            comunicaciones = new Comunicaciones();
+            var datos = new Dictionary<string, object> { ["Entidad"] = entidad };
             datos = comunicaciones.ConstruirUrl(datos, "Almacenes/Guardar");
-            var respuesta = await comunicaciones!.Execute(datos);
+            var respuesta = await comunicaciones.Execute(datos);
 
             if (respuesta.ContainsKey("Error"))
-            {
                 throw new Exception(respuesta["Error"].ToString()!);
-            }
-            entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+
+            return JsonConversor.ConvertirAObjeto<Almacenes>(
                 JsonConversor.ConvertirAString(respuesta["Entidad"]));
-            return entidad;
         }
 
         public async Task<Almacenes?> Modificar(Almacenes? entidad)
         {
             if (entidad!.Id == 0)
-            {
                 throw new Exception("lbFaltaInformacion");
-            }
 
-            var datos = new Dictionary<string, object>();
-            datos["Entidad"] = entidad;
-
-            comunicaciones = new Comunicaciones();
+            var datos = new Dictionary<string, object> { ["Entidad"] = entidad };
             datos = comunicaciones.ConstruirUrl(datos, "Almacenes/Modificar");
-            var respuesta = await comunicaciones!.Execute(datos);
+            var respuesta = await comunicaciones.Execute(datos);
 
             if (respuesta.ContainsKey("Error"))
-            {
                 throw new Exception(respuesta["Error"].ToString()!);
-            }
-            entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+
+            return JsonConversor.ConvertirAObjeto<Almacenes>(
                 JsonConversor.ConvertirAString(respuesta["Entidad"]));
-            return entidad;
         }
 
         public async Task<Almacenes?> Borrar(Almacenes? entidad)
         {
             if (entidad!.Id == 0)
-            {
                 throw new Exception("lbFaltaInformacion");
-            }
 
-            var datos = new Dictionary<string, object>();
-            datos["Entidad"] = entidad;
-
-            comunicaciones = new Comunicaciones();
+            var datos = new Dictionary<string, object> { ["Entidad"] = entidad };
             datos = comunicaciones.ConstruirUrl(datos, "Almacenes/Borrar");
-            var respuesta = await comunicaciones!.Execute(datos);
+            var respuesta = await comunicaciones.Execute(datos);
 
             if (respuesta.ContainsKey("Error"))
-            {
                 throw new Exception(respuesta["Error"].ToString()!);
-            }
-            entidad = JsonConversor.ConvertirAObjeto<Almacenes>(
+
+            return JsonConversor.ConvertirAObjeto<Almacenes>(
                 JsonConversor.ConvertirAString(respuesta["Entidad"]));
-            return entidad;
         }
-    }
+    }  
 }
