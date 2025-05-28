@@ -13,55 +13,65 @@ namespace asp_presentacion.Pages
 
         public string CurrentUserRoleName { get; private set; } = "Desconocido";
         public bool IsAdmin { get; private set; } = false;
+        public bool IsUsuario => CurrentUserRoleName.Equals("Usuario", StringComparison.OrdinalIgnoreCase);
+
 
         public SecurePageModel(IRolesPresentacion rolesPresentacion, IHttpContextAccessor httpContextAccessor)
         {
             _rolesPresentacion = rolesPresentacion;
             _httpContextAccessor = httpContextAccessor;
         }
-
+    
         public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+{
+    CurrentUserRoleName = "Desconocido";
+    IsAdmin = false;
+
+    var session = _httpContextAccessor.HttpContext?.Session;
+
+    if (session != null)
+    {
+        var sessionString = session.GetString("Usuario");
+
+        if (!string.IsNullOrEmpty(sessionString))
         {
-            
-            CurrentUserRoleName = "Desconocido";
-            IsAdmin = false;
-
-            var session = _httpContextAccessor.HttpContext?.Session;
-
-            if (session != null)
+            try
             {
-                var sessionString = session.GetString("Usuario");   
+                var usuario = JsonConversor.ConvertirAObjeto<Usuarios>(sessionString);
 
-                if (!string.IsNullOrEmpty(sessionString))
+                if (usuario != null && usuario.RolId > 0)
                 {
-                    try
+                    switch (usuario.RolId)
                     {
-                        var usuario = JsonConversor.ConvertirAObjeto<Usuarios>(sessionString);
-
-                        if (usuario != null && usuario.RolId > 0)
-                        {
-                            var roleQueryObject = new Roles { Id = usuario.RolId };
-                                List<Roles> roles = await _rolesPresentacion.PorId(roleQueryObject); 
-                            
-                            if (roles != null && roles.Count > 0 && !string.IsNullOrEmpty(roles[0].Nombre))
-                            {
-                                CurrentUserRoleName = roles[0].Nombre;
-                                IsAdmin = string.Equals(CurrentUserRoleName, "Admin", StringComparison.OrdinalIgnoreCase);
-                            }
-                        }
-                    }
-                    catch (System.Text.Json.JsonException jsonEx)
-                    {
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        //
+                        case 1:
+                            CurrentUserRoleName = "Admin";
+                            IsAdmin = true;
+                            break;
+                        case 2:
+                            CurrentUserRoleName = "Lector";
+                            break;
+                        case 3:
+                            CurrentUserRoleName = "Usuario";
+                            break;
+                        default:
+                            CurrentUserRoleName = "Rol no reconocido";
+                            break;
                     }
                 }
             }
-            
-            await next();
+            catch (System.Text.Json.JsonException jsonEx)
+            {
+                // Log or handle error
+            }
+            catch (Exception ex)
+            {
+                // Log or handle error
+            }
         }
+    }
+
+    await next();
+}
+
     }
 }

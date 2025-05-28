@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace asp_presentacion.Pages.Ventanas
 {
-    public class ConsolasModel : SecurePageModel // Inherit from SecurePageModel
+    public class ConsolasModel : SecurePageModel
     {
-        private readonly IConsolasPresentacion _iPresentacion; // Made readonly
-        private readonly IAlmacenesPresentacion _iAlmacenesPresentacion; // Made readonly
+        private readonly IConsolasPresentacion _iPresentacion;
+        private readonly IAlmacenesPresentacion _iAlmacenesPresentacion;
 
         public ConsolasModel(IConsolasPresentacion iPresentacion,
                              IAlmacenesPresentacion iAlmacenesPresentacion,
                              IRolesPresentacion rolesPresentacion,
                              IHttpContextAccessor httpContextAccessor)
-            : base(rolesPresentacion, httpContextAccessor) // Call base constructor
+            : base(rolesPresentacion, httpContextAccessor)
         {
             try
             {

@@ -1,188 +1,341 @@
-@page
-@model asp_presentacion.Pages.Ventanas.ReservasModel
-@{
-    ViewData["Titulo"] = "";
-}
-<div class="text-center">
-    <form method="POST" enctype="multipart/form-data">
-        @Html.AntiForgeryToken()
-
-        <div class="text-start mb-3">
-            <h3>Reservas</h3>
-        </div>
-
-        <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
-            <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
-                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-            @if (Model.IsAdmin)
-            {
-                <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+    @page
+    @model asp_presentacion.Pages.Ventanas.ReservasModel
+    @{
+        ViewData["Titulo"] = "Reservas";
+    }
+    <div class="text-center">
+        @if (Model.CurrentUserRoleName == "Usuario")
+    {
+        <style>
+            body {
+                background: #e9f0f8;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
             }
-            <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
-                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-        </div>
+            .dashboard-container {
+                max-width: 680px;
+                background: #fff;
+                margin: 3rem auto;
+                padding: 2.5rem 3rem;
+                border-radius: 12px;
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+                color: #222;
+            }
+            .dashboard-container h2 {
+                color: #0a3d62;
+                font-weight: 700;
+                margin-bottom: 0.3rem;
+                font-size: 2.4rem;
+                border-bottom: 3px solid #0a3d62;
+                padding-bottom: 0.5rem;
+            }
+            .dashboard-container p.description {
+                color: #444;
+                font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: 2rem;
+            }
+            form.new-reserva-form {
+                background: #f7f9fc;
+                border-radius: 10px;
+                padding: 1.8rem 2rem;
+                box-shadow: 0 4px 14px rgba(10, 61, 98, 0.08);
+            }
+            form.new-reserva-form label {
+                display: block;
+                font-weight: 600;
+                color: #0a3d62;
+                margin-bottom: 0.4rem;
+                font-size: 1rem;
+            }
+            form.new-reserva-form input,
+            form.new-reserva-form select {
+                width: 100%;
+                padding: 0.6rem 0.9rem;
+                margin-bottom: 1.3rem;
+                border-radius: 6px;
+                border: 1.8px solid #c3cfd9;
+                font-size: 1rem;
+                transition: border-color 0.3s ease;
+            }
+            form.new-reserva-form input:focus,
+            form.new-reserva-form select:focus {
+                outline: none;
+                border-color: #0a3d62;
+                box-shadow: 0 0 6px #0a3d62a6;
+            }
+            button#btnAgregarReserva {
+                background: #0a3d62;
+                color: white;
+                font-weight: 700;
+                padding: 0.75rem 1.8rem;
+                border: none;
+                border-radius: 25px;
+                font-size: 1.1rem;
+                cursor: pointer;
+                transition: background-color 0.25s ease;
+                width: 100%;
+            }
+            button#btnAgregarReserva:hover {
+                background: #07406a;
+            }
+            .feedback-message {
+                margin-top: 1rem;
+                font-weight: 600;
+                font-size: 1rem;
+                color: #27ae60;
+                display: none;
+            }
+            .feedback-error {
+                color: #e74c3c;
+            }
+        </style>
+            <section class="dashboard-container" role="main" aria-label="Panel principal de usuario">
+                <h2>Bienvenido a tu Panel de Reservas</h2>
+                <p class="description">
+                    Desde aquí puedes agregar una nueva reserva fácilmente. Completa los datos del formulario y haz clic en "Agregar Reserva".
+                    Tu solicitud se procesará de forma rápida y segura, y podrás ver tus reservas actualizadas en el listado.
+                </p>
 
-        @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <input type="hidden" asp-for="@Model.Actual!.Id" />
-        }
+                <form method="post">
+                    @Html.AntiForgeryToken()
 
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
-        {
-            <div class="containers_vn panel panel-default p-3">
-                <h4>Detalles de la Reserva</h4>
-
-                <div class="mb-3 row">
-                    <label for="nmFecha" class="col-sm-3 col-form-label">Fecha de Reserva</label>
-                    <div class="col-sm-9">
-                        <input id="nmFecha" type="datetime-local" class="form-control" asp-for="@Model.Actual!.Fecha_Reserva" readonly="@(!Model.IsAdmin)" />
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
-                    <div class="col-sm-9">
-                        <input id="nmEstado" class="form-control" asp-for="@Model.Actual!.Estado" readonly="@(!Model.IsAdmin)" />
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="nmDuracion" class="col-sm-3 col-form-label">Duración (días)</label>
-                    <div class="col-sm-9">
-                        <input id="nmDuracion" type="number" min="1" class="form-control" asp-for="@Model.Actual!.Duracion" readonly="@(!Model.IsAdmin)" />
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Total</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
-                    </div>
-                </div>
-
-                @*<div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Total</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" value="@Model.TotalCalculado.ToString("C")" readonly />
-                    </div>
-                </div>*@
-
-
-                <div class="mb-3 row">
-                    <label for="nmMiembro" class="col-sm-3 col-form-label">Miembro</label>
-                    <div class="col-sm-9">
-                        <select id="nmMiembro" class="form-select" asp-for="@Model.Actual!.Miembro" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="nmPelicula" class="col-sm-3 col-form-label">Película</label>
-                    <div class="col-sm-9">
-                        <select id="nmPelicula" class="form-select" asp-for="@Model.Actual!.Pelicula" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                    <div class="mb-3">
+                        <label asp-for="Actual.Pelicula" class="form-label">Selecciona la película (opcional)</label>
+                        <select asp-for="Actual.Pelicula" class="form-select" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))">
                             <option value="">-- Ninguna --</option>
                         </select>
+                        <span asp-validation-for="Actual.Pelicula" class="text-danger"></span>
                     </div>
-                </div>
 
-                <div class="mb-3 row">
-                    <label for="nmConsola" class="col-sm-3 col-form-label">Consola</label>
-                    <div class="col-sm-9">
-                        <select id="nmConsola" class="form-select" asp-for="@Model.Actual!.Consola" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))" disabled="@(!Model.IsAdmin)">
+                    <div class="mb-3">
+                        <label asp-for="Actual.Consola" class="form-label">Selecciona la consola (opcional)</label>
+                        <select asp-for="Actual.Consola" class="form-select" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))">
                             <option value="">-- Ninguna --</option>
                         </select>
+                        <span asp-validation-for="Actual.Consola" class="text-danger"></span>
                     </div>
-                </div>
 
-
-                <div class="mb-3 row">
-                    <label for="nmEmpleado" class="col-sm-3 col-form-label">Empleado</label>
-                    <div class="col-sm-9">
-                        <select id="nmEmpleado" class="form-select" asp-for="@Model.Actual!.Empleado" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                    <div class="mb-3">
+                        <label asp-for="Actual.Miembro" class="form-label">Selecciona el miembro</label>
+                        <select asp-for="Actual.Miembro" class="form-select" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" required>
+                            <option value="" disabled selected>-- Elige un miembro --</option>
                         </select>
+                        <span asp-validation-for="Actual.Miembro" class="text-danger"></span>
                     </div>
-                </div>
-            </div>
-        }
 
-        @if (ViewData.ContainsKey("Mensaje"))
-        {
-            <input type="hidden" asp-for="@Model.Accion" />
-            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
-        }
-
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <div class="popup">
-                <div class="pp_del_inner">
-                    <div style="width:95%">
-                        <h2 class="text-start">Mensaje</h2>
-                        <h4 class="text-start">¿Desea borrar esta reserva?</h4>
-                        <h6 class="text-start">Miembro: @Model.Actual._Miembro?.Nombre</h6>
-                        <br /><br />
-                        @if (Model.IsAdmin)
-                        {
-                            <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
-                        }
-                        <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
+                    <div class="mb-3">
+                        <label asp-for="Actual.Empleado" class="form-label">Selecciona el empleado</label>
+                        <select asp-for="Actual.Empleado" class="form-select" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" required>
+                            <option value="" disabled selected>-- Elige un empleado --</option>
+                        </select>
+                        <span asp-validation-for="Actual.Empleado" class="text-danger"></span>
                     </div>
-                </div>
-            </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Actual.Fecha_Reserva" class="form-label">Fecha y hora de la reserva</label>
+                        <input asp-for="Actual.Fecha_Reserva" type="datetime-local" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
+                        <span asp-validation-for="Actual.Fecha_Reserva" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Actual.Duracion" class="form-label">Duración (en horas)</label>
+                        <input asp-for="Actual.Duracion" type="number" class="form-control" min="1" value="1" required />
+                        <span asp-validation-for="Actual.Duracion" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" asp-page-handler="BtGuardar" class="btn btn-primary">Agregar Reserva</button>
+                </form>
+            </section>
+
+            @section Scripts {
+                <partial name="_ValidationScriptsPartial" />
+            }
         }
-
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        else
         {
-            <input class="form-control mb-3" asp-for="@Model.Filtro!.Estado" placeholder="Filtrar por Estado" />
-
-            <div class="containers_vn panel panel-default">
-                <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                    <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                        <th>Duración</th>
-                        <th>Total</th>
-                        <th>Miembro</th>
-                        <th>Película</th>
-                        <th>Consola</th>
-                        <th>Empleado</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @if (Model.Lista != null)
+            <form method="POST" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+    
+                <div class="text-start mb-3">
+                    <h3>Reservas</h3>
+                </div>
+    
+                <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
+                    <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+                           disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                    @if (Model.IsAdmin)
                     {
-                        @foreach (var reserva in Model.Lista)
-                        {
-                            <tr>
-                                <td>@reserva.Fecha_Reserva.ToString("g")</td>
-                                <td>@reserva.Estado</td>
-                                <td>@reserva.Duracion</td>
-                                <td>@reserva.Total.ToString("C")</td>
-                                <td>@reserva._Miembro?.Nombre</td>
-                                <td>@reserva._Pelicula?.Nombre</td>
-                                <td>@reserva._Consola?.Tipo</td>
-                                <td>@reserva._Empleado?.Nombre</td>
+                        <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
+                               disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                        <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
+                               disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                    }
+                    <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                           disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                </div>
+    
+                @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+                {
+                    <input type="hidden" asp-for="@Model.Actual!.Id" />
+                }
+    
+                @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+                {
+                    <div class="containers_vn panel panel-default p-3">
+                        <h4>Detalles de la Reserva</h4>
+    
+                        <div class="mb-3 row">
+                            <label for="nmFecha" class="col-sm-3 col-form-label">Fecha de Reserva</label>
+                            <div class="col-sm-9">
+                                <input id="nmFecha" type="datetime-local" class="form-control" asp-for="@Model.Actual!.Fecha_Reserva" readonly="@(!Model.IsAdmin)" />
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row">
+                            <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
+                            <div class="col-sm-9">
+                                <input id="nmEstado" class="form-control" asp-for="@Model.Actual!.Estado" readonly="@(!Model.IsAdmin)" />
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row">
+                            <label for="nmDuracion" class="col-sm-3 col-form-label">Duración (días)</label>
+                            <div class="col-sm-9">
+                                <input id="nmDuracion" type="number" min="1" class="form-control" asp-for="@Model.Actual!.Duracion" readonly="@(!Model.IsAdmin)" />
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Total</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
+                            </div>
+                        </div>
+    
+                        @*<div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Total</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" value="@Model.TotalCalculado.ToString("C")" readonly />
+                        </div>
+                    </div>*@
+    
+    
+                        <div class="mb-3 row">
+                            <label for="nmMiembro" class="col-sm-3 col-form-label">Miembro</label>
+                            <div class="col-sm-9">
+                                <select id="nmMiembro" class="form-select" asp-for="@Model.Actual!.Miembro" asp-items="@(new SelectList(Model.Miembros, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row">
+                            <label for="nmPelicula" class="col-sm-3 col-form-label">Película</label>
+                            <div class="col-sm-9">
+                                <select id="nmPelicula" class="form-select" asp-for="@Model.Actual!.Pelicula" asp-items="@(new SelectList(Model.Peliculas, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                                    <option value="">-- Ninguna --</option>
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row">
+                            <label for="nmConsola" class="col-sm-3 col-form-label">Consola</label>
+                            <div class="col-sm-9">
+                                <select id="nmConsola" class="form-select" asp-for="@Model.Actual!.Consola" asp-items="@(new SelectList(Model.Consolas, "Id", "Tipo"))" disabled="@(!Model.IsAdmin)">
+                                    <option value="">-- Ninguna --</option>
+                                </select>
+                            </div>
+                        </div>
+    
+    
+                        <div class="mb-3 row">
+                            <label for="nmEmpleado" class="col-sm-3 col-form-label">Empleado</label>
+                            <div class="col-sm-9">
+                                <select id="nmEmpleado" class="form-select" asp-for="@Model.Actual!.Empleado" asp-items="@(new SelectList(Model.Empleados, "Id", "Nombre"))" disabled="@(!Model.IsAdmin)">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                }
+    
+                @if (ViewData.ContainsKey("Mensaje"))
+                {
+                    <input type="hidden" asp-for="@Model.Accion" />
+                    @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                }
+    
+                @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+                {
+                    <div class="popup">
+                        <div class="pp_del_inner">
+                            <div style="width:95%">
+                                <h2 class="text-start">Mensaje</h2>
+                                <h4 class="text-start">¿Desea borrar esta reserva?</h4>
+                                <h6 class="text-start">Miembro: @Model.Actual._Miembro?.Nombre</h6>
+                                <br /><br />
                                 @if (Model.IsAdmin)
                                 {
-                                    <td>
-                                        <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@reserva.Id" />
-                                        <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@reserva.Id" />
-                                    </td>
+                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
                                 }
-                                else
-                                {
-                                    <td>No disponible</td>
-                                }
+                                <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+    
+                @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+                {
+                    <input class="form-control mb-3" asp-for="@Model.Filtro!.Estado" placeholder="Filtrar por Estado" />
+    
+                    <div class="containers_vn panel panel-default">
+                        <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                            <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Duración</th>
+                                <th>Total</th>
+                                <th>Miembro</th>
+                                <th>Película</th>
+                                <th>Consola</th>
+                                <th>Empleado</th>
+                                <th>Acciones</th>
                             </tr>
-                        }
-                    }
-                    </tbody>
-                </table>
-            </div>
+                            </thead>
+                            <tbody>
+                            @if (Model.Lista != null)
+                            {
+                                @foreach (var reserva in Model.Lista)
+                                {
+                                    <tr>
+                                        <td>@reserva.Fecha_Reserva.ToString("g")</td>
+                                        <td>@reserva.Estado</td>
+                                        <td>@reserva.Duracion</td>
+                                        <td>@reserva.Total.ToString("C")</td>
+                                        <td>@reserva._Miembro?.Nombre</td>
+                                        <td>@reserva._Pelicula?.Nombre</td>
+                                        <td>@reserva._Consola?.Tipo</td>
+                                        <td>@reserva._Empleado?.Nombre</td>
+                                        @if (Model.IsAdmin)
+                                        {
+                                            <td>
+                                                <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@reserva.Id" />
+                                                <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@reserva.Id" />
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>No disponible</td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </form>
         }
-    </form>
-</div>
+    </div>
+    

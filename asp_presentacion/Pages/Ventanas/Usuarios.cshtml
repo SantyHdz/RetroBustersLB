@@ -1,205 +1,216 @@
 @page
 @model asp_presentacion.Pages.Ventanas.UsuariosModel
 @{
-    ViewData["Titulo"] = "Usuarios";
+    ViewData["Titulo"] = "";
 }
-
 <div class="text-center">
-    <form method="POST">
-        @Html.AntiForgeryToken()
-
-        <div class="text-start mb-3">
-            <h3>Usuarios</h3>
+    @if (Model.CurrentUserRoleName == "Usuario")
+    {
+        <div class="alert alert-danger mt-5">
+            <h3>Vista no permitida</h3>
+            <p>No tiene permisos suficientes para acceder a esta sección.</p>
         </div>
+    }
+    else
+    {
+        <form method="POST" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
 
-        <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
-            <input type="submit"
-                   value="Refrescar"
-                   asp-page-handler="BtRefrescar"
-                   class="btn btn-info"
-                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            <div class="text-start mb-3">
+                <h3>Usuarios</h3>
+            </div>
 
-            @if (Model.IsAdmin)
-            {
+            <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
                 <input type="submit"
-                       value="Nuevo"
-                       asp-page-handler="BtNuevo"
-                       class="btn btn-success"
+                       value="Refrescar"
+                       asp-page-handler="BtRefrescar"
+                       class="btn btn-info"
                        disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
 
+                @if (Model.IsAdmin)
+                {
+                    <input type="submit"
+                           value="Nuevo"
+                           asp-page-handler="BtNuevo"
+                           class="btn btn-success"
+                           disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+
+                    <input type="submit"
+                           value="Guardar"
+                           asp-page-handler="BtGuardar"
+                           class="btn btn-primary"
+                           disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                }
+
                 <input type="submit"
-                       value="Guardar"
-                       asp-page-handler="BtGuardar"
-                       class="btn btn-primary"
+                       value="Cancelar"
+                       asp-page-handler="BtCancelar"
+                       class="btn btn-secondary"
                        disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            </div>
+
+            @* Campos ocultos para editar/borrar *@
+            @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input type="hidden" asp-for="Actual.Id" />
             }
 
-            <input type="submit"
-                   value="Cancelar"
-                   asp-page-handler="BtCancelar"
-                   class="btn btn-secondary"
-                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-        </div>
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input type="hidden" asp-for="Actual.Nombre" />
+                <input type="hidden" asp-for="Actual.Correo" />
+            }
 
-        @* Campos ocultos para editar/borrar *@
-        @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
-             Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <input type="hidden" asp-for="Actual.Id" />
-        }
+            @* Panel de edición *@
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+            {
+                <div class="containers_vn panel panel-default p-3">
+                    <h4>Datos del Usuario</h4>
 
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <input type="hidden" asp-for="Actual.Nombre" />
-            <input type="hidden" asp-for="Actual.Correo" />
-        }
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Nombre</label>
+                        <div class="col-sm-9">
+                            <input class="form-control"
+                                   asp-for="Actual.Nombre"
+                                   readonly="@(!Model.IsAdmin)" />
+                        </div>
+                    </div>
 
-        @* Panel de edición *@
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
-        {
-            <div class="containers_vn panel panel-default p-3">
-                <h4>Datos del Usuario</h4>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Correo</label>
+                        <div class="col-sm-9">
+                            <input type="email"
+                                   class="form-control"
+                                   asp-for="Actual.Correo"
+                                   readonly="@(!Model.IsAdmin)" />
+                        </div>
+                    </div>
 
-                <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Nombre</label>
-                    <div class="col-sm-9">
-                        <input class="form-control"
-                               asp-for="Actual.Nombre"
-                               readonly="@(!Model.IsAdmin)" />
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Contraseña</label>
+                        <div class="col-sm-9">
+                            <input type="password"
+                                   class="form-control"
+                                   asp-for="Actual.ContrasenaHash"
+                                   readonly="@(!Model.IsAdmin)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Dirección</label>
+                        <div class="col-sm-9">
+                            <input class="form-control"
+                                   asp-for="Actual.Direccion"
+                                   readonly="@(!Model.IsAdmin)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Rol</label>
+                        <div class="col-sm-9">
+                            <select class="form-select"
+                                    asp-for="Actual.RolId"
+                                    disabled="@(!Model.IsAdmin)">
+                                <option value="1">Admin</option>
+                                <option value="2">Lector</option>
+                                <option value="3">Usuario</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+            }
 
-                <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Correo</label>
-                    <div class="col-sm-9">
-                        <input type="email"
-                               class="form-control"
-                               asp-for="Actual.Correo"
-                               readonly="@(!Model.IsAdmin)" />
-                    </div>
-                </div>
+            @* Mensajes de operación *@
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                <input type="hidden" asp-for="Accion" />
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+            }
 
-                <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Contraseña</label>
-                    <div class="col-sm-9">
-                        <input type="password"
-                               class="form-control"
-                               asp-for="Actual.ContrasenaHash"
-                               readonly="@(!Model.IsAdmin)" />
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Dirección</label>
-                    <div class="col-sm-9">
-                        <input class="form-control"
-                               asp-for="Actual.Direccion"
-                               readonly="@(!Model.IsAdmin)" />
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label class="col-sm-3 col-form-label">Rol</label>
-                    <div class="col-sm-9">
-                        <select class="form-select"
-                                asp-for="Actual.RolId"
-                                disabled="@(!Model.IsAdmin)">
-                            <option value="1">Admin</option>
-                            <option value="2">Lector</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        }
-
-        @* Mensajes de operación *@
-        @if (ViewData.ContainsKey("Mensaje"))
-        {
-            <input type="hidden" asp-for="Accion" />
-            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
-        }
-
-        @* Confirmación de borrado *@
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <div class="popup">
-                <div class="pp_del_inner">
-                    <div style="width:95%">
-                        <h2 class="text-start">Mensaje</h2>
-                        <h4 class="text-start">¿Desea borrar el usuario?</h4>
-                        <h6 class="text-start">@Model.Actual.Nombre, @Model.Actual.Correo</h6>
-                        <br /><br />
-                        @if (Model.IsAdmin)
-                        {
+            @* Confirmación de borrado *@
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <div class="popup">
+                    <div class="pp_del_inner">
+                        <div style="width:95%">
+                            <h2 class="text-start">Mensaje</h2>
+                            <h4 class="text-start">¿Desea borrar el usuario?</h4>
+                            <h6 class="text-start">@Model.Actual.Nombre, @Model.Actual.Correo</h6>
+                            <br /><br />
+                            @if (Model.IsAdmin)
+                            {
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrar"
+                                       class="btn btn-danger" />
+                            }
                             <input type="submit"
-                                   value="Borrar"
-                                   asp-page-handler="BtBorrar"
-                                   class="btn btn-danger" />
-                        }
-                        <input type="submit"
-                               value="Cerrar"
-                               asp-page-handler="BtCancelar"
-                               class="btn btn-secondary" />
+                                   value="Cerrar"
+                                   asp-page-handler="BtCancelar"
+                                   class="btn btn-secondary" />
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
 
-        @* Listado de usuarios *@
-        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
-             Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-        {
-            <input class="form-control mb-3"
-                   asp-for="Filtro.Correo"
-                   placeholder="Filtrar por Correo" />
+            @* Listado de usuarios *@
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input class="form-control mb-3"
+                       asp-for="Filtro.Correo"
+                       placeholder="Filtrar por Correo" />
 
-            <div class="containers_vn panel panel-default">
-                <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Dirección</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @if (Model.Lista != null)
-                    {
-                        @foreach (var u in Model.Lista)
+                <div class="containers_vn panel panel-default">
+                    <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Dirección</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.Lista != null)
                         {
-                            <tr>
-                                <td>@u.Nombre</td>
-                                <td>@u.Correo</td>
-                                <td>@u.Direccion</td>
-                                <td>@(u._RolId?.Nombre ?? u.RolId.ToString())</td>
-                                <td>
-                                    @if (Model.IsAdmin)
-                                    {
-                                        <input type="submit"
-                                               value="Modificar"
-                                               asp-page-handler="BtModificar"
-                                               class="btn btn-warning btn-sm me-1"
-                                               asp-route-data="@u.Id" />
+                            @foreach (var u in Model.Lista)
+                            {
+                                <tr>
+                                    <td>@u.Nombre</td>
+                                    <td>@u.Correo</td>
+                                    <td>@u.Direccion</td>
+                                    <td>@(u._RolId?.Nombre ?? u.RolId.ToString())</td>
+                                    <td>
+                                        @if (Model.IsAdmin)
+                                        {
+                                            <input type="submit"
+                                                   value="Modificar"
+                                                   asp-page-handler="BtModificar"
+                                                   class="btn btn-warning btn-sm me-1"
+                                                   asp-route-data="@u.Id" />
 
-                                        <input type="submit"
-                                               value="Borrar"
-                                               asp-page-handler="BtBorrarVal"
-                                               class="btn btn-danger btn-sm"
-                                               asp-route-data="@u.Id" />
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">No disponible</span>
-                                    }
-                                </td>
-                            </tr>
+                                            <input type="submit"
+                                                   value="Borrar"
+                                                   asp-page-handler="BtBorrarVal"
+                                                   class="btn btn-danger btn-sm"
+                                                   asp-route-data="@u.Id" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No disponible</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         }
-                    }
-                    </tbody>
-                </table>
-            </div>
-        }
-    </form>
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </form>
+    }
 </div>
+

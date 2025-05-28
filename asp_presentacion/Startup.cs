@@ -50,7 +50,7 @@ namespace asp_presentacion
         {
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Error");
+               app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
