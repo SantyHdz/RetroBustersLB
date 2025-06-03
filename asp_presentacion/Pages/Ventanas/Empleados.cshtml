@@ -1,111 +1,103 @@
 @page
 @model asp_presentacion.Pages.Ventanas.EmpleadosModel
 @{
-    ViewData["Titulo"] = "Empleados";
+    ViewData["Titulo"] = "";
 }
 <div class="text-center">
-    @if (Model.CurrentUserRoleName == "Usuario")
-    {
-        <div class="alert alert-danger mt-5">
-            <h3>Vista no permitida</h3>
-            <p>No tiene permisos suficientes para acceder a esta sección.</p>
+    <form method="POST" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div class="text-start mb-3">
+            <h3>Empleados</h3>
         </div>
-    }
-    else
-    {
-        <form method="POST" enctype="multipart/form-data">
-            @Html.AntiForgeryToken()
 
-            <div class="text-start mb-3">
-                <h3>Empleados</h3>
-            </div>
-
-            <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
-                <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+        <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
+            <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            @if (Model.IsAdmin)
+            {
+                <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
                        disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                @if (Model.IsAdmin)
-                {
-                    <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                           disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                    <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                           disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                }
-                <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
                        disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                <input type="button" id="generate-pdf" class="btn btn-secondary" value="Generar PDF" />
+            }
+            <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+        </div>
+
+        @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input type="hidden" asp-for="@Model.Actual!.Id" />
+        }
+
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+        {
+            <div class="containers_vn panel panel-default p-3">
+                <h4>Detalles del Empleado</h4>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Nombre</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" asp-for="@Model.Actual!.Nombre" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Cargo</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" asp-for="@Model.Actual!.Cargo" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Sueldo</label>
+                    <div class="col-sm-9">
+                        <input type="number" min="0" step="0.01" class="form-control" asp-for="@Model.Actual!.Sueldo" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Fecha de Contratación</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_contratacion" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
             </div>
+        }
 
-            @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <input type="hidden" asp-for="@Model.Actual!.Id" />
-            }
+        @if (ViewData.ContainsKey("Mensaje"))
+        {
+            <input type="hidden" asp-for="@Model.Accion" />
+            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+        }
 
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
-            {
-                <div class="containers_vn panel panel-default p-3">
-                    <h4>Detalles del Empleado</h4>
-
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">Nombre</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" asp-for="@Model.Actual!.Nombre" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">Cargo</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" asp-for="@Model.Actual!.Cargo" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">Sueldo</label>
-                        <div class="col-sm-9">
-                            <input type="number" min="0" step="0.01" class="form-control" asp-for="@Model.Actual!.Sueldo" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">Fecha de Contratación</label>
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" asp-for="@Model.Actual!.Fecha_contratacion" readonly="@(!Model.IsAdmin)" />
-                        </div>
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <div class="popup">
+                <div class="pp_del_inner">
+                    <div style="width:95%">
+                        <h2 class="text-start">Mensaje</h2>
+                        <h4 class="text-start">¿Desea borrar este empleado?</h4>
+                        <h6 class="text-start">@Model.Actual.Nombre, @Model.Actual.Cargo</h6>
+                        <br /><br />
+                        @if (Model.IsAdmin)
+                        {
+                            <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        }
+                        <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
                     </div>
                 </div>
-            }
+            </div>
+        }
 
-            @if (ViewData.ContainsKey("Mensaje"))
-            {
-                <input type="hidden" asp-for="@Model.Accion" />
-                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
-            }
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input class="form-control mb-3" asp-for="@Model.Filtro!.Cargo" placeholder="Filtrar por Cargo" />
 
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <div class="popup">
-                    <div class="pp_del_inner">
-                        <div style="width:95%">
-                            <h2 class="text-start">Mensaje</h2>
-                            <h4 class="text-start">¿Desea borrar este empleado?</h4>
-                            <h6 class="text-start">@Model.Actual.Nombre, @Model.Actual.Cargo</h6>
-                            <br /><br />
-                            @if (Model.IsAdmin)
-                            {
-                                <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
-                            }
-                            <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
-                        </div>
-                    </div>
-                </div>
-            }
-
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <input class="form-control mb-3" asp-for="@Model.Filtro!.Cargo" placeholder="Filtrar por Cargo" />
-
-                <div class="containers_vn panel panel-default">
-                    <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                        <thead>
+            <div id="content-to-pdf" class="containers_vn panel panel-default">
+                <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                    <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Cargo</th>
@@ -113,8 +105,8 @@
                             <th>Fecha de Contratación</th>
                             <th>Acciones</th>
                         </tr>
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
                         @if (Model.Lista != null)
                         {
                             @foreach (var emp in Model.Lista)
@@ -138,11 +130,37 @@
                                 </tr>
                             }
                         }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </form>
-    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </form>
 </div>
 
+@section Scripts {
+    <script>
+        document.getElementById("generate-pdf")?.addEventListener("click", async () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const content = document.getElementById("content-to-pdf");
+
+                if (!content) {
+                    throw new Error("No se encontró el contenido para generar el PDF.");
+                }
+
+                const canvas = await html2canvas(content);
+                const imgData = canvas.toDataURL("image/png");
+
+                const pdf = new jsPDF("p", "mm", "a4");
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+                pdf.save("Empleados.pdf");
+            } catch (error) {
+                console.error("Error generando el PDF:", error);
+                alert("Ocurrió un error al generar el PDF.");
+            }
+        });
+    </script>
+}
