@@ -29,6 +29,7 @@
                            disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
                     <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
                            disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                    <input type="button" id="generate-pdf" class="btn btn-secondary" value="Generar PDF" />
                 }
                 <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
                        disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
@@ -87,7 +88,8 @@
 
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Estado</label>
-                        <div class="col-sm-9 text-start"> @* Added text-start for alignment *@
+                        <div class="col-sm-9 text-start">
+                            @* Added text-start for alignment *@
                             <input class="form-check-input" type="checkbox" asp-for="@Model.Actual!.Estado" disabled="@(!Model.IsAdmin)" />
                             <label class="form-check-label ms-2">Disponible</label>
                         </div>
@@ -124,52 +126,81 @@
             {
                 <input class="form-control mb-3" asp-for="@Model.Filtro!.Nombre" placeholder="Filtrar por Nombre" />
 
-                <div class="containers_vn panel panel-default">
-                    <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Género</th>
-                            <th>Estreno</th>
-                            <th>Estado</th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                            <th>Total</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if (Model != null && Model.Lista != null)
-                        {
-                            @foreach (var elemento in Model.Lista)
-                            {
+                <div id="content-to-pdf">
+                    <div class="containers_vn panel panel-default">
+                        <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                            <thead>
                                 <tr>
-                                    <td>@elemento.Nombre</td>
-                                    <td>@elemento.Genero</td>
-                                    <td>@elemento.Fecha_estreno.ToString("yyyy-MM-dd")</td>
-                                    <td>@(elemento.Estado ? "Activo" : "Inactivo")</td>
-                                    <td>@elemento.Cantidad</td>
-                                    <td>@elemento.Precio_unitario.ToString("C")</td>
-                                    <td>@elemento.Total.ToString("C")</td>
-                                    @if (Model.IsAdmin)
-                                    {
-                                        <td>
-                                            <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
-                                            <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>No disponible</td>
-                                    }
+                                    <th>Nombre</th>
+                                    <th>Género</th>
+                                    <th>Estreno</th>
+                                    <th>Estado</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Lista != null)
+                                {
+                                    @foreach (var elemento in Model.Lista)
+                                    {
+                                        <tr>
+                                            <td>@elemento.Nombre</td>
+                                            <td>@elemento.Genero</td>
+                                            <td>@elemento.Fecha_estreno.ToString("yyyy-MM-dd")</td>
+                                            <td>@(elemento.Estado ? "Activo" : "Inactivo")</td>
+                                            <td>@elemento.Cantidad</td>
+                                            <td>@elemento.Precio_unitario.ToString("C")</td>
+                                            <td>@elemento.Total.ToString("C")</td>
+                                            @if (Model.IsAdmin)
+                                            {
+                                                <td>
+                                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
+                                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>No disponible</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             }
         </form>
     }
 </div>
 
+@section Scripts {
+    <script>
+        document.getElementById("generate-pdf")?.addEventListener("click", async () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const content = document.getElementById("content-to-pdf");
+
+                if (!content) {
+                    throw new Error("No se encontró el contenido para generar el PDF.");
+                }
+
+                const canvas = await html2canvas(content);
+                const imgData = canvas.toDataURL("image/png");
+
+                const pdf = new jsPDF("p", "mm", "a4");
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+                pdf.save("Peliculas.pdf");
+            } catch (error) {
+                console.error("Error generando el PDF:", error);
+                alert("Ocurrió un error al generar el PDF.");
+            }
+        });
+    </script>
+}
