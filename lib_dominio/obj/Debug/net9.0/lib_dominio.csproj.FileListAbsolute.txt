@@ -24,3 +24,16 @@ C:\Users\santi\RiderProjects\RetroBustersLB\lib_dominio\obj\Debug\net9.0\lib_dom
 C:\Users\santi\RiderProjects\RetroBustersLB\lib_dominio\obj\Debug\net9.0\refint\lib_dominio.dll
 C:\Users\santi\RiderProjects\RetroBustersLB\lib_dominio\obj\Debug\net9.0\lib_dominio.pdb
 C:\Users\santi\RiderProjects\RetroBustersLB\lib_dominio\obj\Debug\net9.0\ref\lib_dominio.dll
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\bin\Debug\net9.0\lib_dominio.deps.json
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\bin\Debug\net9.0\lib_dominio.dll
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\bin\Debug\net9.0\lib_dominio.pdb
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.csproj.AssemblyReference.cache
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.AssemblyInfoInputs.cache
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.AssemblyInfo.cs
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.sourcelink.json
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.dll
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\refint\lib_dominio.dll
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\lib_dominio.pdb
+C:\Users\ASUS\Source\Repos\RetroBustersLBR\lib_dominio\obj\Debug\net9.0\ref\lib_dominio.dll

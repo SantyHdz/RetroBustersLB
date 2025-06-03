@@ -9,89 +9,89 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = asp_presentacion
 build_property.RootNamespace = asp_presentacion
-build_property.ProjectDir = C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion\
+build_property.ProjectDir = C:\Users\ASUS\Source\Repos\RetroBustersLBR\asp_presentacion\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\santi\RiderProjects\RetroBustersLB\asp_presentacion
+build_property.MSBuildProjectDirectory = C:\Users\ASUS\Source\Repos\RetroBustersLBR\asp_presentacion
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Emergentes/Mensajes.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Emergentes/Mensajes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW1lcmdlbnRlc1xNZW5zYWplcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Error.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Index.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Privacy.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Almacenes.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Almacenes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcQWxtYWNlbmVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Auditorias.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Auditorias.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcQXVkaXRvcmlhcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Consolas.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Consolas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcQ29uc29sYXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Empleados.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Empleados.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcRW1wbGVhZG9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Envios.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Envios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcRW52aW9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Miembros.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Miembros.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcTWllbWJyb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Peliculas.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Peliculas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcUGVsaWN1bGFzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Reservas.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Reservas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcUmVzZXJ2YXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Reservas_Snacks.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Reservas_Snacks.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcUmVzZXJ2YXNfU25hY2tzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Snacks.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Snacks.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcU25hY2tzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Ventanas/Usuarios.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Ventanas/Usuarios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVudGFuYXNcVXN1YXJpb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/_ViewImports.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/_ViewStart.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/santi/RiderProjects/RetroBustersLB/asp_presentacion/Pages/Shared/_Layout.cshtml]
+[C:/Users/ASUS/Source/Repos/RetroBustersLBR/asp_presentacion/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-aeimnrexz7

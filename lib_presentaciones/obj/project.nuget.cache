@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "/JhUqweh/DI=",
+  "dgSpecHash": "02tVNBl8Lb0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\santi\\RiderProjects\\RetroBustersLB\\lib_presentaciones\\lib_presentaciones.csproj",
+  "projectFilePath": "C:\\Users\\ASUS\\Source\\Repos\\RetroBustersLBR\\lib_presentaciones\\lib_presentaciones.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\santi\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\ASUS\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }
