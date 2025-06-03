@@ -93,42 +93,71 @@
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
             {
                 <input class="form-control mb-3" asp-for="@Model.Filtro!.Ubicacion" placeholder="Filtrar por Ubicación" />
-
-                <div class="containers_vn panel panel-default">
-                    <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                        <thead>
-                        <tr>
-                            <th>Capacidad</th>
-                            <th>Ubicación</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if (Model != null && Model.Lista != null)
-                        {
-                            @foreach (var elemento in Model.Lista)
-                            {
+                <div id="content-to-pdf">
+                    <div class="containers_vn panel panel-default">
+                        <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                            <thead>
                                 <tr>
-                                    <td>@elemento.Capacidad</td>
-                                    <td>@elemento.Ubicacion</td>
-                                    @if (Model.IsAdmin)
-                                    {
-                                        <td>
-                                            <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
-                                            <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>No disponible</td> @* Or just an empty td: <td></td> *@
-                                    }
+                                    <th>Capacidad</th>
+                                    <th>Ubicación</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Lista != null)
+                                {
+                                    @foreach (var elemento in Model.Lista)
+                                    {
+                                        <tr>
+                                            <td>@elemento.Capacidad</td>
+                                            <td>@elemento.Ubicacion</td>
+                                            @if (Model.IsAdmin)
+                                            {
+                                                <td>
+                                                    <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@elemento.Id" />
+                                                    <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@elemento.Id" />
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>No disponible</td> @* Or just an empty td: <td></td> *@
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             }
         </form>
     }
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById("generate-pdf").addEventListener("click", async () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const content = document.getElementById("content-to-pdf");
+
+                if (!content) {
+                    throw new Error("No se encontró el contenido para generar el PDF.");
+                }
+
+                const canvas = await html2canvas(content);
+                const imgData = canvas.toDataURL("image/png");
+
+                const pdf = new jsPDF("p", "mm", "a4");
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+                pdf.save("Almacenes.pdf");
+            } catch (error) {
+                console.error("Error generando el PDF:", error);
+                alert("Ocurrió un error al generar el PDF.");
+            }
+        });
+    </script>
+}
