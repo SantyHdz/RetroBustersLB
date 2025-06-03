@@ -88,35 +88,6 @@
 
         </section>
 
-        @section Scripts {
-            <script>
-                document.getElementById("generate-pdf")?.addEventListener("click", async () => {
-                    try {
-                        const { jsPDF } = window.jspdf;
-                        const content = document.getElementById("content-to-pdf");
-
-                        if (!content) {
-                            throw new Error("No se encontró el contenido para generar el PDF.");
-                        }
-
-                        const canvas = await html2canvas(content);
-                        const imgData = canvas.toDataURL("image/png");
-
-                        const pdf = new jsPDF("p", "mm", "a4");
-                        const imgWidth = 190;
-                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                        pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
-                        pdf.save("Reservas.pdf");
-                    } catch (error) {
-                        console.error("Error generando el PDF:", error);
-                        alert("Ocurrió un error al generar el PDF.");
-                    }
-                });
-            </script>
-            <partial name="_ValidationScriptsPartial" />
-        }
-
         <style>
             /* Contenedor principal */
             .dashboard-container {
@@ -503,4 +474,33 @@
         </form>
     }
 </div>
-    
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("generate-pdf")?.addEventListener("click", async () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const content = document.getElementById("content-to-pdf");
+
+                if (!content) {
+                    throw new Error("No se encontró el contenido para generar el PDF.");
+                }
+
+                const canvas = await html2canvas(content);
+                const imgData = canvas.toDataURL("image/png");
+
+                const pdf = new jsPDF("p", "mm", "a4");
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+                pdf.save("Reservas.pdf");
+            } catch (error) {
+                console.error("Error generando el PDF:", error);
+                alert("Ocurrió un error al generar el PDF.");
+            }
+        });
+    </script>
+        }
