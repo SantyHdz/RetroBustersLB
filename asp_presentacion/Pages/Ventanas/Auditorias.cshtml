@@ -1,52 +1,69 @@
 @page
 @model asp_presentacion.Pages.Ventanas.AuditoriasModel
 @{
-    ViewData["Titulo"] = "Auditorías";
+    ViewData["Titulo"] = "Auditorias";
 }
-
-<div class="text-start mb-3 d-flex justify-content-between align-items-center">
-    <h3>Auditorías</h3>
-    <input type="button" id="generate-pdf" class="btn btn-secondary" value="Generar PDF" />
-</div>
-
-@if (Model.Lista != null && Model.Lista.Count > 0)
-{
-    <div id="content-to-pdf">
-        <div class="containers_vn panel panel-default">
-            <table class="tb_data table table-striped table-bordered table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Tabla</th>
-                        <th>Acción</th>
-                        <th>Llave PK</th>
-                        <th>Cambios</th>
-                        <th>Fecha</th>
-                        <th>Usuario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var a in Model.Lista)
-                    {
-                        <tr>
-                            <td>@a.Id</td>
-                            <td>@a.Tabla</td>
-                            <td>@a.Accion</td>
-                            <td>@a.LlavePrimaria</td>
-                            <td>@a.Cambios</td>
-                            <td>@a.Fecha.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                            <td>@a.Usuario</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<div class="text-center">
+    @if (Model.CurrentUserRoleName == "Usuario")
+    {
+        <div class="alert alert-danger mt-5">
+            <h3>Vista no permitida</h3>
+            <p>No tiene permisos suficientes para acceder a esta sección.</p>
         </div>
-    </div>
-}
-else
-{
-    <p class="text-muted">No hay registros de auditoría para mostrar.</p>
-}
+    }
+    else
+    {
+        <form method="POST" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="text-start mb-3 d-flex justify-content-between align-items-center">
+                <h3>Auditorías</h3>
+                <input type="button" id="generate-pdf" class="btn btn-secondary" value="Generar PDF" />
+            </div>
+
+            @* Solo mostramos la tabla, sin ningún botón de acción *@
+            @if (Model.Lista != null && Model.Lista.Count > 0)
+            {
+                <div id="content-to-pdf">
+                <div class="containers_vn panel panel-default">
+                    <table class="tb_data table table-striped table-bordered table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Tabla</th>
+                            <th>Acción</th>
+                            <th>Llave PK</th>
+                            <th>Cambios</th>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var a in Model.Lista)
+                        {
+                            <tr>
+                                <td>@a.Id</td>
+                                <td>@a.Tabla</td>
+                                <td>@a.Accion</td>
+                                <td>@a.LlavePrimaria</td>
+                                <td>@a.Cambios</td>
+                                <td>@a.Fecha.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>@a.Usuario</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">No hay registros de auditoría para mostrar.</p>
+            }
+
+        </form>
+    }
+</div>
 
 @section Scripts {
     <script>
@@ -59,7 +76,7 @@ else
                     throw new Error("No se encontró el contenido para generar el PDF.");
                 }
 
-                const canvas = await html2canvas(content);
+                const canvas = await html2canvas(content, { scale: 2 });
                 const imgData = canvas.toDataURL("image/png");
 
                 const pdf = new jsPDF("p", "mm", "a4");
