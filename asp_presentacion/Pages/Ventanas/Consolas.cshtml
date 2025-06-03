@@ -1,191 +1,211 @@
 @page
 @model asp_presentacion.Pages.Ventanas.ConsolasModel
 @{
-    ViewData["Titulo"] = "Consolas";
+    ViewData["Titulo"] = "";
 }
 <div class="text-center">
-    @if (Model.CurrentUserRoleName == "Usuario")
-    {
-        <div class="alert alert-danger mt-5">
-            <h3>Vista no permitida</h3>
-            <p>No tiene permisos suficientes para acceder a esta sección.</p>
+    <form method="POST" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div class="text-start mb-3">
+            <h3>Consolas</h3>
         </div>
-    }
-    else
-    {
-        <form method="POST" enctype="multipart/form-data">
-            @Html.AntiForgeryToken()
 
-            <div class="text-start mb-3">
-                <h3>Consolas</h3>
-            </div>
-
-            <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
-                <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+        <div class="mb-3 d-flex gap-2 justify-content-start bt_panel_buttons">
+            <input type="submit" value="Refrescar" asp-page-handler="BtRefrescar" class="btn btn-info"
+                   disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            @if (Model.IsAdmin)
+            {
+                <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
                        disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                @if (Model.IsAdmin)
-                {
-                    <input type="submit" value="Nuevo" asp-page-handler="BtNuevo" class="btn btn-success"
-                           disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                    <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
-                           disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                }
-                <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                <input type="submit" value="Guardar" asp-page-handler="BtGuardar" class="btn btn-primary"
                        disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                <input type="button" id="generate-pdf" class="btn btn-secondary" value="Generar PDF" />
+            }
+            <input type="submit" value="Cancelar" asp-page-handler="BtCancelar" class="btn btn-secondary"
+                   disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+        </div>
+
+        @* Campos ocultos para editar/borrar *@
+        @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input type="hidden" asp-for="@Model.Actual!.Id" />
+        }
+
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input type="hidden" asp-for="@Model.Actual!.Tipo" />
+            <input type="hidden" asp-for="@Model.Actual!.Marca" />
+        }
+
+        @* Formulario para editar o crear *@
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+        {
+            <div class="containers_vn panel panel-default p-3">
+                <h4>Detalles de la Consola</h4>
+
+                <div class="mb-3 row">
+                    <label for="nmTipo" class="col-sm-3 col-form-label">Tipo</label>
+                    <div class="col-sm-9">
+                        <input id="nmTipo" class="form-control" asp-for="@Model.Actual!.Tipo" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmMarca" class="col-sm-3 col-form-label">Marca</label>
+                    <div class="col-sm-9">
+                        <input id="nmMarca" class="form-control" asp-for="@Model.Actual!.Marca" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
+                    <div class="col-sm-9">
+                        <select id="nmEstado" class="form-select" asp-for="@Model.Actual!.Estado" disabled="@(!Model.IsAdmin)">
+                            <option value="0" selected="@((Model.Actual.Estado == 0))">Nuevo</option>
+                            <option value="1" selected="@((Model.Actual.Estado == 1))">Usado</option>
+                            <option value="2" selected="@((Model.Actual.Estado == 2))">Reparación</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmCantidad" class="col-sm-3 col-form-label">Cantidad</label>
+                    <div class="col-sm-9">
+                        <input type="number" min="0" id="nmCantidad" class="form-control" asp-for="@Model.Actual!.Cantidad" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmPrecio" class="col-sm-3 col-form-label">Precio Unitario</label>
+                    <div class="col-sm-9">
+                        <input type="number" min="0" step="0.01" id="nmPrecio" class="form-control" asp-for="@Model.Actual!.Precio_unitario" readonly="@(!Model.IsAdmin)" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Total</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="nmAlmacen" class="col-sm-3 col-form-label">Almacén</label>
+                    <div class="col-sm-9">
+                        <select id="nmAlmacen" class="form-select" asp-for="@Model.Actual!.Almacen" asp-items="@(new SelectList(Model.Almacenes, "Id", "Ubicacion"))" disabled="@(!Model.IsAdmin)">
+                        </select>
+                    </div>
+                </div>
             </div>
+        }
 
-            @* Campos ocultos para editar/borrar *@
-            @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <input type="hidden" asp-for="@Model.Actual!.Id" />
-            }
+        @* Mensajes emergentes (si hay) *@
+        @if (ViewData.ContainsKey("Mensaje"))
+        {
+            <input type="hidden" asp-for="@Model.Accion" />
+            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+        }
 
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <input type="hidden" asp-for="@Model.Actual!.Tipo" />
-                <input type="hidden" asp-for="@Model.Actual!.Marca" />
-            }
-
-            @* Formulario para editar o crear *@
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
-            {
-                <div class="containers_vn panel panel-default p-3">
-                    <h4>Detalles de la Consola</h4>
-
-                    <div class="mb-3 row">
-                        <label for="nmTipo" class="col-sm-3 col-form-label">Tipo</label>
-                        <div class="col-sm-9">
-                            <input id="nmTipo" class="form-control" asp-for="@Model.Actual!.Tipo" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="nmMarca" class="col-sm-3 col-form-label">Marca</label>
-                        <div class="col-sm-9">
-                            <input id="nmMarca" class="form-control" asp-for="@Model.Actual!.Marca" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="nmEstado" class="col-sm-3 col-form-label">Estado</label>
-                        <div class="col-sm-9">
-                            <select id="nmEstado" class="form-select" asp-for="@Model.Actual!.Estado" disabled="@(!Model.IsAdmin)">
-                                <option value="0" selected="@((Model.Actual.Estado == 0))">Nuevo</option>
-                                <option value="1" selected="@((Model.Actual.Estado == 1))">Usado</option>
-                                <option value="2" selected="@((Model.Actual.Estado == 2))">Reparación</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="nmCantidad" class="col-sm-3 col-form-label">Cantidad</label>
-                        <div class="col-sm-9">
-                            <input type="number" min="0" id="nmCantidad" class="form-control" asp-for="@Model.Actual!.Cantidad" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="nmPrecio" class="col-sm-3 col-form-label">Precio Unitario</label>
-                        <div class="col-sm-9">
-                            <input type="number" min="0" step="0.01" id="nmPrecio" class="form-control" asp-for="@Model.Actual!.Precio_unitario" readonly="@(!Model.IsAdmin)" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">Total</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" value="@Model.Actual.Total.ToString("C")" readonly />
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="nmAlmacen" class="col-sm-3 col-form-label">Almacén</label>
-                        <div class="col-sm-9">
-                            <select id="nmAlmacen" class="form-select" asp-for="@Model.Actual!.Almacen" asp-items="@(new SelectList(Model.Almacenes, "Id", "Ubicacion"))" disabled="@(!Model.IsAdmin)">
-                            </select>
-                        </div>
+        @* Confirmación para borrar *@
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <div class="popup">
+                <div class="pp_del_inner">
+                    <div style="width:95%">
+                        <h2 class="text-start">Mensaje</h2>
+                        <h4 class="text-start">¿Desea borrar esta consola?</h4>
+                        <h6 class="text-start">@Model.Actual.Tipo, @Model.Actual.Marca</h6>
+                        <br /><br />
+                        @if (Model.IsAdmin)
+                        {
+                            <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
+                        }
+                        <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
                     </div>
                 </div>
-            }
+            </div>
+        }
 
-            @* Mensajes emergentes (si hay) *@
-            @if (ViewData.ContainsKey("Mensaje"))
-            {
-                <input type="hidden" asp-for="@Model.Accion" />
-                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
-            }
+        @* Vista lista para listar y filtrar *@
+        @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+        {
+            <input class="form-control mb-3" asp-for="@Model.Filtro!.Tipo" placeholder="Filtrar por Tipo" />
 
-            @* Confirmación para borrar *@
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <div class="popup">
-                    <div class="pp_del_inner">
-                        <div style="width:95%">
-                            <h2 class="text-start">Mensaje</h2>
-                            <h4 class="text-start">¿Desea borrar esta consola?</h4>
-                            <h6 class="text-start">@Model.Actual.Tipo, @Model.Actual.Marca</h6>
-                            <br /><br />
-                            @if (Model.IsAdmin)
-                            {
-                                <input type="submit" value="Borrar" asp-page-handler="BtBorrar" class="btn btn-danger" />
-                            }
-                            <input type="submit" value="Cerrar" asp-page-handler="BtCancelar" class="btn btn-secondary" />
-                        </div>
-                    </div>
-                </div>
-            }
-
-            @* Vista lista para listar y filtrar *@
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas || Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
-            {
-                <input class="form-control mb-3" asp-for="@Model.Filtro!.Tipo" placeholder="Filtrar por Tipo" />
-
-                <div class="containers_vn panel panel-default">
+            <div class="containers_vn panel panel-default">
+                <div id="content-to-pdf" class="containers_vn panel panel-default">
                     <table class="tb_data table table-striped table-bordered table-hover align-middle">
                         <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Marca</th>
-                            <th>Estado</th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                            <th>Total</th>
-                            <th>Almacén</th>
-                            <th>Acciones</th>
-                        </tr>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Marca</th>
+                                <th>Estado</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Total</th>
+                                <th>Almacén</th>
+                                <th>Acciones</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @if (Model.Lista != null)
-                        {
-                            @foreach (var consola in Model.Lista)
+                            @if (Model.Lista != null)
                             {
-                                <tr>
-                                    <td>@consola.Tipo</td>
-                                    <td>@consola.Marca</td>
-                                    <td>@consola.Estado_string</td>
-                                    <td>@consola.Cantidad</td>
-                                    <td>@consola.Precio_unitario.ToString("C")</td>
-                                    <td>@consola.Total.ToString("C")</td>
-                                    <td>@consola._Almacen.Ubicacion</td>
-                                    @if (Model.IsAdmin)
-                                    {
-                                        <td>
-                                            <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@consola.Id" />
-                                            <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@consola.Id" />
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>No disponible</td>
-                                    }
-                                </tr>
+                                @foreach (var consola in Model.Lista)
+                                {
+                                    <tr>
+                                        <td>@consola.Tipo</td>
+                                        <td>@consola.Marca</td>
+                                        <td>@consola.Estado_string</td>
+                                        <td>@consola.Cantidad</td>
+                                        <td>@consola.Precio_unitario.ToString("C")</td>
+                                        <td>@consola.Total.ToString("C")</td>
+                                        <td>@consola._Almacen.Ubicacion</td>
+                                        @if (Model.IsAdmin)
+                                        {
+                                            <td>
+                                                <input type="submit" value="Modificar" asp-page-handler="BtModificar" class="btn btn-warning btn-sm me-1" asp-route-data="@consola.Id" />
+                                                <input type="submit" value="Borrar" asp-page-handler="BtBorrarVal" class="btn btn-danger btn-sm" asp-route-data="@consola.Id" />
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>No disponible</td>
+                                        }
+                                    </tr>
+                                }
                             }
-                        }
                         </tbody>
                     </table>
                 </div>
-            }
-        </form>
-    }
+            </div>
+        }
+    </form>
 </div>
 
+@section Scripts {
+    <script>
+        document.getElementById("generate-pdf")?.addEventListener("click", async () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const content = document.getElementById("content-to-pdf");
+
+                if (!content) {
+                    throw new Error("No se encontró el contenido para generar el PDF.");
+                }
+
+                const canvas = await html2canvas(content);
+                const imgData = canvas.toDataURL("image/png");
+
+                const pdf = new jsPDF("p", "mm", "a4");
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+                pdf.save("Consolas.pdf");
+            } catch (error) {
+                console.error("Error generando el PDF:", error);
+                alert("Ocurrió un error al generar el PDF.");
+            }
+        });
+    </script>
+}
